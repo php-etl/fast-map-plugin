@@ -2,7 +2,6 @@
 
 namespace Kiboko\Component\ETL\Flow\FastMap;
 
-use Symfony\Component\Config\Definition\Builder\NodeParentInterface;
 use Symfony\Component\Config\Definition\Builder\TreeBuilder;
 use Symfony\Component\Config\Definition\ConfigurationInterface;
 use Symfony\Component\Config\Definition\NodeInterface;

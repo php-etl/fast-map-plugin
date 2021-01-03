@@ -2,7 +2,6 @@
 
 namespace Kiboko\Component\ETL\Flow\FastMap;
 
-use Kiboko\Component\ETL\Flow\FastMap\Builder;
 use Kiboko\Component\ETL\Flow\FastMap\Factory;
 use Kiboko\Contract\ETL\Configurator\InvalidConfigurationException;
 use Kiboko\Contract\ETL\Configurator\ConfigurationExceptionInterface;
@@ -55,49 +54,32 @@ final class Service implements FactoryInterface
      */
     public function compile(array $config): \PhpParser\Builder
     {
-        $clientFactory = new Factory\Client();
-        $loggerFactory = new Factory\Logger();
+        $clientFactory = new Factory\ArrayMapper();
 
         try {
-            if (isset($config['extractor'])) {
-                $extractorFactory = new Factory\Extractor();
+            if (isset($config['array'])) {
+                $arrayFactory = new Factory\ArrayMapper();
 
-                $extractor = $extractorFactory->compile($config['extractor']);
+                $mapper = $arrayFactory->compile($config['array']);
 
-                $client = $clientFactory->compile($config['client']);
-                $client->withEnterpriseSupport($config['enterprise']);
+//                $logger = $loggerFactory->compile($config['logger'] ?? []);
+//                $mapper->withLogger($logger->getNode());
 
-                $logger = $loggerFactory->compile($config['logger'] ?? []);
+                return $mapper;
+            } else if (isset($config['object'])) {
+                $objectFactory = new Factory\ObjectMapper();
 
-                $extractor->withClient($client->getNode());
-                $extractor->withLogger($logger->getNode());
+                $mapper = $objectFactory->compile($config['object']);
 
-                return $extractor;
-            } else if (isset($config['loader'])) {
-                $loaderFactory = new Factory\Loader();
+//                $logger = $loggerFactory->compile($config['logger'] ?? []);
+//                $mapper->withLogger($logger->getNode());
 
-                $loader = $loaderFactory->compile($config['loader']);
-
-                $client = $clientFactory->compile($config['client']);
-                $client->withEnterpriseSupport($config['enterprise']);
-
-                $logger = $loggerFactory->compile($config['logger'] ?? []);
-
-                $loader->withClient($client->getNode());
-                $loader->withLogger($logger->getNode());
-
-                return $loader;
+                return $mapper;
             } else {
                 throw new InvalidConfigurationException(
                     'Could not determine if the factory should build an extractor or a loader.'
                 );
             }
-        } catch (MissingAuthenticationMethodException $exception) {
-            throw new InvalidConfigurationException(
-                'Your Akeneo API configuration is missing an authentication method, you should either define "username" or "token" options.',
-                0,
-                $exception,
-            );
         } catch (Symfony\InvalidTypeException|Symfony\InvalidConfigurationException $exception) {
             throw new InvalidConfigurationException($exception->getMessage(), 0, $exception);
         }
