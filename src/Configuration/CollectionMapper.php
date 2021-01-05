@@ -5,10 +5,10 @@ namespace Kiboko\Component\ETL\Flow\FastMap\Configuration;
 use Kiboko\Component\ETL\Flow\FastMap\Configuration;
 use Symfony\Component\Config\Definition\ConfigurationInterface;
 
-final class ListMapper implements ConfigurationInterface
+final class CollectionMapper implements ConfigurationInterface
 {
     public function getConfigTreeBuilder()
     {
-        return (new Configuration())->getListTreeBuilder();
+        return (new Configuration())->getCollectionTreeBuilder();
     }
 }

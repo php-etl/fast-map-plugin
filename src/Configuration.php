@@ -26,9 +26,10 @@ final class Configuration implements ConfigurationInterface
             ->children()
                 ->scalarNode('class')->end()
                 ->scalarNode('expression')->end()
-                ->append($this->mapNode()->getRootNode())
-                ->append($this->listNode()->getRootNode())
-                ->append($this->objectNode()->getRootNode())
+                ->append($this->getMapTreeBuilder()->getRootNode())
+                ->append($this->getListTreeBuilder()->getRootNode())
+                ->append($this->getObjectTreeBuilder()->getRootNode())
+                ->append($this->getCollectionTreeBuilder()->getRootNode())
             ->end()
             ->validate()
                 ->ifTrue(function ($value) {
@@ -54,52 +55,34 @@ final class Configuration implements ConfigurationInterface
                 })
             ->end()
             ->validate()
-                ->ifTrue(function ($value) {
-                    return is_array($value) && array_key_exists('map', $value) && array_key_exists('list', $value);
-                })
-                ->thenInvalid('Your configuration should either contain the "map" or the "list" key, not both.')
+                ->always($this->mutuallyExclusiveFields('copy', 'expression', 'constant', 'class', 'map', 'object', 'list', 'collection'))
             ->end()
             ->validate()
-                ->ifTrue(function ($value) {
-                    return is_array($value) && array_key_exists('map', $value) && array_key_exists('object', $value);
-                })
-                ->thenInvalid('Your configuration should either contain the "map" or the "object" key, not both.')
+                ->always($this->mutuallyExclusiveFields('expression', 'copy', 'constant', 'map'))
             ->end()
             ->validate()
-                ->ifTrue(function ($value) {
-                    return is_array($value) && array_key_exists('list', $value) && array_key_exists('object', $value);
-                })
-                ->thenInvalid('Your configuration should either contain the "list" or the "object" key, not both.')
+                ->always($this->mutuallyExclusiveFields('constant', 'copy', 'expression', 'class', 'map', 'object', 'list', 'collection'))
             ->end()
             ->validate()
-                ->ifTrue(function (array $value) {
-                    return array_key_exists('object', $value) && !array_key_exists('class', $value);
-                })
-                ->thenInvalid('Your configuration should contain the "class" field if the "object" field is present.')
+                ->always($this->mutuallyExclusiveFields('map', 'copy', 'expression', 'constant', 'class', 'object', 'list', 'collection'))
             ->end()
             ->validate()
-                ->ifTrue(function (array $value) {
-                    return array_key_exists('object', $value) && !array_key_exists('expression', $value);
-                })
-                ->thenInvalid('Your configuration should contain the "expression" field if the "object" field is present.')
+                ->always($this->mutuallyExclusiveFields('object', 'copy', 'constant', 'map', 'list', 'collection'))
             ->end()
             ->validate()
-                ->ifTrue(function (array $value) {
-                    return array_key_exists('collection', $value) && !array_key_exists('class', $value);
-                })
-                ->thenInvalid('Your configuration should contain the "class" field if the "collection" field is present.')
+                ->always($this->mutuallyExclusiveFields('list', 'copy', 'constant', 'class', 'map', 'object', 'collection'))
             ->end()
             ->validate()
-                ->ifTrue(function (array $value) {
-                    return array_key_exists('collection', $value) && !array_key_exists('expression', $value);
-                })
-                ->thenInvalid('Your configuration should contain the "expression" field if the "collection" field is present.')
+                ->always($this->mutuallyExclusiveFields('collection', 'copy', 'constant', 'map', 'object', 'list'))
             ->end()
             ->validate()
-                ->ifTrue(function (array $value) {
-                    return array_key_exists('list', $value) && !array_key_exists('expression', $value);
-                })
-                ->thenInvalid('Your configuration should contain the "expression" field if the "list" field is present.')
+                ->always($this->mutuallyDependentFields('object', 'class', 'expression'))
+            ->end()
+            ->validate()
+                ->always($this->mutuallyDependentFields('collection', 'class', 'expression'))
+            ->end()
+            ->validate()
+                ->always($this->mutuallyDependentFields('list', 'expression'))
             ->end()
         ;
 
@@ -108,159 +91,154 @@ final class Configuration implements ConfigurationInterface
 
     private function evaluateMap($children)
     {
-        if (count($this->configurationStack) > 0) {
-            $parent = array_pop($this->configurationStack);
-            array_push($this->configurationStack, $parent);
-        }
-
-        $node = $this->getMapNode($parent ?? null);
-
-        array_push($this->configurationStack, $node);
+        $node = $this->getMapNode();
         $children = $node->finalize($children);
-        array_pop($this->configurationStack);
 
         return $children;
     }
 
     private function evaluateList($children)
     {
-        if (count($this->configurationStack) > 0) {
-            $parent = array_pop($this->configurationStack);
-            array_push($this->configurationStack, $parent);
-        }
-
-        $node = $this->getListNode($parent ?? null);
-
-        array_push($this->configurationStack, $node);
+        $node = $this->getListNode();
         $children = $node->finalize($children);
-        array_pop($this->configurationStack);
 
         return $children;
     }
 
     private function evaluateObject($children)
     {
-        if (count($this->configurationStack) > 0) {
-            $parent = array_pop($this->configurationStack);
-            array_push($this->configurationStack, $parent);
-        }
-
-        $node = $this->getObjectNode($parent ?? null);
-
-        array_push($this->configurationStack, $node);
+        $node = $this->getObjectNode();
         $children = $node->finalize($children);
-        array_pop($this->configurationStack);
 
         return $children;
     }
 
-    private function getMapNode(?PrototypedArrayNode $parent): NodeInterface
+    private function evaluateCollection($children)
     {
-        $definition = $this->mapNode()
-            ->getRootNode();
+        $node = $this->getCollectionNode();
+        $children = $node->finalize($children);
 
-        if ($parent !== null) {
-            $definition->setParent(new Configuration\PlaceholderNode());
-        }
+        return $children;
+    }
+
+    private function getMapNode(): NodeInterface
+    {
+        $definition = $this->getMapTreeBuilder()
+            ->getRootNode();
 
         return $definition->getNode(true);
     }
 
-    private function getListNode(?PrototypedArrayNode $parent): NodeInterface
+    private function getListNode(): NodeInterface
     {
-        $definition = $this->listNode()
+        $definition = $this->getListTreeBuilder()
             ->getRootNode();
-
-        if ($parent !== null) {
-            $definition->setParent(new Configuration\PlaceholderNode());
-        }
 
         return $definition->getNode(true);
     }
 
-    private function getObjectNode(?PrototypedArrayNode $parent): NodeInterface
+    private function getObjectNode(): NodeInterface
     {
-        $definition = $this->objectNode()
+        $definition = $this->getObjectTreeBuilder()
             ->getRootNode();
-
-        if ($parent !== null) {
-            $definition->setParent(new Configuration\PlaceholderNode());
-        }
 
         return $definition->getNode(true);
     }
 
-    private function mapNode(): TreeBuilder
+    private function getCollectionNode(): NodeInterface
     {
-        $builder = new TreeBuilder('map');
+        $definition = $this->getCollectionTreeBuilder()
+            ->getRootNode();
+
+        return $definition->getNode(true);
+    }
+
+    private function mutuallyExclusiveFields(string $field, string ...$exclusions): \Closure
+    {
+        return function (array $value) use ($field, $exclusions) {
+            if (!array_key_exists($field, $value)) {
+                return $value;
+            }
+
+            foreach ($exclusions as $exclusion) {
+                if (array_key_exists($exclusion, $value)) {
+                    throw new \InvalidArgumentException(sprintf(
+                        'Your configuration should either contain the "%s" or the "%s" field, not both.',
+                        $field,
+                        $exclusion,
+                    ));
+                }
+            }
+
+            return $value;
+        };
+    }
+
+    private function mutuallyDependentFields(string $field, string ...$dependencies): \Closure
+    {
+        return function (array $value) use ($field, $dependencies) {
+            if (!array_key_exists($field, $value)) {
+                return $value;
+            }
+
+            foreach ($dependencies as $dependency) {
+                if (!array_key_exists($dependency, $value)) {
+                    throw new \InvalidArgumentException(sprintf(
+                        'Your configuration should contain the "%s" field if the "%s" field is present.',
+                        $dependency,
+                        $field,
+                    ));
+                }
+            }
+
+            return $value;
+        };
+    }
+
+    private function getChildTreeBuilder(string $name): TreeBuilder
+    {
+        $builder = new TreeBuilder($name);
 
         $builder->getRootNode()
             ->arrayPrototype()
                 ->validate()
-                    ->ifTrue(function (array $value) {
-                        return array_key_exists('copy', $value) && array_key_exists('expression', $value);
-                    })
-                    ->thenInvalid('Your configuration should either contain the "copy" or the "expression" key, not both.')
+                    ->always($this->mutuallyExclusiveFields('copy', 'expression', 'constant', 'class', 'map', 'object', 'list', 'collection'))
+                ->end()
+                ->validate()
+                    ->always($this->mutuallyExclusiveFields('expression', 'copy', 'constant', 'map'))
+                ->end()
+                ->validate()
+                    ->always($this->mutuallyExclusiveFields('constant', 'copy', 'expression', 'class', 'map', 'object', 'list', 'collection'))
+                ->end()
+                ->validate()
+                    ->always($this->mutuallyExclusiveFields('map', 'copy', 'expression', 'constant', 'class', 'object', 'list', 'collection'))
+                ->end()
+                ->validate()
+                    ->always($this->mutuallyExclusiveFields('object', 'copy', 'constant', 'map', 'list', 'collection'))
+                ->end()
+                ->validate()
+                    ->always($this->mutuallyExclusiveFields('list', 'copy', 'constant', 'class', 'map', 'object', 'collection'))
+                ->end()
+                ->validate()
+                    ->always($this->mutuallyExclusiveFields('collection', 'copy', 'constant', 'map', 'object', 'list'))
+                ->end()
+                ->validate()
+                    ->always($this->mutuallyDependentFields('object', 'class', 'expression'))
+                ->end()
+                ->validate()
+                    ->always($this->mutuallyDependentFields('collection', 'class', 'expression'))
+                ->end()
+                ->validate()
+                    ->always($this->mutuallyDependentFields('list', 'expression'))
                 ->end()
                 ->validate()
                     ->ifTrue(function (array $value) {
-                        return array_key_exists('copy', $value) && array_key_exists('constant', $value);
+                        return array_key_exists('expression', $value)
+                            && array_key_exists('class', $value)
+                            && !array_key_exists('object', $value)
+                            && !array_key_exists('collection', $value);
                     })
-                    ->thenInvalid('Your configuration should either contain the "copy" or the "constant" key, not both.')
-                ->end()
-                ->validate()
-                    ->ifTrue(function (array $value) {
-                        return array_key_exists('copy', $value) && array_key_exists('map', $value);
-                    })
-                    ->thenInvalid('Your configuration should either contain the "copy" or the "map" key, not both.')
-                ->end()
-                ->validate()
-                    ->ifTrue(function (array $value) {
-                        return array_key_exists('expression', $value) && array_key_exists('constant', $value);
-                    })
-                    ->thenInvalid('Your configuration should either contain the "expression" or the "constant" key, not both.')
-                ->end()
-                ->validate()
-                    ->ifTrue(function (array $value) {
-                        return array_key_exists('expression', $value) && array_key_exists('map', $value);
-                    })
-                    ->thenInvalid('Your configuration should either contain the "expression" or the "map" key, not both.')
-                ->end()
-                ->validate()
-                    ->ifTrue(function (array $value) {
-                        return array_key_exists('constant', $value) && array_key_exists('map', $value);
-                    })
-                    ->thenInvalid('Your configuration should either contain the "constant" or the "map" key, not both.')
-                ->end()
-                ->validate()
-                    ->ifTrue(function (array $value) {
-                        return array_key_exists('object', $value) && !array_key_exists('class', $value);
-                    })
-                    ->thenInvalid('Your configuration should contain the "class" field if the "object" field is present.')
-                ->end()
-                ->validate()
-                    ->ifTrue(function (array $value) {
-                        return array_key_exists('object', $value) && !array_key_exists('expression', $value);
-                    })
-                    ->thenInvalid('Your configuration should contain the "expression" field if the "object" field is present.')
-                ->end()
-                ->validate()
-                    ->ifTrue(function (array $value) {
-                        return array_key_exists('collection', $value) && !array_key_exists('class', $value);
-                    })
-                    ->thenInvalid('Your configuration should contain the "class" field if the "collection" field is present.')
-                ->end()
-                ->validate()
-                    ->ifTrue(function (array $value) {
-                        return array_key_exists('collection', $value) && !array_key_exists('expression', $value);
-                    })
-                    ->thenInvalid('Your configuration should contain the "expression" field if the "collection" field is present.')
-                ->end()
-                ->validate()
-                    ->ifTrue(function (array $value) {
-                        return array_key_exists('list', $value) && !array_key_exists('expression', $value);
-                    })
-                    ->thenInvalid('Your configuration should contain the "expression" field if the "list" field is present.')
+                    ->thenInvalid('Your configuration should not contain both the "expression" and the "class" alone, maybe you forgot a "collection", "list" or an "object" field.')
                 ->end()
                 ->children()
                     ->scalarNode('field')->isRequired()->end()
@@ -310,91 +288,7 @@ final class Configuration implements ConfigurationInterface
                             })
                         ->end()
                     ->end()
-                ->end()
-            ->end()
-        ;
-
-        return $builder;
-    }
-
-    private function listNode(): TreeBuilder
-    {
-        $builder = new TreeBuilder('list');
-
-        $builder->getRootNode()
-            ->arrayPrototype()
-                ->validate()
-                    ->ifTrue(function (array $value) {
-                        return array_key_exists('copy', $value) && array_key_exists('expression', $value);
-                    })
-                    ->thenInvalid('Your configuration should either contain the "copy" or the "expression" key, not both.')
-                ->end()
-                ->validate()
-                    ->ifTrue(function (array $value) {
-                        return array_key_exists('copy', $value) && array_key_exists('constant', $value);
-                    })
-                    ->thenInvalid('Your configuration should either contain the "copy" or the "constant" key, not both.')
-                ->end()
-                ->validate()
-                    ->ifTrue(function (array $value) {
-                        return array_key_exists('copy', $value) && array_key_exists('map', $value);
-                    })
-                    ->thenInvalid('Your configuration should either contain the "copy" or the "map" key, not both.')
-                ->end()
-                ->validate()
-                    ->ifTrue(function (array $value) {
-                        return array_key_exists('expression', $value) && array_key_exists('constant', $value);
-                    })
-                    ->thenInvalid('Your configuration should either contain the "expression" or the "constant" key, not both.')
-                ->end()
-                ->validate()
-                    ->ifTrue(function (array $value) {
-                        return array_key_exists('expression', $value) && array_key_exists('map', $value);
-                    })
-                    ->thenInvalid('Your configuration should either contain the "expression" or the "map" key, not both.')
-                ->end()
-                ->validate()
-                    ->ifTrue(function (array $value) {
-                        return array_key_exists('constant', $value) && array_key_exists('map', $value);
-                    })
-                    ->thenInvalid('Your configuration should either contain the "constant" or the "map" key, not both.')
-                ->end()
-                ->validate()
-                    ->ifTrue(function (array $value) {
-                        return array_key_exists('object', $value) && !array_key_exists('class', $value);
-                    })
-                    ->thenInvalid('Your configuration should contain the "class" field if the "object" field is present.')
-                ->end()
-                ->validate()
-                    ->ifTrue(function (array $value) {
-                        return array_key_exists('object', $value) && !array_key_exists('expression', $value);
-                    })
-                    ->thenInvalid('Your configuration should contain the "expression" field if the "object" field is present.')
-                ->end()
-                ->validate()
-                    ->ifTrue(function (array $value) {
-                        return array_key_exists('collection', $value) && !array_key_exists('class', $value);
-                    })
-                    ->thenInvalid('Your configuration should contain the "class" field if the "collection" field is present.')
-                ->end()
-                ->validate()
-                    ->ifTrue(function (array $value) {
-                        return array_key_exists('collection', $value) && !array_key_exists('expression', $value);
-                    })
-                    ->thenInvalid('Your configuration should contain the "expression" field if the "collection" field is present.')
-                ->end()
-                ->validate()
-                    ->ifTrue(function (array $value) {
-                        return array_key_exists('list', $value) && !array_key_exists('expression', $value);
-                    })
-                    ->thenInvalid('Your configuration should contain the "expression" field if the "list" field is present.')
-                ->end()
-                ->children()
-                    ->scalarNode('field')->isRequired()->end()
-                    ->scalarNode('copy')->end()
-                    ->scalarNode('expression')->end()
-                    ->scalarNode('constant')->end()
-                    ->variableNode('map')
+                    ->variableNode('collection')
                         ->validate()
                             ->ifTrue(function($element) {
                                 return !is_array($element);
@@ -404,36 +298,7 @@ final class Configuration implements ConfigurationInterface
                         ->validate()
                             ->ifArray()
                             ->then(function (array $children) {
-                                return $this->evaluateMap($children);
-                            })
-                        ->end()
-                    ->end()
-                    ->variableNode('list')
-                        ->validate()
-                            ->ifTrue(function($element) {
-                                return !is_array($element);
-                            })
-                            ->thenInvalid('The children element must be an array.')
-                        ->end()
-                        ->validate()
-                            ->ifArray()
-                            ->then(function (array $children) {
-                                return $this->evaluateList($children);
-                            })
-                        ->end()
-                    ->end()
-                    ->scalarNode('class')->end()
-                    ->variableNode('object')
-                        ->validate()
-                            ->ifTrue(function($element) {
-                                return !is_array($element);
-                            })
-                            ->thenInvalid('The children element must be an array.')
-                        ->end()
-                        ->validate()
-                            ->ifArray()
-                            ->then(function (array $children) {
-                                return $this->evaluateObject($children);
+                                return $this->evaluateCollection($children);
                             })
                         ->end()
                     ->end()
@@ -444,130 +309,23 @@ final class Configuration implements ConfigurationInterface
         return $builder;
     }
 
-    private function objectNode(): TreeBuilder
+    public function getMapTreeBuilder(): TreeBuilder
     {
-        $builder = new TreeBuilder('object');
+        return $this->getChildTreeBuilder('map');
+    }
 
-        $builder->getRootNode()
-            ->arrayPrototype()
-                ->validate()
-                    ->ifTrue(function (array $value) {
-                        return array_key_exists('copy', $value) && array_key_exists('expression', $value);
-                    })
-                    ->thenInvalid('Your configuration should either contain the "copy" or the "expression" key, not both.')
-                ->end()
-                ->validate()
-                    ->ifTrue(function (array $value) {
-                        return array_key_exists('copy', $value) && array_key_exists('constant', $value);
-                    })
-                    ->thenInvalid('Your configuration should either contain the "copy" or the "constant" key, not both.')
-                ->end()
-                ->validate()
-                    ->ifTrue(function (array $value) {
-                        return array_key_exists('copy', $value) && array_key_exists('map', $value);
-                    })
-                    ->thenInvalid('Your configuration should either contain the "copy" or the "map" key, not both.')
-                ->end()
-                ->validate()
-                    ->ifTrue(function (array $value) {
-                        return array_key_exists('expression', $value) && array_key_exists('constant', $value);
-                    })
-                    ->thenInvalid('Your configuration should either contain the "expression" or the "constant" key, not both.')
-                ->end()
-                ->validate()
-                    ->ifTrue(function (array $value) {
-                        return array_key_exists('expression', $value) && array_key_exists('map', $value);
-                    })
-                    ->thenInvalid('Your configuration should either contain the "expression" or the "map" key, not both.')
-                ->end()
-                ->validate()
-                    ->ifTrue(function (array $value) {
-                        return array_key_exists('constant', $value) && array_key_exists('map', $value);
-                    })
-                    ->thenInvalid('Your configuration should either contain the "constant" or the "map" key, not both.')
-                ->end()
-                ->validate()
-                    ->ifTrue(function (array $value) {
-                        return array_key_exists('object', $value) && !array_key_exists('class', $value);
-                    })
-                    ->thenInvalid('Your configuration should contain the "class" field if the "object" field is present.')
-                ->end()
-                ->validate()
-                    ->ifTrue(function (array $value) {
-                        return array_key_exists('object', $value) && !array_key_exists('expression', $value);
-                    })
-                    ->thenInvalid('Your configuration should contain the "expression" field if the "object" field is present.')
-                ->end()
-                ->validate()
-                    ->ifTrue(function (array $value) {
-                        return array_key_exists('collection', $value) && !array_key_exists('class', $value);
-                    })
-                    ->thenInvalid('Your configuration should contain the "class" field if the "collection" field is present.')
-                ->end()
-                ->validate()
-                    ->ifTrue(function (array $value) {
-                        return array_key_exists('collection', $value) && !array_key_exists('expression', $value);
-                    })
-                    ->thenInvalid('Your configuration should contain the "expression" field if the "collection" field is present.')
-                ->end()
-                ->validate()
-                    ->ifTrue(function (array $value) {
-                        return array_key_exists('list', $value) && !array_key_exists('expression', $value);
-                    })
-                    ->thenInvalid('Your configuration should contain the "expression" field if the "list" field is present.')
-                ->end()
-                ->children()
-                    ->scalarNode('field')->isRequired()->end()
-                    ->scalarNode('copy')->end()
-                    ->scalarNode('expression')->end()
-                    ->scalarNode('constant')->end()
-                    ->variableNode('map')
-                        ->validate()
-                            ->ifTrue(function($element) {
-                                return !is_array($element);
-                            })
-                            ->thenInvalid('The children element must be an array.')
-                        ->end()
-                        ->validate()
-                            ->ifArray()
-                            ->then(function (array $children) {
-                                return $this->evaluateMap($children);
-                            })
-                        ->end()
-                    ->end()
-                    ->variableNode('list')
-                        ->validate()
-                            ->ifTrue(function($element) {
-                                return !is_array($element);
-                            })
-                            ->thenInvalid('The children element must be an array.')
-                        ->end()
-                        ->validate()
-                            ->ifArray()
-                            ->then(function (array $children) {
-                                return $this->evaluateList($children);
-                            })
-                        ->end()
-                    ->end()
-                    ->scalarNode('class')->end()
-                    ->variableNode('object')
-                        ->validate()
-                            ->ifTrue(function($element) {
-                                return !is_array($element);
-                            })
-                            ->thenInvalid('The children element must be an array.')
-                        ->end()
-                        ->validate()
-                            ->ifArray()
-                            ->then(function (array $children) {
-                                return $this->evaluateObject($children);
-                            })
-                        ->end()
-                    ->end()
-                ->end()
-            ->end()
-        ;
+    public function getListTreeBuilder(): TreeBuilder
+    {
+        return $this->getChildTreeBuilder('list');
+    }
 
-        return $builder;
+    public function getCollectionTreeBuilder(): TreeBuilder
+    {
+        return $this->getChildTreeBuilder('collection');
+    }
+
+    public function getObjectTreeBuilder(): TreeBuilder
+    {
+        return $this->getChildTreeBuilder('object');
     }
 }
