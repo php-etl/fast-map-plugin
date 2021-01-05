@@ -21,19 +21,28 @@
         "ext-json": "*",
         "php-etl/configurator-contracts": "^0.1@dev",
         "nikic/php-parser": "^4.9@dev",
-        "symfony/config": "^4.0 || ^5.0"
+        "symfony/config": "^4.0 || ^5.0",
+        "php-etl/fast-map-config": "^0.2@dev"
     },
     "require-dev": {
-        "php-http/mock-client": "^1.4@dev",
+        "php-etl/pipeline-contracts": "^0.1.0@dev",
+        "php-etl/bucket-contracts": "^0.1.0@dev",
+        "php-etl/pipeline": "^0.2.0@dev",
         "symfony/yaml": "5.x-dev",
         "symfony/console": "5.x-dev",
-        "php-etl/bucket-contracts": "^0.1.0@dev",
         "akeneo/api-php-client-ee": "^4.0",
-        "php-etl/pipeline-contracts": "^0.1.0@dev",
-        "php-etl/pipeline": "^0.2.0@dev",
-        "phpunit/phpunit": "^9.0",
+        "php-http/mock-client": "^1.4@dev",
         "laminas/laminas-diactoros": "2.6.x-dev",
-        "adlawson/vfs": "dev-develop"
+        "phpunit/phpunit": "^9.0",
+        "phpunit/php-invoker": "*",
+        "johnkary/phpunit-speedtrap": "*",
+        "mybuilder/phpunit-accelerator": "*",
+        "adlawson/vfs": "dev-develop",
+        "phpspec/phpspec": "^7.0",
+        "friends-of-phpspec/phpspec-code-coverage": "^6.0",
+        "php-etl/phpspec-extension": "^0.2@dev",
+        "phpstan/phpstan": "^0.12",
+        "infection/infection": "^0.20"
     },
     "authors": [
         {

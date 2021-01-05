@@ -16,7 +16,7 @@ final class ArrayMapper implements Configurator\FactoryInterface
     public function __construct()
     {
         $this->processor = new Processor();
-        $this->configuration = new FastMap\Configuration\ArrayMapper();
+        $this->configuration = new FastMap\Configuration\MapMapper();
     }
 
     public function configuration(): ConfigurationInterface
@@ -49,6 +49,10 @@ final class ArrayMapper implements Configurator\FactoryInterface
 
     public function compile(array $config): FastMap\Builder\ArrayMapper
     {
-        return new FastMap\Builder\ArrayMapper();
+        $builder = new FastMap\Builder\ArrayMapper();
+
+        $builder->withFields($config);
+
+        return $builder;
     }
 }

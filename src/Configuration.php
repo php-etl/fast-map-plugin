@@ -22,11 +22,11 @@ final class Configuration implements ConfigurationInterface
         $builder = new TreeBuilder('fastmap');
 
         $builder->getRootNode()
-            ->ignoreExtraKeys()
+//            ->ignoreExtraKeys()
             ->children()
                 ->scalarNode('class')->end()
                 ->scalarNode('expression')->end()
-                ->append($this->arrayNode()->getRootNode())
+                ->append($this->mapNode()->getRootNode())
                 ->append($this->objectNode()->getRootNode())
             ->end()
             ->validate()
@@ -40,43 +40,59 @@ final class Configuration implements ConfigurationInterface
                     if (array_key_exists('object', $value) && count($value['object']) <= 0) {
                         unset($value['object']);
                     }
-                    if (array_key_exists('array', $value) && count($value['array']) <= 0) {
-                        unset($value['array']);
+                    if (array_key_exists('map', $value) && count($value['map']) <= 0) {
+                        unset($value['map']);
                     }
                     return $value;
                 })
             ->end()
             ->validate()
                 ->ifTrue(function ($value) {
-                    return is_array($value) && array_key_exists('array', $value) && array_key_exists('object', $value);
+                    return is_array($value) && array_key_exists('map', $value) && array_key_exists('object', $value);
                 })
-                ->thenInvalid('Your configuration should either contain the "array" or the "object" key, not both.')
+                ->thenInvalid('Your configuration should either contain the "map" or the "object" key, not both.')
             ->end()
             ->validate()
                 ->ifTrue(function (array $value) {
                     return array_key_exists('object', $value) && !array_key_exists('class', $value);
                 })
-                ->thenInvalid('Your configuration should either contain the "class" field if the "object" field is present.')
+                ->thenInvalid('Your configuration should contain the "class" field if the "object" field is present.')
             ->end()
             ->validate()
                 ->ifTrue(function (array $value) {
                     return array_key_exists('object', $value) && !array_key_exists('expression', $value);
                 })
-                ->thenInvalid('Your configuration should either contain the "expression" field if the "object" field is present.')
+                ->thenInvalid('Your configuration should contain the "expression" field if the "object" field is present.')
             ->end()
         ;
 
         return $builder;
     }
 
-    private function evaluateArray($children)
+    private function evaluateMap($children)
     {
         if (count($this->configurationStack) > 0) {
             $parent = array_pop($this->configurationStack);
             array_push($this->configurationStack, $parent);
         }
 
-        $node = $this->getArrayNode($parent ?? null);
+        $node = $this->getMapNode($parent ?? null);
+
+        array_push($this->configurationStack, $node);
+        $children = $node->finalize($children);
+        array_pop($this->configurationStack);
+
+        return $children;
+    }
+
+    private function evaluateList($children)
+    {
+        if (count($this->configurationStack) > 0) {
+            $parent = array_pop($this->configurationStack);
+            array_push($this->configurationStack, $parent);
+        }
+
+        $node = $this->getListNode($parent ?? null);
 
         array_push($this->configurationStack, $node);
         $children = $node->finalize($children);
@@ -101,9 +117,21 @@ final class Configuration implements ConfigurationInterface
         return $children;
     }
 
-    private function getArrayNode(?PrototypedArrayNode $parent): NodeInterface
+    private function getMapNode(?PrototypedArrayNode $parent): NodeInterface
     {
-        $definition = $this->arrayNode()
+        $definition = $this->mapNode()
+            ->getRootNode();
+
+        if ($parent !== null) {
+            $definition->setParent(new Configuration\PlaceholderNode());
+        }
+
+        return $definition->getNode(true);
+    }
+
+    private function getListNode(?PrototypedArrayNode $parent): NodeInterface
+    {
+        $definition = $this->listNode()
             ->getRootNode();
 
         if ($parent !== null) {
@@ -125,9 +153,9 @@ final class Configuration implements ConfigurationInterface
         return $definition->getNode(true);
     }
 
-    private function arrayNode(): TreeBuilder
+    private function mapNode(): TreeBuilder
     {
-        $builder = new TreeBuilder('array');
+        $builder = new TreeBuilder('map');
 
         $builder->getRootNode()
             ->arrayPrototype()
@@ -145,9 +173,9 @@ final class Configuration implements ConfigurationInterface
                 ->end()
                 ->validate()
                     ->ifTrue(function (array $value) {
-                        return array_key_exists('copy', $value) && array_key_exists('array', $value);
+                        return array_key_exists('copy', $value) && array_key_exists('map', $value);
                     })
-                    ->thenInvalid('Your configuration should either contain the "copy" or the "array" key, not both.')
+                    ->thenInvalid('Your configuration should either contain the "copy" or the "map" key, not both.')
                 ->end()
                 ->validate()
                     ->ifTrue(function (array $value) {
@@ -157,22 +185,22 @@ final class Configuration implements ConfigurationInterface
                 ->end()
                 ->validate()
                     ->ifTrue(function (array $value) {
-                        return array_key_exists('expression', $value) && array_key_exists('array', $value);
+                        return array_key_exists('expression', $value) && array_key_exists('map', $value);
                     })
-                    ->thenInvalid('Your configuration should either contain the "expression" or the "array" key, not both.')
+                    ->thenInvalid('Your configuration should either contain the "expression" or the "map" key, not both.')
                 ->end()
                 ->validate()
                     ->ifTrue(function (array $value) {
-                        return array_key_exists('constant', $value) && array_key_exists('array', $value);
+                        return array_key_exists('constant', $value) && array_key_exists('map', $value);
                     })
-                    ->thenInvalid('Your configuration should either contain the "constant" or the "array" key, not both.')
+                    ->thenInvalid('Your configuration should either contain the "constant" or the "map" key, not both.')
                 ->end()
                 ->children()
                     ->scalarNode('field')->isRequired()->end()
                     ->scalarNode('copy')->end()
                     ->scalarNode('expression')->end()
                     ->scalarNode('constant')->end()
-                    ->variableNode('array')
+                    ->variableNode('map')
                         ->validate()
                             ->ifTrue(function($element) {
                                 return !is_array($element);
@@ -182,7 +210,118 @@ final class Configuration implements ConfigurationInterface
                         ->validate()
                             ->ifArray()
                             ->then(function (array $children) {
-                                return $this->evaluateArray($children);
+                                return $this->evaluateMap($children);
+                            })
+                        ->end()
+                    ->end()
+                    ->variableNode('list')
+                        ->validate()
+                            ->ifTrue(function($element) {
+                                return !is_array($element);
+                            })
+                            ->thenInvalid('The children element must be an array.')
+                        ->end()
+                        ->validate()
+                            ->ifArray()
+                            ->then(function (array $children) {
+                                return $this->evaluateList($children);
+                            })
+                        ->end()
+                    ->end()
+                    ->scalarNode('class')->end()
+                    ->variableNode('object')
+                        ->validate()
+                            ->ifTrue(function($element) {
+                                return !is_array($element);
+                            })
+                            ->thenInvalid('The children element must be an array.')
+                        ->end()
+                        ->validate()
+                            ->ifArray()
+                            ->then(function (array $children) {
+                                return $this->evaluateObject($children);
+                            })
+                        ->end()
+                    ->end()
+                ->end()
+            ->end()
+        ;
+
+        return $builder;
+    }
+
+    private function listNode(): TreeBuilder
+    {
+        $builder = new TreeBuilder('list');
+
+        $builder->getRootNode()
+            ->arrayPrototype()
+                ->validate()
+                    ->ifTrue(function (array $value) {
+                        return array_key_exists('copy', $value) && array_key_exists('expression', $value);
+                    })
+                    ->thenInvalid('Your configuration should either contain the "copy" or the "expression" key, not both.')
+                ->end()
+                ->validate()
+                    ->ifTrue(function (array $value) {
+                        return array_key_exists('copy', $value) && array_key_exists('constant', $value);
+                    })
+                    ->thenInvalid('Your configuration should either contain the "copy" or the "constant" key, not both.')
+                ->end()
+                ->validate()
+                    ->ifTrue(function (array $value) {
+                        return array_key_exists('copy', $value) && array_key_exists('map', $value);
+                    })
+                    ->thenInvalid('Your configuration should either contain the "copy" or the "map" key, not both.')
+                ->end()
+                ->validate()
+                    ->ifTrue(function (array $value) {
+                        return array_key_exists('expression', $value) && array_key_exists('constant', $value);
+                    })
+                    ->thenInvalid('Your configuration should either contain the "expression" or the "constant" key, not both.')
+                ->end()
+                ->validate()
+                    ->ifTrue(function (array $value) {
+                        return array_key_exists('expression', $value) && array_key_exists('map', $value);
+                    })
+                    ->thenInvalid('Your configuration should either contain the "expression" or the "map" key, not both.')
+                ->end()
+                ->validate()
+                    ->ifTrue(function (array $value) {
+                        return array_key_exists('constant', $value) && array_key_exists('map', $value);
+                    })
+                    ->thenInvalid('Your configuration should either contain the "constant" or the "map" key, not both.')
+                ->end()
+                ->children()
+                    ->scalarNode('field')->isRequired()->end()
+                    ->scalarNode('copy')->end()
+                    ->scalarNode('expression')->end()
+                    ->scalarNode('constant')->end()
+                    ->variableNode('map')
+                        ->validate()
+                            ->ifTrue(function($element) {
+                                return !is_array($element);
+                            })
+                            ->thenInvalid('The children element must be an array.')
+                        ->end()
+                        ->validate()
+                            ->ifArray()
+                            ->then(function (array $children) {
+                                return $this->evaluateMap($children);
+                            })
+                        ->end()
+                    ->end()
+                    ->variableNode('list')
+                        ->validate()
+                            ->ifTrue(function($element) {
+                                return !is_array($element);
+                            })
+                            ->thenInvalid('The children element must be an array.')
+                        ->end()
+                        ->validate()
+                            ->ifArray()
+                            ->then(function (array $children) {
+                                return $this->evaluateList($children);
                             })
                         ->end()
                     ->end()
@@ -228,9 +367,9 @@ final class Configuration implements ConfigurationInterface
                 ->end()
                 ->validate()
                     ->ifTrue(function (array $value) {
-                        return array_key_exists('copy', $value) && array_key_exists('array', $value);
+                        return array_key_exists('copy', $value) && array_key_exists('map', $value);
                     })
-                    ->thenInvalid('Your configuration should either contain the "copy" or the "array" key, not both.')
+                    ->thenInvalid('Your configuration should either contain the "copy" or the "map" key, not both.')
                 ->end()
                 ->validate()
                     ->ifTrue(function (array $value) {
@@ -240,22 +379,22 @@ final class Configuration implements ConfigurationInterface
                 ->end()
                 ->validate()
                     ->ifTrue(function (array $value) {
-                        return array_key_exists('expression', $value) && array_key_exists('array', $value);
+                        return array_key_exists('expression', $value) && array_key_exists('map', $value);
                     })
-                    ->thenInvalid('Your configuration should either contain the "expression" or the "array" key, not both.')
+                    ->thenInvalid('Your configuration should either contain the "expression" or the "map" key, not both.')
                 ->end()
                 ->validate()
                     ->ifTrue(function (array $value) {
-                        return array_key_exists('constant', $value) && array_key_exists('array', $value);
+                        return array_key_exists('constant', $value) && array_key_exists('map', $value);
                     })
-                    ->thenInvalid('Your configuration should either contain the "constant" or the "array" key, not both.')
+                    ->thenInvalid('Your configuration should either contain the "constant" or the "map" key, not both.')
                 ->end()
                 ->children()
                     ->scalarNode('field')->isRequired()->end()
                     ->scalarNode('copy')->end()
                     ->scalarNode('expression')->end()
                     ->scalarNode('constant')->end()
-                    ->variableNode('array')
+                    ->variableNode('map')
                         ->validate()
                             ->ifTrue(function($element) {
                                 return !is_array($element);
@@ -265,7 +404,21 @@ final class Configuration implements ConfigurationInterface
                         ->validate()
                             ->ifArray()
                             ->then(function (array $children) {
-                                return $this->evaluateArray($children);
+                                return $this->evaluateMap($children);
+                            })
+                        ->end()
+                    ->end()
+                    ->variableNode('list')
+                        ->validate()
+                            ->ifTrue(function($element) {
+                                return !is_array($element);
+                            })
+                            ->thenInvalid('The children element must be an array.')
+                        ->end()
+                        ->validate()
+                            ->ifArray()
+                            ->then(function (array $children) {
+                                return $this->evaluateList($children);
                             })
                         ->end()
                     ->end()

@@ -49,6 +49,10 @@ final class ObjectMapper implements Configurator\FactoryInterface
 
     public function compile(array $config): FastMap\Builder\ObjectMapper
     {
-        return new FastMap\Builder\ObjectMapper();
+        $builder = new FastMap\Builder\ObjectMapper();
+
+        $builder->withFields($config);
+
+        return $builder;
     }
 }

@@ -57,10 +57,10 @@ final class Service implements FactoryInterface
         $clientFactory = new Factory\ArrayMapper();
 
         try {
-            if (isset($config['array'])) {
+            if (isset($config['map'])) {
                 $arrayFactory = new Factory\ArrayMapper();
 
-                $mapper = $arrayFactory->compile($config['array']);
+                $mapper = $arrayFactory->compile($config['map']);
 
 //                $logger = $loggerFactory->compile($config['logger'] ?? []);
 //                $mapper->withLogger($logger->getNode());
@@ -77,7 +77,7 @@ final class Service implements FactoryInterface
                 return $mapper;
             } else {
                 throw new InvalidConfigurationException(
-                    'Could not determine if the factory should build an extractor or a loader.'
+                    'Could not determine if the factory should build an array or an object transformer.'
                 );
             }
         } catch (Symfony\InvalidTypeException|Symfony\InvalidConfigurationException $exception) {
