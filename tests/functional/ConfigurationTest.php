@@ -425,6 +425,209 @@ final class ConfigurationTest extends TestCase
         );
     }
 
+    public function testListWithMapField()
+    {
+        $processor = new Processor();
+        $configuration = new FastMap\Configuration();
+
+        $this->assertEquals(
+            [
+                'expression' => 'input',
+                'list' => [
+                    [
+                        'field' => '[foo]',
+                        'map' => [
+                            [
+                                'field' => '[bar]',
+                                'constant' => 'Lorem ipsum dolor sit amet, consectetur adipiscing elit.',
+                            ]
+                        ]
+                    ],
+                ],
+            ],
+            $processor->processConfiguration($configuration, [
+                [
+                    'expression' => 'input',
+                    'list' => [
+                        [
+                            'field' => '[foo]',
+                            'map' => [
+                                [
+                                    'field' => '[bar]',
+                                    'constant' => 'Lorem ipsum dolor sit amet, consectetur adipiscing elit.',
+                                ],
+                            ],
+                        ],
+                    ],
+                ],
+            ])
+        );
+    }
+
+    public function testListWithListField()
+    {
+        $processor = new Processor();
+        $configuration = new FastMap\Configuration();
+
+        $this->assertEquals(
+            [
+                'expression' => 'input',
+                'list' => [
+                    [
+                        'field' => '[foo]',
+                        'expression' => 'input["foo"]',
+                        'list' => [
+                            [
+                                'field' => '[bar]',
+                                'constant' => 'Lorem ipsum dolor sit amet, consectetur adipiscing elit.',
+                            ],
+                        ],
+                    ],
+                ],
+            ],
+            $processor->processConfiguration($configuration, [
+                [
+                    'expression' => 'input',
+                    'list' => [
+                        [
+                            'field' => '[foo]',
+                            'expression' => 'input["foo"]',
+                            'list' => [
+                                [
+                                    'field' => '[bar]',
+                                    'constant' => 'Lorem ipsum dolor sit amet, consectetur adipiscing elit.',
+                                ],
+                            ],
+                        ],
+                    ],
+                ],
+            ])
+        );
+    }
+
+    public function testListWithListFieldWithoutExpression()
+    {
+        $processor = new Processor();
+        $configuration = new FastMap\Configuration();
+
+        $this->expectException(InvalidConfigurationException::class);
+        $this->expectExceptionMessage('Your configuration should contain the "expression" field if the "list" field is present.');
+
+        $processor->processConfiguration($configuration, [
+            [
+                'expression' => 'input',
+                'list' => [
+                    [
+                        'field' => '[foo]',
+                        'list' => [
+                            [
+                                'field' => '[bar]',
+                                'constant' => 'Lorem ipsum dolor sit amet, consectetur adipiscing elit.',
+                            ],
+                        ],
+                    ],
+                ],
+            ],
+        ]);
+    }
+
+    public function testListWithObjectField()
+    {
+        $processor = new Processor();
+        $configuration = new FastMap\Configuration();
+
+        $this->assertEquals(
+            [
+                'expression' => 'input',
+                'list' => [
+                    [
+                        'field' => '[foo]',
+                        'class' => 'stdClass',
+                        'expression' => 'input["foo"]',
+                        'object' => [
+                            [
+                                'field' => '[bar]',
+                                'constant' => 'Lorem ipsum dolor sit amet, consectetur adipiscing elit.',
+                            ],
+                        ],
+                    ],
+                ],
+            ],
+            $processor->processConfiguration($configuration, [
+                [
+                    'expression' => 'input',
+                    'list' => [
+                        [
+                            'field' => '[foo]',
+                            'class' => \stdClass::class,
+                            'expression' => 'input["foo"]',
+                            'object' => [
+                                [
+                                    'field' => '[bar]',
+                                    'constant' => 'Lorem ipsum dolor sit amet, consectetur adipiscing elit.',
+                                ],
+                            ],
+                        ],
+                    ],
+                ],
+            ])
+        );
+    }
+
+    public function testListWithObjectFieldWithoutClass()
+    {
+        $processor = new Processor();
+        $configuration = new FastMap\Configuration();
+
+        $this->expectException(InvalidConfigurationException::class);
+        $this->expectExceptionMessage('Your configuration should contain the "class" field if the "object" field is present.');
+
+        $processor->processConfiguration($configuration, [
+            [
+                'expression' => 'input',
+                'list' => [
+                    [
+                        'field' => '[foo]',
+                        'expression' => 'input["foo"]',
+                        'object' => [
+                            [
+                                'field' => '[bar]',
+                                'constant' => 'Lorem ipsum dolor sit amet, consectetur adipiscing elit.',
+                            ],
+                        ],
+                    ],
+                ],
+            ],
+        ]);
+    }
+
+    public function testListWithObjectFieldWithoutExpression()
+    {
+        $processor = new Processor();
+        $configuration = new FastMap\Configuration();
+
+        $this->expectException(InvalidConfigurationException::class);
+        $this->expectExceptionMessage('Your configuration should contain the "expression" field if the "object" field is present.');
+
+        $processor->processConfiguration($configuration, [
+            [
+                'expression' => 'input',
+                'list' => [
+                    [
+                        'field' => '[foo]',
+                        'class' => \stdClass::class,
+                        'object' => [
+                            [
+                                'field' => '[bar]',
+                                'constant' => 'Lorem ipsum dolor sit amet, consectetur adipiscing elit.',
+                            ],
+                        ],
+                    ],
+                ],
+            ],
+        ]);
+    }
+
     public function testObjectWithoutClass()
     {
         $processor = new Processor();
@@ -558,5 +761,217 @@ final class ConfigurationTest extends TestCase
                 ],
             ])
         );
+    }
+
+    public function testObjectWithMapField()
+    {
+        $processor = new Processor();
+        $configuration = new FastMap\Configuration();
+
+        $this->assertEquals(
+            [
+                'class' => 'stdClass',
+                'expression' => 'input',
+                'object' => [
+                    [
+                        'field' => '[foo]',
+                        'map' => [
+                            [
+                                'field' => '[bar]',
+                                'constant' => 'Lorem ipsum dolor sit amet, consectetur adipiscing elit.',
+                            ]
+                        ]
+                    ],
+                ],
+            ],
+            $processor->processConfiguration($configuration, [
+                [
+                    'class' => \stdClass::class,
+                    'expression' => 'input',
+                    'object' => [
+                        [
+                            'field' => '[foo]',
+                            'map' => [
+                                [
+                                    'field' => '[bar]',
+                                    'constant' => 'Lorem ipsum dolor sit amet, consectetur adipiscing elit.',
+                                ],
+                            ],
+                        ],
+                    ],
+                ],
+            ])
+        );
+    }
+
+    public function testObjectWithListField()
+    {
+        $processor = new Processor();
+        $configuration = new FastMap\Configuration();
+
+        $this->assertEquals(
+            [
+                'class' => 'stdClass',
+                'expression' => 'input',
+                'object' => [
+                    [
+                        'field' => '[foo]',
+                        'expression' => 'input["foo"]',
+                        'list' => [
+                            [
+                                'field' => '[bar]',
+                                'constant' => 'Lorem ipsum dolor sit amet, consectetur adipiscing elit.',
+                            ],
+                        ],
+                    ],
+                ],
+            ],
+            $processor->processConfiguration($configuration, [
+                [
+                    'class' => \stdClass::class,
+                    'expression' => 'input',
+                    'object' => [
+                        [
+                            'field' => '[foo]',
+                            'expression' => 'input["foo"]',
+                            'list' => [
+                                [
+                                    'field' => '[bar]',
+                                    'constant' => 'Lorem ipsum dolor sit amet, consectetur adipiscing elit.',
+                                ],
+                            ],
+                        ],
+                    ],
+                ],
+            ])
+        );
+    }
+
+    public function testObjectWithListFieldWithoutExpression()
+    {
+        $processor = new Processor();
+        $configuration = new FastMap\Configuration();
+
+        $this->expectException(InvalidConfigurationException::class);
+        $this->expectExceptionMessage('Your configuration should contain the "expression" field if the "list" field is present.');
+
+        $processor->processConfiguration($configuration, [
+            [
+                'class' => \stdClass::class,
+                'expression' => 'input',
+                'object' => [
+                    [
+                        'field' => '[foo]',
+                        'list' => [
+                            [
+                                'field' => '[bar]',
+                                'constant' => 'Lorem ipsum dolor sit amet, consectetur adipiscing elit.',
+                            ],
+                        ],
+                    ],
+                ],
+            ],
+        ]);
+    }
+
+    public function testObjectWithObjectField()
+    {
+        $processor = new Processor();
+        $configuration = new FastMap\Configuration();
+
+        $this->assertEquals(
+            [
+                'class' => 'stdClass',
+                'expression' => 'input',
+                'object' => [
+                    [
+                        'field' => '[foo]',
+                        'class' => 'stdClass',
+                        'expression' => 'input["foo"]',
+                        'object' => [
+                            [
+                                'field' => '[bar]',
+                                'constant' => 'Lorem ipsum dolor sit amet, consectetur adipiscing elit.',
+                            ],
+                        ],
+                    ],
+                ],
+            ],
+            $processor->processConfiguration($configuration, [
+                [
+                    'class' => \stdClass::class,
+                    'expression' => 'input',
+                    'object' => [
+                        [
+                            'field' => '[foo]',
+                            'class' => \stdClass::class,
+                            'expression' => 'input["foo"]',
+                            'object' => [
+                                [
+                                    'field' => '[bar]',
+                                    'constant' => 'Lorem ipsum dolor sit amet, consectetur adipiscing elit.',
+                                ],
+                            ],
+                        ],
+                    ],
+                ],
+            ])
+        );
+    }
+
+    public function testObjectWithObjectFieldWithoutClass()
+    {
+        $processor = new Processor();
+        $configuration = new FastMap\Configuration();
+
+        $this->expectException(InvalidConfigurationException::class);
+        $this->expectExceptionMessage('Your configuration should contain the "class" field if the "object" field is present.');
+
+        $processor->processConfiguration($configuration, [
+            [
+                'class' => \stdClass::class,
+                'expression' => 'input',
+                'object' => [
+                    [
+                        'field' => '[foo]',
+                        'expression' => 'input["foo"]',
+                        'object' => [
+                            [
+                                'field' => '[bar]',
+                                'constant' => 'Lorem ipsum dolor sit amet, consectetur adipiscing elit.',
+                            ],
+                        ],
+                    ],
+                ],
+            ],
+        ]);
+    }
+
+    public function testObjectWithObjectFieldWithoutExpression()
+    {
+        $processor = new Processor();
+        $configuration = new FastMap\Configuration();
+
+        $this->expectException(InvalidConfigurationException::class);
+        $this->expectExceptionMessage('Your configuration should contain the "expression" field if the "object" field is present.');
+
+        $processor->processConfiguration($configuration, [
+            [
+                'class' => \stdClass::class,
+                'expression' => 'input',
+                'object' => [
+                    [
+                        'field' => '[foo]',
+                        'class' => \stdClass::class,
+                        'object' => [
+                            [
+                                'field' => '[bar]',
+                                'constant' => 'Lorem ipsum dolor sit amet, consectetur adipiscing elit.',
+                            ],
+                        ],
+                    ],
+                ],
+            ],
+        ]);
     }
 }
