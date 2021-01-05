@@ -144,6 +144,200 @@ final class ConfigurationTest extends TestCase
         );
     }
 
+    public function testMapWithMapField()
+    {
+        $processor = new Processor();
+        $configuration = new FastMap\Configuration();
+
+        $this->assertEquals(
+            [
+                'map' => [
+                    [
+                        'field' => '[foo]',
+                        'map' => [
+                            [
+                                'field' => '[bar]',
+                                'constant' => 'Lorem ipsum dolor sit amet, consectetur adipiscing elit.',
+                            ]
+                        ]
+                    ],
+                ],
+            ],
+            $processor->processConfiguration($configuration, [
+                [
+                    'map' => [
+                        [
+                            'field' => '[foo]',
+                            'map' => [
+                                [
+                                    'field' => '[bar]',
+                                    'constant' => 'Lorem ipsum dolor sit amet, consectetur adipiscing elit.',
+                                ],
+                            ],
+                        ],
+                    ],
+                ],
+            ])
+        );
+    }
+
+    public function testMapWithListField()
+    {
+        $processor = new Processor();
+        $configuration = new FastMap\Configuration();
+
+        $this->assertEquals(
+            [
+                'map' => [
+                    [
+                        'field' => '[foo]',
+                        'expression' => 'input["foo"]',
+                        'list' => [
+                            [
+                                'field' => '[bar]',
+                                'constant' => 'Lorem ipsum dolor sit amet, consectetur adipiscing elit.',
+                            ],
+                        ],
+                    ],
+                ],
+            ],
+            $processor->processConfiguration($configuration, [
+                [
+                    'map' => [
+                        [
+                            'field' => '[foo]',
+                            'expression' => 'input["foo"]',
+                            'list' => [
+                                [
+                                    'field' => '[bar]',
+                                    'constant' => 'Lorem ipsum dolor sit amet, consectetur adipiscing elit.',
+                                ],
+                            ],
+                        ],
+                    ],
+                ],
+            ])
+        );
+    }
+
+    public function testMapWithListFieldWithoutExpression()
+    {
+        $processor = new Processor();
+        $configuration = new FastMap\Configuration();
+
+        $this->expectException(InvalidConfigurationException::class);
+        $this->expectExceptionMessage('Your configuration should contain the "expression" field if the "list" field is present.');
+
+        $processor->processConfiguration($configuration, [
+            [
+                'map' => [
+                    [
+                        'field' => '[foo]',
+                        'list' => [
+                            [
+                                'field' => '[bar]',
+                                'constant' => 'Lorem ipsum dolor sit amet, consectetur adipiscing elit.',
+                            ],
+                        ],
+                    ],
+                ],
+            ],
+        ]);
+    }
+
+    public function testMapWithObjectField()
+    {
+        $processor = new Processor();
+        $configuration = new FastMap\Configuration();
+
+        $this->assertEquals(
+            [
+                'map' => [
+                    [
+                        'field' => '[foo]',
+                        'class' => 'stdClass',
+                        'expression' => 'input["foo"]',
+                        'object' => [
+                            [
+                                'field' => '[bar]',
+                                'constant' => 'Lorem ipsum dolor sit amet, consectetur adipiscing elit.',
+                            ],
+                        ],
+                    ],
+                ],
+            ],
+            $processor->processConfiguration($configuration, [
+                [
+                    'map' => [
+                        [
+                            'field' => '[foo]',
+                            'class' => \stdClass::class,
+                            'expression' => 'input["foo"]',
+                            'object' => [
+                                [
+                                    'field' => '[bar]',
+                                    'constant' => 'Lorem ipsum dolor sit amet, consectetur adipiscing elit.',
+                                ],
+                            ],
+                        ],
+                    ],
+                ],
+            ])
+        );
+    }
+
+    public function testMapWithObjectFieldWithoutClass()
+    {
+        $processor = new Processor();
+        $configuration = new FastMap\Configuration();
+
+        $this->expectException(InvalidConfigurationException::class);
+        $this->expectExceptionMessage('Your configuration should contain the "class" field if the "object" field is present.');
+
+        $processor->processConfiguration($configuration, [
+            [
+                'map' => [
+                    [
+                        'field' => '[foo]',
+                        'expression' => 'input["foo"]',
+                        'object' => [
+                            [
+                                'field' => '[bar]',
+                                'constant' => 'Lorem ipsum dolor sit amet, consectetur adipiscing elit.',
+                            ],
+                        ],
+                    ],
+                ],
+            ],
+        ]);
+    }
+
+    public function testMapWithObjectFieldWithoutExpression()
+    {
+        $processor = new Processor();
+        $configuration = new FastMap\Configuration();
+
+        $this->expectException(InvalidConfigurationException::class);
+        $this->expectExceptionMessage('Your configuration should contain the "expression" field if the "object" field is present.');
+
+        $processor->processConfiguration($configuration, [
+            [
+                'map' => [
+                    [
+                        'field' => '[foo]',
+                        'class' => \stdClass::class,
+                        'object' => [
+                            [
+                                'field' => '[bar]',
+                                'constant' => 'Lorem ipsum dolor sit amet, consectetur adipiscing elit.',
+                            ],
+                        ],
+                    ],
+                ],
+            ],
+        ]);
+    }
+
     public function testListWithCopyField()
     {
         $processor = new Processor();
@@ -151,6 +345,7 @@ final class ConfigurationTest extends TestCase
 
         $this->assertEquals(
             [
+                'expression' => 'input',
                 'list' => [
                     [
                         'field' => '[foo]',
@@ -160,6 +355,7 @@ final class ConfigurationTest extends TestCase
             ],
             $processor->processConfiguration($configuration, [
                 [
+                    'expression' => 'input',
                     'list' => [
                         [
                             'field' => '[foo]',
@@ -178,6 +374,7 @@ final class ConfigurationTest extends TestCase
 
         $this->assertEquals(
             [
+                'expression' => 'input',
                 'list' => [
                     [
                         'field' => '[foo]',
@@ -187,6 +384,7 @@ final class ConfigurationTest extends TestCase
             ],
             $processor->processConfiguration($configuration, [
                 [
+                    'expression' => 'input',
                     'list' => [
                         [
                             'field' => '[foo]',
@@ -205,6 +403,7 @@ final class ConfigurationTest extends TestCase
 
         $this->assertEquals(
             [
+                'expression' => 'input',
                 'list' => [
                     [
                         'field' => '[foo]',
@@ -214,6 +413,7 @@ final class ConfigurationTest extends TestCase
             ],
             $processor->processConfiguration($configuration, [
                 [
+                    'expression' => 'input',
                     'list' => [
                         [
                             'field' => '[foo]',

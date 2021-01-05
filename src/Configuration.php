@@ -27,6 +27,7 @@ final class Configuration implements ConfigurationInterface
                 ->scalarNode('class')->end()
                 ->scalarNode('expression')->end()
                 ->append($this->mapNode()->getRootNode())
+                ->append($this->listNode()->getRootNode())
                 ->append($this->objectNode()->getRootNode())
             ->end()
             ->validate()
@@ -43,14 +44,32 @@ final class Configuration implements ConfigurationInterface
                     if (array_key_exists('map', $value) && count($value['map']) <= 0) {
                         unset($value['map']);
                     }
+                    if (array_key_exists('list', $value) && count($value['list']) <= 0) {
+                        unset($value['list']);
+                    }
+                    if (array_key_exists('collection', $value) && count($value['collection']) <= 0) {
+                        unset($value['collection']);
+                    }
                     return $value;
                 })
+            ->end()
+            ->validate()
+                ->ifTrue(function ($value) {
+                    return is_array($value) && array_key_exists('map', $value) && array_key_exists('list', $value);
+                })
+                ->thenInvalid('Your configuration should either contain the "map" or the "list" key, not both.')
             ->end()
             ->validate()
                 ->ifTrue(function ($value) {
                     return is_array($value) && array_key_exists('map', $value) && array_key_exists('object', $value);
                 })
                 ->thenInvalid('Your configuration should either contain the "map" or the "object" key, not both.')
+            ->end()
+            ->validate()
+                ->ifTrue(function ($value) {
+                    return is_array($value) && array_key_exists('list', $value) && array_key_exists('object', $value);
+                })
+                ->thenInvalid('Your configuration should either contain the "list" or the "object" key, not both.')
             ->end()
             ->validate()
                 ->ifTrue(function (array $value) {
@@ -63,6 +82,24 @@ final class Configuration implements ConfigurationInterface
                     return array_key_exists('object', $value) && !array_key_exists('expression', $value);
                 })
                 ->thenInvalid('Your configuration should contain the "expression" field if the "object" field is present.')
+            ->end()
+            ->validate()
+                ->ifTrue(function (array $value) {
+                    return array_key_exists('collection', $value) && !array_key_exists('class', $value);
+                })
+                ->thenInvalid('Your configuration should contain the "class" field if the "collection" field is present.')
+            ->end()
+            ->validate()
+                ->ifTrue(function (array $value) {
+                    return array_key_exists('collection', $value) && !array_key_exists('expression', $value);
+                })
+                ->thenInvalid('Your configuration should contain the "expression" field if the "collection" field is present.')
+            ->end()
+            ->validate()
+                ->ifTrue(function (array $value) {
+                    return array_key_exists('list', $value) && !array_key_exists('expression', $value);
+                })
+                ->thenInvalid('Your configuration should contain the "expression" field if the "list" field is present.')
             ->end()
         ;
 
@@ -195,6 +232,36 @@ final class Configuration implements ConfigurationInterface
                     })
                     ->thenInvalid('Your configuration should either contain the "constant" or the "map" key, not both.')
                 ->end()
+                ->validate()
+                    ->ifTrue(function (array $value) {
+                        return array_key_exists('object', $value) && !array_key_exists('class', $value);
+                    })
+                    ->thenInvalid('Your configuration should contain the "class" field if the "object" field is present.')
+                ->end()
+                ->validate()
+                    ->ifTrue(function (array $value) {
+                        return array_key_exists('object', $value) && !array_key_exists('expression', $value);
+                    })
+                    ->thenInvalid('Your configuration should contain the "expression" field if the "object" field is present.')
+                ->end()
+                ->validate()
+                    ->ifTrue(function (array $value) {
+                        return array_key_exists('collection', $value) && !array_key_exists('class', $value);
+                    })
+                    ->thenInvalid('Your configuration should contain the "class" field if the "collection" field is present.')
+                ->end()
+                ->validate()
+                    ->ifTrue(function (array $value) {
+                        return array_key_exists('collection', $value) && !array_key_exists('expression', $value);
+                    })
+                    ->thenInvalid('Your configuration should contain the "expression" field if the "collection" field is present.')
+                ->end()
+                ->validate()
+                    ->ifTrue(function (array $value) {
+                        return array_key_exists('list', $value) && !array_key_exists('expression', $value);
+                    })
+                    ->thenInvalid('Your configuration should contain the "expression" field if the "list" field is present.')
+                ->end()
                 ->children()
                     ->scalarNode('field')->isRequired()->end()
                     ->scalarNode('copy')->end()
@@ -292,6 +359,36 @@ final class Configuration implements ConfigurationInterface
                     })
                     ->thenInvalid('Your configuration should either contain the "constant" or the "map" key, not both.')
                 ->end()
+                ->validate()
+                    ->ifTrue(function (array $value) {
+                        return array_key_exists('object', $value) && !array_key_exists('class', $value);
+                    })
+                    ->thenInvalid('Your configuration should contain the "class" field if the "object" field is present.')
+                ->end()
+                ->validate()
+                    ->ifTrue(function (array $value) {
+                        return array_key_exists('object', $value) && !array_key_exists('expression', $value);
+                    })
+                    ->thenInvalid('Your configuration should contain the "expression" field if the "object" field is present.')
+                ->end()
+                ->validate()
+                    ->ifTrue(function (array $value) {
+                        return array_key_exists('collection', $value) && !array_key_exists('class', $value);
+                    })
+                    ->thenInvalid('Your configuration should contain the "class" field if the "collection" field is present.')
+                ->end()
+                ->validate()
+                    ->ifTrue(function (array $value) {
+                        return array_key_exists('collection', $value) && !array_key_exists('expression', $value);
+                    })
+                    ->thenInvalid('Your configuration should contain the "expression" field if the "collection" field is present.')
+                ->end()
+                ->validate()
+                    ->ifTrue(function (array $value) {
+                        return array_key_exists('list', $value) && !array_key_exists('expression', $value);
+                    })
+                    ->thenInvalid('Your configuration should contain the "expression" field if the "list" field is present.')
+                ->end()
                 ->children()
                     ->scalarNode('field')->isRequired()->end()
                     ->scalarNode('copy')->end()
@@ -388,6 +485,36 @@ final class Configuration implements ConfigurationInterface
                         return array_key_exists('constant', $value) && array_key_exists('map', $value);
                     })
                     ->thenInvalid('Your configuration should either contain the "constant" or the "map" key, not both.')
+                ->end()
+                ->validate()
+                    ->ifTrue(function (array $value) {
+                        return array_key_exists('object', $value) && !array_key_exists('class', $value);
+                    })
+                    ->thenInvalid('Your configuration should contain the "class" field if the "object" field is present.')
+                ->end()
+                ->validate()
+                    ->ifTrue(function (array $value) {
+                        return array_key_exists('object', $value) && !array_key_exists('expression', $value);
+                    })
+                    ->thenInvalid('Your configuration should contain the "expression" field if the "object" field is present.')
+                ->end()
+                ->validate()
+                    ->ifTrue(function (array $value) {
+                        return array_key_exists('collection', $value) && !array_key_exists('class', $value);
+                    })
+                    ->thenInvalid('Your configuration should contain the "class" field if the "collection" field is present.')
+                ->end()
+                ->validate()
+                    ->ifTrue(function (array $value) {
+                        return array_key_exists('collection', $value) && !array_key_exists('expression', $value);
+                    })
+                    ->thenInvalid('Your configuration should contain the "expression" field if the "collection" field is present.')
+                ->end()
+                ->validate()
+                    ->ifTrue(function (array $value) {
+                        return array_key_exists('list', $value) && !array_key_exists('expression', $value);
+                    })
+                    ->thenInvalid('Your configuration should contain the "expression" field if the "list" field is present.')
                 ->end()
                 ->children()
                     ->scalarNode('field')->isRequired()->end()
