@@ -1,5 +1,5 @@
 {
-    "name": "php-etl/flow-fast-map",
+    "name": "php-etl/fast-map-plugin",
     "description": "Adapters for the Fast Map mapping library",
     "type": "library",
     "license": "MIT",
