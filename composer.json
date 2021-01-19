@@ -17,7 +17,7 @@
         "bin-dir": "bin"
     },
     "require": {
-        "php": "8.0",
+        "php": "^8.0",
         "ext-json": "*",
         "php-etl/configurator-contracts": "^0.1@dev",
         "nikic/php-parser": "^4.9@dev",
@@ -31,8 +31,7 @@
         "johnkary/phpunit-speedtrap": "*",
         "mybuilder/phpunit-accelerator": "*",
         "phpspec/phpspec": "^7.0",
-        "friends-of-phpspec/phpspec-code-coverage": "^6.0",
-        "php-etl/phpspec-extension": "^0.2@dev"
+        "friends-of-phpspec/phpspec-code-coverage": "^6.0"
     },
     "authors": [
         {
