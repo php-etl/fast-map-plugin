@@ -1,12 +1,12 @@
 <?php declare(strict_types=1);
 
-namespace Kiboko\Component\ETL\Flow\FastMap\Builder;
+namespace Kiboko\Plugin\FastMap\Builder;
 
-use Kiboko\Component\ETL\Config\ArrayBuilder;
-use Kiboko\Component\ETL\FastMap\Contracts\CompilableInterface;
-use Kiboko\Component\ETL\FastMap\Contracts\CompiledMapperInterface;
-use Kiboko\Contract\ETL\Configurator\InvalidConfigurationException;
-use Kiboko\Contract\ETL\Pipeline\TransformerInterface;
+use Kiboko\Component\FastMapConfig\ArrayBuilder;
+use Kiboko\Component\FastMap\Contracts\CompilableInterface;
+use Kiboko\Component\FastMap\Contracts\CompiledMapperInterface;
+use Kiboko\Contract\Configurator\InvalidConfigurationException;
+use Kiboko\Contract\Pipeline\TransformerInterface;
 use PhpParser\Builder;
 use PhpParser\Node;
 

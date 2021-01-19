@@ -1,11 +1,11 @@
 <?php declare(strict_types=1);
 
-namespace Kiboko\Component\ETL\Flow\FastMap;
+namespace Kiboko\Plugin\FastMap;
 
-use Kiboko\Component\ETL\Flow\FastMap\Factory;
-use Kiboko\Contract\ETL\Configurator\InvalidConfigurationException;
-use Kiboko\Contract\ETL\Configurator\ConfigurationExceptionInterface;
-use Kiboko\Contract\ETL\Configurator\FactoryInterface;
+use Kiboko\Plugin\FastMap\Factory;
+use Kiboko\Contract\Configurator\InvalidConfigurationException;
+use Kiboko\Contract\Configurator\ConfigurationExceptionInterface;
+use Kiboko\Contract\Configurator\FactoryInterface;
 use Symfony\Component\Config\Definition\ConfigurationInterface;
 use Symfony\Component\Config\Definition\Exception as Symfony;
 use Symfony\Component\Config\Definition\Processor;
@@ -66,7 +66,7 @@ final class Service implements FactoryInterface
 //                $mapper->withLogger($logger->getNode());
 
                 return $mapper;
-            } else if (isset($config['object'])) {
+            } elseif (isset($config['object'])) {
                 $objectFactory = new Factory\ObjectMapper();
 
                 $mapper = $objectFactory->compile($config['object']);

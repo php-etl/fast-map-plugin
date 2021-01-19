@@ -5,12 +5,12 @@
     "license": "MIT",
     "autoload": {
         "psr-4": {
-            "Kiboko\\Component\\ETL\\Flow\\FastMap\\": "src/"
+            "Kiboko\\Plugin\\FastMap\\": "src/"
         }
     },
     "autoload-dev": {
         "psr-4": {
-            "functional\\Kiboko\\Component\\ETL\\Flow\\FastMap\\": "tests/functional/"
+            "functional\\Kiboko\\Plugin\\FastMap\\": "tests/functional/"
         }
     },
     "config": {
@@ -26,23 +26,13 @@
     },
     "require-dev": {
         "php-etl/pipeline-contracts": "^0.1.0@dev",
-        "php-etl/bucket-contracts": "^0.1.0@dev",
-        "php-etl/pipeline": "^0.2.0@dev",
-        "symfony/yaml": "5.x-dev",
-        "symfony/console": "5.x-dev",
-        "akeneo/api-php-client-ee": "^4.0",
-        "php-http/mock-client": "^1.4@dev",
-        "laminas/laminas-diactoros": "2.6.x-dev",
         "phpunit/phpunit": "^9.0",
         "phpunit/php-invoker": "*",
         "johnkary/phpunit-speedtrap": "*",
         "mybuilder/phpunit-accelerator": "*",
-        "adlawson/vfs": "dev-develop",
         "phpspec/phpspec": "^7.0",
         "friends-of-phpspec/phpspec-code-coverage": "^6.0",
-        "php-etl/phpspec-extension": "^0.2@dev",
-        "phpstan/phpstan": "^0.12",
-        "infection/infection": "^0.20"
+        "php-etl/phpspec-extension": "^0.2@dev"
     },
     "authors": [
         {

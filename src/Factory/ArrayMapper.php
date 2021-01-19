@@ -1,9 +1,9 @@
 <?php declare(strict_types=1);
 
-namespace Kiboko\Component\ETL\Flow\FastMap\Factory;
+namespace Kiboko\Plugin\FastMap\Factory;
 
-use Kiboko\Component\ETL\Flow\FastMap;
-use Kiboko\Contract\ETL\Configurator;
+use Kiboko\Plugin\FastMap;
+use Kiboko\Contract\Configurator;
 use Symfony\Component\Config\Definition\ConfigurationInterface;
 use Symfony\Component\Config\Definition\Exception as Symfony;
 use Symfony\Component\Config\Definition\Processor;

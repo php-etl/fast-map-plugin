@@ -1,8 +1,8 @@
 <?php declare(strict_types=1);
 
-namespace functional\Kiboko\Component\ETL\Flow\FastMap;
+namespace functional\Kiboko\Plugin\FastMap;
 
-use Kiboko\Component\ETL\Flow\FastMap;
+use Kiboko\Plugin\FastMap;
 use PHPUnit\Framework\TestCase;
 use Symfony\Component\Config\Definition\Exception\InvalidConfigurationException;
 use Symfony\Component\Config\Definition\Processor;
@@ -41,7 +41,7 @@ final class ConfigurationTest extends TestCase
         $configuration = new FastMap\Configuration();
 
         $this->expectException(InvalidConfigurationException::class);
-        $this->expectExceptionMessage('Your configuration should either contain the "map" or the "object" key, not both.');
+        $this->expectExceptionMessage('Invalid configuration for path "fastmap": Your configuration should either contain the "map" or the "object" field, not both.');
 
         $processor->processConfiguration($configuration, [
             [

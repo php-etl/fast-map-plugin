@@ -1,6 +1,6 @@
 <?php declare(strict_types=1);
 
-namespace Kiboko\Component\ETL\Flow\FastMap;
+namespace Kiboko\Plugin\FastMap;
 
 use Symfony\Component\Config\Definition\Builder\TreeBuilder;
 use Symfony\Component\Config\Definition\ConfigurationInterface;
@@ -247,7 +247,7 @@ final class Configuration implements ConfigurationInterface
                     ->scalarNode('constant')->end()
                     ->variableNode('map')
                         ->validate()
-                            ->ifTrue(function($element) {
+                            ->ifTrue(function ($element) {
                                 return !is_array($element);
                             })
                             ->thenInvalid('The children element must be an array.')
@@ -261,7 +261,7 @@ final class Configuration implements ConfigurationInterface
                     ->end()
                     ->variableNode('list')
                         ->validate()
-                            ->ifTrue(function($element) {
+                            ->ifTrue(function ($element) {
                                 return !is_array($element);
                             })
                             ->thenInvalid('The children element must be an array.')
@@ -276,7 +276,7 @@ final class Configuration implements ConfigurationInterface
                     ->scalarNode('class')->end()
                     ->variableNode('object')
                         ->validate()
-                            ->ifTrue(function($element) {
+                            ->ifTrue(function ($element) {
                                 return !is_array($element);
                             })
                             ->thenInvalid('The children element must be an array.')
@@ -290,7 +290,7 @@ final class Configuration implements ConfigurationInterface
                     ->end()
                     ->variableNode('collection')
                         ->validate()
-                            ->ifTrue(function($element) {
+                            ->ifTrue(function ($element) {
                                 return !is_array($element);
                             })
                             ->thenInvalid('The children element must be an array.')

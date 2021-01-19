@@ -1,8 +1,8 @@
 <?php declare(strict_types=1);
 
-namespace functional\Kiboko\Component\ETL\Flow\FastMap\Configuration;
+namespace functional\Kiboko\Plugin\FastMap\Configuration;
 
-use Kiboko\Component\ETL\Flow\FastMap;
+use Kiboko\Component\FastMap;
 use PHPUnit\Framework\TestCase;
 use Symfony\Component\Config\Definition\Exception\InvalidConfigurationException;
 use Symfony\Component\Config\Definition\Processor;
