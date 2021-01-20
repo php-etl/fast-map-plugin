@@ -2,6 +2,7 @@
 
 namespace Kiboko\Plugin\FastMap\Factory;
 
+use Kiboko\Component\FastMapConfig\ArrayBuilder;
 use Kiboko\Plugin\FastMap;
 use Kiboko\Contract\Configurator;
 use Symfony\Component\Config\Definition\ConfigurationInterface;
@@ -49,9 +50,11 @@ final class ArrayMapper implements Configurator\FactoryInterface
 
     public function compile(array $config): FastMap\Builder\ArrayMapper
     {
-        $builder = new FastMap\Builder\ArrayMapper();
+        $mapper = new ArrayBuilder();
 
-        $builder->withFields($config);
+        $builder = new FastMap\Builder\ArrayMapper($mapper);
+
+        (new FastMap\Configuration\ConfigurationApplier())($mapper->children(), $config);
 
         return $builder;
     }

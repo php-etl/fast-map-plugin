@@ -5,18 +5,9 @@ namespace Kiboko\Plugin\FastMap;
 use Symfony\Component\Config\Definition\Builder\TreeBuilder;
 use Symfony\Component\Config\Definition\ConfigurationInterface;
 use Symfony\Component\Config\Definition\NodeInterface;
-use Symfony\Component\Config\Definition\PrototypedArrayNode;
 
 final class Configuration implements ConfigurationInterface
 {
-//    private ConfigurationInterface $loggerConfiguration;
-    private array $configurationStack = [];
-
-//    public function __construct(?ConfigurationInterface $loggerConfiguration = null)
-//    {
-//        $this->loggerConfiguration = $loggerConfiguration ?? new Configuration\Logger();
-//    }
-
     public function getConfigTreeBuilder()
     {
         $builder = new TreeBuilder('fastmap');
@@ -205,13 +196,13 @@ final class Configuration implements ConfigurationInterface
                     ->always($this->mutuallyExclusiveFields('copy', 'expression', 'constant', 'class', 'map', 'object', 'list', 'collection'))
                 ->end()
                 ->validate()
-                    ->always($this->mutuallyExclusiveFields('expression', 'copy', 'constant', 'map'))
+                    ->always($this->mutuallyExclusiveFields('expression', 'copy', 'constant'))
                 ->end()
                 ->validate()
                     ->always($this->mutuallyExclusiveFields('constant', 'copy', 'expression', 'class', 'map', 'object', 'list', 'collection'))
                 ->end()
                 ->validate()
-                    ->always($this->mutuallyExclusiveFields('map', 'copy', 'expression', 'constant', 'class', 'object', 'list', 'collection'))
+                    ->always($this->mutuallyExclusiveFields('map', 'copy', 'constant', 'class', 'object', 'list', 'collection'))
                 ->end()
                 ->validate()
                     ->always($this->mutuallyExclusiveFields('object', 'copy', 'constant', 'map', 'list', 'collection'))
@@ -227,6 +218,9 @@ final class Configuration implements ConfigurationInterface
                 ->end()
                 ->validate()
                     ->always($this->mutuallyDependentFields('collection', 'class', 'expression'))
+                ->end()
+                ->validate()
+                    ->always($this->mutuallyDependentFields('map', 'expression'))
                 ->end()
                 ->validate()
                     ->always($this->mutuallyDependentFields('list', 'expression'))

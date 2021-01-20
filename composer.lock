@@ -311,19 +311,19 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/php-etl/fast-map.git",
-                "reference": "4f66bd1614514a5d14a2eae1896ea0282bd495a6"
+                "reference": "226760de4ed2aaf37cf06ca2f99be3ef9264fb60"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/php-etl/fast-map/zipball/4f66bd1614514a5d14a2eae1896ea0282bd495a6",
-                "reference": "4f66bd1614514a5d14a2eae1896ea0282bd495a6",
+                "url": "https://api.github.com/repos/php-etl/fast-map/zipball/226760de4ed2aaf37cf06ca2f99be3ef9264fb60",
+                "reference": "226760de4ed2aaf37cf06ca2f99be3ef9264fb60",
                 "shasum": ""
             },
             "require": {
                 "doctrine/inflector": "^2.0",
                 "nikic/php-parser": "^4.9@dev",
                 "php": "^8.0",
-                "php-etl/contracts": "^0.1@dev",
+                "php-etl/contracts": "^0.1.x-dev",
                 "php-etl/metadata": "^0.2@dev",
                 "symfony/cache": "^5.4",
                 "symfony/expression-language": "^5.2",
@@ -369,7 +369,7 @@
                 "issues": "https://github.com/php-etl/fast-map/issues",
                 "source": "https://github.com/php-etl/fast-map/tree/master"
             },
-            "time": "2021-01-19T09:24:02+00:00"
+            "time": "2021-01-19T14:11:36+00:00"
         },
         {
             "name": "php-etl/fast-map-config",
@@ -4285,12 +4285,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony/console.git",
-                "reference": "356c70659d6b48595f9f275cd7c4de0d5544c49c"
+                "reference": "139d71e3b896ab82707a275c95f5ef43bbb5d264"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/symfony/console/zipball/356c70659d6b48595f9f275cd7c4de0d5544c49c",
-                "reference": "356c70659d6b48595f9f275cd7c4de0d5544c49c",
+                "url": "https://api.github.com/repos/symfony/console/zipball/139d71e3b896ab82707a275c95f5ef43bbb5d264",
+                "reference": "139d71e3b896ab82707a275c95f5ef43bbb5d264",
                 "shasum": ""
             },
             "require": {
@@ -4375,7 +4375,7 @@
                     "type": "tidelift"
                 }
             ],
-            "time": "2021-01-14T15:43:35+00:00"
+            "time": "2021-01-20T13:27:30+00:00"
         },
         {
             "name": "symfony/event-dispatcher",
@@ -4755,12 +4755,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony/yaml.git",
-                "reference": "acc0ba107094bc42426cf568db6a114e37e875e5"
+                "reference": "53c6779e1f7b11d5980524d0414d6577e632edc2"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/symfony/yaml/zipball/acc0ba107094bc42426cf568db6a114e37e875e5",
-                "reference": "acc0ba107094bc42426cf568db6a114e37e875e5",
+                "url": "https://api.github.com/repos/symfony/yaml/zipball/53c6779e1f7b11d5980524d0414d6577e632edc2",
+                "reference": "53c6779e1f7b11d5980524d0414d6577e632edc2",
                 "shasum": ""
             },
             "require": {
@@ -4823,7 +4823,7 @@
                     "type": "tidelift"
                 }
             ],
-            "time": "2021-01-14T07:18:56+00:00"
+            "time": "2021-01-20T11:45:16+00:00"
         },
         {
             "name": "theseer/tokenizer",

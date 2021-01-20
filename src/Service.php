@@ -54,8 +54,6 @@ final class Service implements FactoryInterface
      */
     public function compile(array $config): \PhpParser\Builder
     {
-        $clientFactory = new Factory\ArrayMapper();
-
         try {
             if (isset($config['map'])) {
                 $arrayFactory = new Factory\ArrayMapper();

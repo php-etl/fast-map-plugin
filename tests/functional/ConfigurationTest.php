@@ -41,7 +41,7 @@ final class ConfigurationTest extends TestCase
         $configuration = new FastMap\Configuration();
 
         $this->expectException(InvalidConfigurationException::class);
-        $this->expectExceptionMessage('Invalid configuration for path "fastmap": Your configuration should either contain the "map" or the "object" field, not both.');
+        $this->expectExceptionMessage('Your configuration should either contain the "map" or the "object" field, not both.');
 
         $processor->processConfiguration($configuration, [
             [
@@ -154,6 +154,7 @@ final class ConfigurationTest extends TestCase
                 'map' => [
                     [
                         'field' => '[foo]',
+                        'expression' => 'input["foo"]',
                         'map' => [
                             [
                                 'field' => '[bar]',
@@ -168,6 +169,7 @@ final class ConfigurationTest extends TestCase
                     'map' => [
                         [
                             'field' => '[foo]',
+                            'expression' => 'input["foo"]',
                             'map' => [
                                 [
                                     'field' => '[bar]',
@@ -338,6 +340,99 @@ final class ConfigurationTest extends TestCase
         ]);
     }
 
+    public function testMapWithCollectionField()
+    {
+        $processor = new Processor();
+        $configuration = new FastMap\Configuration();
+
+        $this->assertEquals(
+            [
+                'map' => [
+                    [
+                        'field' => '[foo]',
+                        'class' => 'stdClass',
+                        'expression' => 'input["foo"]',
+                        'collection' => [
+                            [
+                                'field' => '[bar]',
+                                'constant' => 'Lorem ipsum dolor sit amet, consectetur adipiscing elit.',
+                            ],
+                        ],
+                    ],
+                ],
+            ],
+            $processor->processConfiguration($configuration, [
+                [
+                    'map' => [
+                        [
+                            'field' => '[foo]',
+                            'class' => \stdClass::class,
+                            'expression' => 'input["foo"]',
+                            'collection' => [
+                                [
+                                    'field' => '[bar]',
+                                    'constant' => 'Lorem ipsum dolor sit amet, consectetur adipiscing elit.',
+                                ],
+                            ],
+                        ],
+                    ],
+                ],
+            ])
+        );
+    }
+
+    public function testMapWithCollectionFieldWithoutClass()
+    {
+        $processor = new Processor();
+        $configuration = new FastMap\Configuration();
+
+        $this->expectException(InvalidConfigurationException::class);
+        $this->expectExceptionMessage('Your configuration should contain the "class" field if the "collection" field is present.');
+
+        $processor->processConfiguration($configuration, [
+            [
+                'map' => [
+                    [
+                        'field' => '[foo]',
+                        'expression' => 'input["foo"]',
+                        'collection' => [
+                            [
+                                'field' => '[bar]',
+                                'constant' => 'Lorem ipsum dolor sit amet, consectetur adipiscing elit.',
+                            ],
+                        ],
+                    ],
+                ],
+            ],
+        ]);
+    }
+
+    public function testMapWithCollectionFieldWithoutExpression()
+    {
+        $processor = new Processor();
+        $configuration = new FastMap\Configuration();
+
+        $this->expectException(InvalidConfigurationException::class);
+        $this->expectExceptionMessage('Your configuration should contain the "expression" field if the "collection" field is present.');
+
+        $processor->processConfiguration($configuration, [
+            [
+                'map' => [
+                    [
+                        'field' => '[foo]',
+                        'class' => \stdClass::class,
+                        'collection' => [
+                            [
+                                'field' => '[bar]',
+                                'constant' => 'Lorem ipsum dolor sit amet, consectetur adipiscing elit.',
+                            ],
+                        ],
+                    ],
+                ],
+            ],
+        ]);
+    }
+
     public function testListWithCopyField()
     {
         $processor = new Processor();
@@ -436,6 +531,7 @@ final class ConfigurationTest extends TestCase
                 'list' => [
                     [
                         'field' => '[foo]',
+                        'expression' => 'input["foo"]',
                         'map' => [
                             [
                                 'field' => '[bar]',
@@ -451,6 +547,7 @@ final class ConfigurationTest extends TestCase
                     'list' => [
                         [
                             'field' => '[foo]',
+                            'expression' => 'input["foo"]',
                             'map' => [
                                 [
                                     'field' => '[bar]',
@@ -628,6 +725,103 @@ final class ConfigurationTest extends TestCase
         ]);
     }
 
+    public function testListWithCollectionField()
+    {
+        $processor = new Processor();
+        $configuration = new FastMap\Configuration();
+
+        $this->assertEquals(
+            [
+                'expression' => 'input',
+                'list' => [
+                    [
+                        'field' => '[foo]',
+                        'class' => 'stdClass',
+                        'expression' => 'input["foo"]',
+                        'collection' => [
+                            [
+                                'field' => '[bar]',
+                                'constant' => 'Lorem ipsum dolor sit amet, consectetur adipiscing elit.',
+                            ],
+                        ],
+                    ],
+                ],
+            ],
+            $processor->processConfiguration($configuration, [
+                [
+                    'expression' => 'input',
+                    'list' => [
+                        [
+                            'field' => '[foo]',
+                            'class' => \stdClass::class,
+                            'expression' => 'input["foo"]',
+                            'collection' => [
+                                [
+                                    'field' => '[bar]',
+                                    'constant' => 'Lorem ipsum dolor sit amet, consectetur adipiscing elit.',
+                                ],
+                            ],
+                        ],
+                    ],
+                ],
+            ])
+        );
+    }
+
+    public function testListWithCollectionFieldWithoutClass()
+    {
+        $processor = new Processor();
+        $configuration = new FastMap\Configuration();
+
+        $this->expectException(InvalidConfigurationException::class);
+        $this->expectExceptionMessage('Your configuration should contain the "class" field if the "collection" field is present.');
+
+        $processor->processConfiguration($configuration, [
+            [
+                'expression' => 'input',
+                'list' => [
+                    [
+                        'field' => '[foo]',
+                        'expression' => 'input["foo"]',
+                        'collection' => [
+                            [
+                                'field' => '[bar]',
+                                'constant' => 'Lorem ipsum dolor sit amet, consectetur adipiscing elit.',
+                            ],
+                        ],
+                    ],
+                ],
+            ],
+        ]);
+    }
+
+    public function testListWithCollectionFieldWithoutExpression()
+    {
+        $processor = new Processor();
+        $configuration = new FastMap\Configuration();
+
+        $this->expectException(InvalidConfigurationException::class);
+        $this->expectExceptionMessage('Your configuration should contain the "expression" field if the "collection" field is present.');
+
+        $processor->processConfiguration($configuration, [
+            [
+                'expression' => 'input',
+                'list' => [
+                    [
+                        'field' => '[foo]',
+                        'class' => \stdClass::class,
+                        'collection' => [
+                            [
+                                'field' => '[bar]',
+                                'constant' => 'Lorem ipsum dolor sit amet, consectetur adipiscing elit.',
+                            ],
+                        ],
+                    ],
+                ],
+            ],
+        ]);
+    }
+
     public function testObjectWithoutClass()
     {
         $processor = new Processor();
@@ -775,6 +969,7 @@ final class ConfigurationTest extends TestCase
                 'object' => [
                     [
                         'field' => '[foo]',
+                        'expression' => 'input["foo"]',
                         'map' => [
                             [
                                 'field' => '[bar]',
@@ -791,6 +986,7 @@ final class ConfigurationTest extends TestCase
                     'object' => [
                         [
                             'field' => '[foo]',
+                            'expression' => 'input["foo"]',
                             'map' => [
                                 [
                                     'field' => '[bar]',
@@ -964,6 +1160,557 @@ final class ConfigurationTest extends TestCase
                         'field' => '[foo]',
                         'class' => \stdClass::class,
                         'object' => [
+                            [
+                                'field' => '[bar]',
+                                'constant' => 'Lorem ipsum dolor sit amet, consectetur adipiscing elit.',
+                            ],
+                        ],
+                    ],
+                ],
+            ],
+        ]);
+    }
+
+    public function testObjectWithCollectionField()
+    {
+        $processor = new Processor();
+        $configuration = new FastMap\Configuration();
+
+        $this->assertEquals(
+            [
+                'class' => 'stdClass',
+                'expression' => 'input',
+                'object' => [
+                    [
+                        'field' => '[foo]',
+                        'class' => 'stdClass',
+                        'expression' => 'input["foo"]',
+                        'collection' => [
+                            [
+                                'field' => '[bar]',
+                                'constant' => 'Lorem ipsum dolor sit amet, consectetur adipiscing elit.',
+                            ],
+                        ],
+                    ],
+                ],
+            ],
+            $processor->processConfiguration($configuration, [
+                [
+                    'class' => \stdClass::class,
+                    'expression' => 'input',
+                    'object' => [
+                        [
+                            'field' => '[foo]',
+                            'class' => \stdClass::class,
+                            'expression' => 'input["foo"]',
+                            'collection' => [
+                                [
+                                    'field' => '[bar]',
+                                    'constant' => 'Lorem ipsum dolor sit amet, consectetur adipiscing elit.',
+                                ],
+                            ],
+                        ],
+                    ],
+                ],
+            ])
+        );
+    }
+
+    public function testObjectWithCollectionFieldWithoutClass()
+    {
+        $processor = new Processor();
+        $configuration = new FastMap\Configuration();
+
+        $this->expectException(InvalidConfigurationException::class);
+        $this->expectExceptionMessage('Your configuration should contain the "class" field if the "collection" field is present.');
+
+        $processor->processConfiguration($configuration, [
+            [
+                'class' => \stdClass::class,
+                'expression' => 'input',
+                'object' => [
+                    [
+                        'field' => '[foo]',
+                        'expression' => 'input["foo"]',
+                        'collection' => [
+                            [
+                                'field' => '[bar]',
+                                'constant' => 'Lorem ipsum dolor sit amet, consectetur adipiscing elit.',
+                            ],
+                        ],
+                    ],
+                ],
+            ],
+        ]);
+    }
+
+    public function testObjectWithCollectionFieldWithoutExpression()
+    {
+        $processor = new Processor();
+        $configuration = new FastMap\Configuration();
+
+        $this->expectException(InvalidConfigurationException::class);
+        $this->expectExceptionMessage('Your configuration should contain the "expression" field if the "collection" field is present.');
+
+        $processor->processConfiguration($configuration, [
+            [
+                'class' => \stdClass::class,
+                'expression' => 'input',
+                'object' => [
+                    [
+                        'field' => '[foo]',
+                        'class' => \stdClass::class,
+                        'collection' => [
+                            [
+                                'field' => '[bar]',
+                                'constant' => 'Lorem ipsum dolor sit amet, consectetur adipiscing elit.',
+                            ],
+                        ],
+                    ],
+                ],
+            ],
+        ]);
+    }
+
+    public function testCollectionWithoutClass()
+    {
+        $processor = new Processor();
+        $configuration = new FastMap\Configuration();
+
+        $this->expectException(InvalidConfigurationException::class);
+        $this->expectExceptionMessage('Your configuration should contain the "class" field if the "collection" field is present.');
+
+        $processor->processConfiguration($configuration, [
+            [
+                'expression' => 'input',
+                'collection' => [
+                    [
+                        'field' => '[foo]',
+                        'copy' => '[foo]',
+                    ],
+                ],
+            ],
+        ]);
+    }
+
+    public function testCollectionWithoutExpression()
+    {
+        $processor = new Processor();
+        $configuration = new FastMap\Configuration();
+
+        $this->expectException(InvalidConfigurationException::class);
+        $this->expectExceptionMessage('Your configuration should contain the "expression" field if the "collection" field is present.');
+
+        $processor->processConfiguration($configuration, [
+            [
+                'class' => \stdClass::class,
+                'collection' => [
+                    [
+                        'field' => '[foo]',
+                        'copy' => '[foo]',
+                    ],
+                ],
+            ],
+        ]);
+    }
+
+    public function testCollectionWithCopyField()
+    {
+        $processor = new Processor();
+        $configuration = new FastMap\Configuration();
+
+        $this->assertEquals(
+            [
+                'class' => 'stdClass',
+                'expression' => 'input',
+                'collection' => [
+                    [
+                        'field' => '[foo]',
+                        'copy' => '[foo]',
+                    ],
+                ],
+            ],
+            $processor->processConfiguration($configuration, [
+                [
+                    'class' => \stdClass::class,
+                    'expression' => 'input',
+                    'collection' => [
+                        [
+                            'field' => '[foo]',
+                            'copy' => '[foo]',
+                        ],
+                    ],
+                ],
+            ])
+        );
+    }
+
+    public function testCollectionWithExpressionField()
+    {
+        $processor = new Processor();
+        $configuration = new FastMap\Configuration();
+
+        $this->assertEquals(
+            [
+                'class' => 'stdClass',
+                'expression' => 'input',
+                'collection' => [
+                    [
+                        'field' => '[foo]',
+                        'expression' => 'input["foo"]',
+                    ],
+                ],
+            ],
+            $processor->processConfiguration($configuration, [
+                [
+                    'class' => \stdClass::class,
+                    'expression' => 'input',
+                    'collection' => [
+                        [
+                            'field' => '[foo]',
+                            'expression' => 'input["foo"]',
+                        ],
+                    ],
+                ],
+            ])
+        );
+    }
+
+    public function testCollectionWithConstantField()
+    {
+        $processor = new Processor();
+        $configuration = new FastMap\Configuration();
+
+        $this->assertEquals(
+            [
+                'class' => 'stdClass',
+                'expression' => 'input',
+                'collection' => [
+                    [
+                        'field' => '[foo]',
+                        'constant' => 'Lorem ipsum dolor sit amet, consectetur adipiscing elit.',
+                    ],
+                ],
+            ],
+            $processor->processConfiguration($configuration, [
+                [
+                    'class' => \stdClass::class,
+                    'expression' => 'input',
+                    'collection' => [
+                        [
+                            'field' => '[foo]',
+                            'constant' => 'Lorem ipsum dolor sit amet, consectetur adipiscing elit.',
+                        ],
+                    ],
+                ],
+            ])
+        );
+    }
+
+    public function testCollectionWithMapField()
+    {
+        $processor = new Processor();
+        $configuration = new FastMap\Configuration();
+
+        $this->assertEquals(
+            [
+                'class' => 'stdClass',
+                'expression' => 'input',
+                'collection' => [
+                    [
+                        'field' => '[foo]',
+                        'expression' => 'input["foo"]',
+                        'map' => [
+                            [
+                                'field' => '[bar]',
+                                'constant' => 'Lorem ipsum dolor sit amet, consectetur adipiscing elit.',
+                            ]
+                        ]
+                    ],
+                ],
+            ],
+            $processor->processConfiguration($configuration, [
+                [
+                    'class' => \stdClass::class,
+                    'expression' => 'input',
+                    'collection' => [
+                        [
+                            'field' => '[foo]',
+                            'expression' => 'input["foo"]',
+                            'map' => [
+                                [
+                                    'field' => '[bar]',
+                                    'constant' => 'Lorem ipsum dolor sit amet, consectetur adipiscing elit.',
+                                ],
+                            ],
+                        ],
+                    ],
+                ],
+            ])
+        );
+    }
+
+    public function testCollectionWithListField()
+    {
+        $processor = new Processor();
+        $configuration = new FastMap\Configuration();
+
+        $this->assertEquals(
+            [
+                'class' => 'stdClass',
+                'expression' => 'input',
+                'collection' => [
+                    [
+                        'field' => '[foo]',
+                        'expression' => 'input["foo"]',
+                        'list' => [
+                            [
+                                'field' => '[bar]',
+                                'constant' => 'Lorem ipsum dolor sit amet, consectetur adipiscing elit.',
+                            ],
+                        ],
+                    ],
+                ],
+            ],
+            $processor->processConfiguration($configuration, [
+                [
+                    'class' => \stdClass::class,
+                    'expression' => 'input',
+                    'collection' => [
+                        [
+                            'field' => '[foo]',
+                            'expression' => 'input["foo"]',
+                            'list' => [
+                                [
+                                    'field' => '[bar]',
+                                    'constant' => 'Lorem ipsum dolor sit amet, consectetur adipiscing elit.',
+                                ],
+                            ],
+                        ],
+                    ],
+                ],
+            ])
+        );
+    }
+
+    public function testCollectionWithListFieldWithoutExpression()
+    {
+        $processor = new Processor();
+        $configuration = new FastMap\Configuration();
+
+        $this->expectException(InvalidConfigurationException::class);
+        $this->expectExceptionMessage('Your configuration should contain the "expression" field if the "list" field is present.');
+
+        $processor->processConfiguration($configuration, [
+            [
+                'class' => \stdClass::class,
+                'expression' => 'input',
+                'collection' => [
+                    [
+                        'field' => '[foo]',
+                        'list' => [
+                            [
+                                'field' => '[bar]',
+                                'constant' => 'Lorem ipsum dolor sit amet, consectetur adipiscing elit.',
+                            ],
+                        ],
+                    ],
+                ],
+            ],
+        ]);
+    }
+
+    public function testCollectionWithObjectField()
+    {
+        $processor = new Processor();
+        $configuration = new FastMap\Configuration();
+
+        $this->assertEquals(
+            [
+                'class' => 'stdClass',
+                'expression' => 'input',
+                'collection' => [
+                    [
+                        'field' => '[foo]',
+                        'class' => 'stdClass',
+                        'expression' => 'input["foo"]',
+                        'object' => [
+                            [
+                                'field' => '[bar]',
+                                'constant' => 'Lorem ipsum dolor sit amet, consectetur adipiscing elit.',
+                            ],
+                        ],
+                    ],
+                ],
+            ],
+            $processor->processConfiguration($configuration, [
+                [
+                    'class' => \stdClass::class,
+                    'expression' => 'input',
+                    'collection' => [
+                        [
+                            'field' => '[foo]',
+                            'class' => \stdClass::class,
+                            'expression' => 'input["foo"]',
+                            'object' => [
+                                [
+                                    'field' => '[bar]',
+                                    'constant' => 'Lorem ipsum dolor sit amet, consectetur adipiscing elit.',
+                                ],
+                            ],
+                        ],
+                    ],
+                ],
+            ])
+        );
+    }
+
+    public function testCollectionWithObjectFieldWithoutClass()
+    {
+        $processor = new Processor();
+        $configuration = new FastMap\Configuration();
+
+        $this->expectException(InvalidConfigurationException::class);
+        $this->expectExceptionMessage('Your configuration should contain the "class" field if the "object" field is present.');
+
+        $processor->processConfiguration($configuration, [
+            [
+                'class' => \stdClass::class,
+                'expression' => 'input',
+                'collection' => [
+                    [
+                        'field' => '[foo]',
+                        'expression' => 'input["foo"]',
+                        'object' => [
+                            [
+                                'field' => '[bar]',
+                                'constant' => 'Lorem ipsum dolor sit amet, consectetur adipiscing elit.',
+                            ],
+                        ],
+                    ],
+                ],
+            ],
+        ]);
+    }
+
+    public function testCollectionWithObjectFieldWithoutExpression()
+    {
+        $processor = new Processor();
+        $configuration = new FastMap\Configuration();
+
+        $this->expectException(InvalidConfigurationException::class);
+        $this->expectExceptionMessage('Your configuration should contain the "expression" field if the "object" field is present.');
+
+        $processor->processConfiguration($configuration, [
+            [
+                'class' => \stdClass::class,
+                'expression' => 'input',
+                'collection' => [
+                    [
+                        'field' => '[foo]',
+                        'class' => \stdClass::class,
+                        'object' => [
+                            [
+                                'field' => '[bar]',
+                                'constant' => 'Lorem ipsum dolor sit amet, consectetur adipiscing elit.',
+                            ],
+                        ],
+                    ],
+                ],
+            ],
+        ]);
+    }
+
+    public function testCollectionWithCollectionField()
+    {
+        $processor = new Processor();
+        $configuration = new FastMap\Configuration();
+
+        $this->assertEquals(
+            [
+                'class' => 'stdClass',
+                'expression' => 'input',
+                'collection' => [
+                    [
+                        'field' => '[foo]',
+                        'class' => 'stdClass',
+                        'expression' => 'input["foo"]',
+                        'collection' => [
+                            [
+                                'field' => '[bar]',
+                                'constant' => 'Lorem ipsum dolor sit amet, consectetur adipiscing elit.',
+                            ],
+                        ],
+                    ],
+                ],
+            ],
+            $processor->processConfiguration($configuration, [
+                [
+                    'class' => \stdClass::class,
+                    'expression' => 'input',
+                    'collection' => [
+                        [
+                            'field' => '[foo]',
+                            'class' => \stdClass::class,
+                            'expression' => 'input["foo"]',
+                            'collection' => [
+                                [
+                                    'field' => '[bar]',
+                                    'constant' => 'Lorem ipsum dolor sit amet, consectetur adipiscing elit.',
+                                ],
+                            ],
+                        ],
+                    ],
+                ],
+            ])
+        );
+    }
+
+    public function testCollectionWithCollectionFieldWithoutClass()
+    {
+        $processor = new Processor();
+        $configuration = new FastMap\Configuration();
+
+        $this->expectException(InvalidConfigurationException::class);
+        $this->expectExceptionMessage('Your configuration should contain the "class" field if the "collection" field is present.');
+
+        $processor->processConfiguration($configuration, [
+            [
+                'class' => \stdClass::class,
+                'expression' => 'input',
+                'collection' => [
+                    [
+                        'field' => '[foo]',
+                        'expression' => 'input["foo"]',
+                        'collection' => [
+                            [
+                                'field' => '[bar]',
+                                'constant' => 'Lorem ipsum dolor sit amet, consectetur adipiscing elit.',
+                            ],
+                        ],
+                    ],
+                ],
+            ],
+        ]);
+    }
+
+    public function testCollectionWithCollectionFieldWithoutExpression()
+    {
+        $processor = new Processor();
+        $configuration = new FastMap\Configuration();
+
+        $this->expectException(InvalidConfigurationException::class);
+        $this->expectExceptionMessage('Your configuration should contain the "expression" field if the "collection" field is present.');
+
+        $processor->processConfiguration($configuration, [
+            [
+                'class' => \stdClass::class,
+                'expression' => 'input',
+                'collection' => [
+                    [
+                        'field' => '[foo]',
+                        'class' => \stdClass::class,
+                        'collection' => [
                             [
                                 'field' => '[bar]',
                                 'constant' => 'Lorem ipsum dolor sit amet, consectetur adipiscing elit.',

@@ -2,6 +2,7 @@
 
 namespace Kiboko\Plugin\FastMap\Factory;
 
+use Kiboko\Component\FastMapConfig\ObjectBuilder;
 use Kiboko\Plugin\FastMap;
 use Kiboko\Contract\Configurator;
 use Symfony\Component\Config\Definition\ConfigurationInterface;
@@ -49,9 +50,11 @@ final class ObjectMapper implements Configurator\FactoryInterface
 
     public function compile(array $config): FastMap\Builder\ObjectMapper
     {
-        $builder = new FastMap\Builder\ObjectMapper();
+        $mapper = new ObjectBuilder();
 
-        $builder->withFields($config);
+        $builder = new FastMap\Builder\ObjectMapper($mapper);
+
+        (new FastMap\Configuration\ConfigurationApplier())($mapper->children(), $config);
 
         return $builder;
     }

@@ -3,30 +3,19 @@
 namespace Kiboko\Plugin\FastMap\Builder;
 
 use Kiboko\Component\FastMapConfig\ArrayBuilder;
-use Kiboko\Component\FastMap\Contracts\CompilableInterface;
 use Kiboko\Component\FastMap\Contracts\CompiledMapperInterface;
-use Kiboko\Contract\Configurator\InvalidConfigurationException;
 use Kiboko\Contract\Pipeline\TransformerInterface;
 use PhpParser\Builder;
 use PhpParser\Node;
 
 final class ArrayMapper implements Builder
 {
-    private ArrayBuilder $mapper;
-
-    public function __construct()
+    public function __construct(private ArrayBuilder $mapper)
     {
-        $this->mapper = new ArrayBuilder();
     }
 
     public function getNode(): Node
     {
-        $mapper = $this->mapper->getMapper();
-
-        if (!$mapper instanceof CompilableInterface) {
-            throw new InvalidConfigurationException('The provided mapper could not be compiled.');
-        }
-
         return new Node\Expr\New_(
             class: new Node\Stmt\Class_(
                 name: null,
@@ -123,7 +112,7 @@ final class ArrayMapper implements Builder
                                         name: new Node\Identifier('transform'),
                                         subNodes: [
                                             'flags' => Node\Stmt\Class_::MODIFIER_PUBLIC,
-                                            'stmts' => $mapper->compile(new Node\Expr\Variable('output')),
+                                            'stmts' => $this->mapper->getMapper()->compile(new Node\Expr\Variable('output')),
                                             'returnType' => new Node\Name\FullyQualified(\Generator::class),
                                             'params' => [
                                                 new Node\Param(
@@ -149,53 +138,5 @@ final class ArrayMapper implements Builder
                 ),
             ],
         );
-    }
-
-    public function withFields(iterable $fields): self
-    {
-        $current = $this->mapper->children();
-
-
-        return $this;
-    }
-
-    public function withFieldCopy(string $destination, string $source): self
-    {
-        $this->mapper
-            ->children()
-                ->copy($destination, $source)
-            ->end();
-
-        return $this;
-    }
-
-    public function withFieldExpression(string $destination, string $expression): self
-    {
-        $this->mapper
-            ->children()
-                ->expression($destination, $expression)
-            ->end();
-
-        return $this;
-    }
-
-    public function withFieldConstant(string $destination, string $expression): self
-    {
-        $this->mapper
-            ->children()
-                ->constant($destination, $expression)
-            ->end();
-
-        return $this;
-    }
-
-    public function withFieldObject(string $destination, string $className, string $expression): self
-    {
-        $this->mapper
-            ->children()
-                ->object($destination, $className, $expression)
-            ->end();
-
-        return $this;
     }
 }
