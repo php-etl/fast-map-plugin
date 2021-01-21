@@ -4,7 +4,6 @@ namespace Kiboko\Plugin\FastMap\Builder;
 
 use Kiboko\Component\FastMapConfig\ArrayBuilder;
 use Kiboko\Component\FastMap\Contracts\CompiledMapperInterface;
-use Kiboko\Contract\Pipeline\TransformerInterface;
 use PhpParser\Builder;
 use PhpParser\Node;
 
@@ -21,7 +20,7 @@ final class ArrayMapper implements Builder
                 name: null,
                 subNodes: [
                     'implements' => [
-                        new Node\Name\FullyQualified(TransformerInterface::class),
+                        new Node\Name\FullyQualified('Kiboko\\Contract\\Pipeline\\TransformerInterface'),
                     ],
                     'stmts' => [
                         new Node\Stmt\ClassMethod(

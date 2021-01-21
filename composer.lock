@@ -311,12 +311,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/php-etl/fast-map.git",
-                "reference": "226760de4ed2aaf37cf06ca2f99be3ef9264fb60"
+                "reference": "3b3b4846f247064c57805a5ed6d0455a338e7947"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/php-etl/fast-map/zipball/226760de4ed2aaf37cf06ca2f99be3ef9264fb60",
-                "reference": "226760de4ed2aaf37cf06ca2f99be3ef9264fb60",
+                "url": "https://api.github.com/repos/php-etl/fast-map/zipball/3b3b4846f247064c57805a5ed6d0455a338e7947",
+                "reference": "3b3b4846f247064c57805a5ed6d0455a338e7947",
                 "shasum": ""
             },
             "require": {
@@ -369,7 +369,7 @@
                 "issues": "https://github.com/php-etl/fast-map/issues",
                 "source": "https://github.com/php-etl/fast-map/tree/master"
             },
-            "time": "2021-01-19T14:11:36+00:00"
+            "time": "2021-01-20T23:59:04+00:00"
         },
         {
             "name": "php-etl/fast-map-config",
@@ -377,12 +377,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/php-etl/fast-map-config.git",
-                "reference": "d1d8fa23e67dde128a1d430e1055748003149350"
+                "reference": "c757b400981b774d9499c97345647a3acad14585"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/php-etl/fast-map-config/zipball/d1d8fa23e67dde128a1d430e1055748003149350",
-                "reference": "d1d8fa23e67dde128a1d430e1055748003149350",
+                "url": "https://api.github.com/repos/php-etl/fast-map-config/zipball/c757b400981b774d9499c97345647a3acad14585",
+                "reference": "c757b400981b774d9499c97345647a3acad14585",
                 "shasum": ""
             },
             "require": {
@@ -432,7 +432,7 @@
                 "issues": "https://github.com/php-etl/fast-map-config/issues",
                 "source": "https://github.com/php-etl/fast-map-config/tree/master"
             },
-            "time": "2021-01-19T08:54:38+00:00"
+            "time": "2021-01-21T00:02:10+00:00"
         },
         {
             "name": "php-etl/metadata",
