@@ -80,21 +80,6 @@ final class ArrayMapper implements Builder
                                     ),
                                 ],
                                 'returnType' => new Node\Name\FullyQualified(\Generator::class),
-                                'params' => [
-                                    new Node\Param(
-                                        new Node\Expr\Variable(
-                                            name: 'input'
-                                        ),
-                                    ),
-                                    new Node\Param(
-                                        var: new Node\Expr\Variable(
-                                            name: 'output',
-                                        ),
-                                        default: new Node\Expr\ConstFetch(
-                                            name: new Node\Name(name: 'null'),
-                                        ),
-                                    ),
-                                ],
                             ],
                         ),
                     ],
