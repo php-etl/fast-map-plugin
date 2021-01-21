@@ -106,9 +106,12 @@ final class ArrayMapper implements Builder
                         new Node\Stmt\Class_(
                             name: null,
                             subNodes: [
+                                'implements' => [
+                                    new Node\Name\FullyQualified('Kiboko\\Component\\FastMap\\Contracts\\CompiledMapperInterface'),
+                                ],
                                 'stmts' => [
                                     new Node\Stmt\ClassMethod(
-                                        name: new Node\Identifier('transform'),
+                                        name: new Node\Identifier('__invoke'),
                                         subNodes: [
                                             'flags' => Node\Stmt\Class_::MODIFIER_PUBLIC,
                                             'stmts' => $this->mapper->getMapper()->compile(new Node\Expr\Variable('output')),

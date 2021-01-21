@@ -311,12 +311,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/php-etl/fast-map.git",
-                "reference": "3b3b4846f247064c57805a5ed6d0455a338e7947"
+                "reference": "f333a7fa013fdeb52ddaa0a96dd7c04f844c2fd3"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/php-etl/fast-map/zipball/3b3b4846f247064c57805a5ed6d0455a338e7947",
-                "reference": "3b3b4846f247064c57805a5ed6d0455a338e7947",
+                "url": "https://api.github.com/repos/php-etl/fast-map/zipball/f333a7fa013fdeb52ddaa0a96dd7c04f844c2fd3",
+                "reference": "f333a7fa013fdeb52ddaa0a96dd7c04f844c2fd3",
                 "shasum": ""
             },
             "require": {
@@ -369,7 +369,7 @@
                 "issues": "https://github.com/php-etl/fast-map/issues",
                 "source": "https://github.com/php-etl/fast-map/tree/master"
             },
-            "time": "2021-01-20T23:59:04+00:00"
+            "time": "2021-01-21T13:21:23+00:00"
         },
         {
             "name": "php-etl/fast-map-config",
