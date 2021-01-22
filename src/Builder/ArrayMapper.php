@@ -100,7 +100,6 @@ final class ArrayMapper implements Builder
                                         subNodes: [
                                             'flags' => Node\Stmt\Class_::MODIFIER_PUBLIC,
                                             'stmts' => $this->mapper->getMapper()->compile(new Node\Expr\Variable('output')),
-                                            'returnType' => new Node\Name\FullyQualified(\Generator::class),
                                             'params' => [
                                                 new Node\Param(
                                                     new Node\Expr\Variable(
