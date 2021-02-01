@@ -31,7 +31,8 @@
         "johnkary/phpunit-speedtrap": "*",
         "mybuilder/phpunit-accelerator": "*",
         "phpspec/phpspec": "^7.0",
-        "friends-of-phpspec/phpspec-code-coverage": "^6.0"
+        "friends-of-phpspec/phpspec-code-coverage": "^6.0",
+        "adlawson/vfs": "dev-develop"
     },
     "authors": [
         {

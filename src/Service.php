@@ -2,6 +2,7 @@
 
 namespace Kiboko\Plugin\FastMap;
 
+use Kiboko\Contract\Configurator\RepositoryInterface;
 use Kiboko\Plugin\FastMap\Factory;
 use Kiboko\Contract\Configurator\InvalidConfigurationException;
 use Kiboko\Contract\Configurator\ConfigurationExceptionInterface;
@@ -52,10 +53,10 @@ final class Service implements FactoryInterface
     /**
      * @throws ConfigurationExceptionInterface
      */
-    public function compile(array $config): \PhpParser\Builder
+    public function compile(array $config): RepositoryInterface
     {
         try {
-            if (isset($config['map'])) {
+            if (array_key_exists('map', $config)) {
                 $arrayFactory = new Factory\ArrayMapper();
 
                 $mapper = $arrayFactory->compile($config['map']);
@@ -64,7 +65,7 @@ final class Service implements FactoryInterface
 //                $mapper->withLogger($logger->getNode());
 
                 return $mapper;
-            } elseif (isset($config['object'])) {
+            } elseif (array_key_exists('object', $config)) {
                 $objectFactory = new Factory\ObjectMapper();
 
                 $mapper = $objectFactory->compile($config['object']);

@@ -3,6 +3,7 @@
 namespace Kiboko\Plugin\FastMap\Factory;
 
 use Kiboko\Component\FastMapConfig\ObjectBuilder;
+use Kiboko\Contract\Configurator\RepositoryInterface;
 use Kiboko\Plugin\FastMap;
 use Kiboko\Contract\Configurator;
 use Symfony\Component\Config\Definition\ConfigurationInterface;
@@ -40,15 +41,16 @@ final class ObjectMapper implements Configurator\FactoryInterface
     public function validate(array $config): bool
     {
         try {
-            $this->normalize($config);
-
-            return true;
-        } catch (Symfony\InvalidTypeException|Symfony\InvalidConfigurationException) {
-            return false;
+            if ($this->normalize($config)) {
+                return true;
+            }
+        } catch (\Exception) {
         }
+
+        return false;
     }
 
-    public function compile(array $config): FastMap\Builder\ObjectMapper
+    public function compile(array $config): RepositoryInterface
     {
         $mapper = new ObjectBuilder();
 
@@ -56,6 +58,13 @@ final class ObjectMapper implements Configurator\FactoryInterface
 
         (new FastMap\Configuration\ConfigurationApplier())($mapper->children(), $config);
 
-        return $builder;
+        try {
+            return new Repository\ObjectMapper($builder);
+        } catch (Symfony\InvalidTypeException|Symfony\InvalidConfigurationException $exception) {
+            throw new Configurator\InvalidConfigurationException(
+                message: $exception->getMessage(),
+                previous: $exception
+            );
+        }
     }
 }

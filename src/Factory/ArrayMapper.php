@@ -3,6 +3,7 @@
 namespace Kiboko\Plugin\FastMap\Factory;
 
 use Kiboko\Component\FastMapConfig\ArrayBuilder;
+use Kiboko\Contract\Configurator\RepositoryInterface;
 use Kiboko\Plugin\FastMap;
 use Kiboko\Contract\Configurator;
 use Symfony\Component\Config\Definition\ConfigurationInterface;
@@ -40,15 +41,16 @@ final class ArrayMapper implements Configurator\FactoryInterface
     public function validate(array $config): bool
     {
         try {
-            $this->normalize($config);
-
-            return true;
-        } catch (Symfony\InvalidTypeException|Symfony\InvalidConfigurationException) {
-            return false;
+            if ($this->normalize($config)) {
+                return true;
+            }
+        } catch (\Exception) {
         }
+
+        return false;
     }
 
-    public function compile(array $config): FastMap\Builder\ArrayMapper
+    public function compile(array $config): RepositoryInterface
     {
         $mapper = new ArrayBuilder();
 
@@ -56,6 +58,13 @@ final class ArrayMapper implements Configurator\FactoryInterface
 
         (new FastMap\Configuration\ConfigurationApplier())($mapper->children(), $config);
 
-        return $builder;
+        try {
+            return new Repository\ArrayMapper($builder);
+        } catch (Symfony\InvalidTypeException|Symfony\InvalidConfigurationException $exception) {
+            throw new Configurator\InvalidConfigurationException(
+                message: $exception->getMessage(),
+                previous: $exception
+            );
+        }
     }
 }
