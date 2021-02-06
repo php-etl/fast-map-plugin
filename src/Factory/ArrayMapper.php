@@ -9,6 +9,7 @@ use Kiboko\Contract\Configurator;
 use Symfony\Component\Config\Definition\ConfigurationInterface;
 use Symfony\Component\Config\Definition\Exception as Symfony;
 use Symfony\Component\Config\Definition\Processor;
+use Symfony\Component\ExpressionLanguage\ExpressionLanguage;
 
 final class ArrayMapper implements Configurator\FactoryInterface
 {
@@ -52,7 +53,17 @@ final class ArrayMapper implements Configurator\FactoryInterface
 
     public function compile(array $config): RepositoryInterface
     {
-        $mapper = new ArrayBuilder();
+        if (array_key_exists('expression_language', $config)
+            && is_array($config['expression_language'])
+            && count($config['expression_language'])
+        ) {
+            $interpreter = new ExpressionLanguage();
+            foreach ($config['expression_language'] as $provider) {
+                $interpreter->registerProvider(new $provider);
+            }
+        }
+
+        $mapper = new ArrayBuilder(interpreter: $interpreter ?? null);
 
         $builder = new FastMap\Builder\ArrayMapper($mapper);
 

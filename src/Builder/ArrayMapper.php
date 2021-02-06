@@ -3,7 +3,7 @@
 namespace Kiboko\Plugin\FastMap\Builder;
 
 use Kiboko\Component\FastMapConfig\ArrayBuilder;
-use Kiboko\Component\FastMap\Contracts\CompiledMapperInterface;
+use Kiboko\Contract\Mapping\CompiledMapperInterface;
 use PhpParser\Builder;
 use PhpParser\Node;
 
