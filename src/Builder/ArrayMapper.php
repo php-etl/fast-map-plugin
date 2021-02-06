@@ -92,7 +92,7 @@ final class ArrayMapper implements Builder
                             name: null,
                             subNodes: [
                                 'implements' => [
-                                    new Node\Name\FullyQualified('Kiboko\\Component\\FastMap\\Contracts\\CompiledMapperInterface'),
+                                    new Node\Name\FullyQualified('Kiboko\\Contract\\Mapping\\CompiledMapperInterface'),
                                 ],
                                 'stmts' => [
                                     new Node\Stmt\ClassMethod(
