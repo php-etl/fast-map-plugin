@@ -54,7 +54,18 @@ final class ArrayMapper implements Builder
                                     new Node\Stmt\Do_(
                                         cond: new Node\Expr\Assign(
                                             var: new Node\Expr\Variable('line'),
-                                            expr: new Node\Expr\Yield_(new Node\Expr\Variable('line'))
+                                            expr: new Node\Expr\Yield_(
+                                                new Node\Expr\New_(
+                                                    class: new Node\Name\FullyQualified(
+                                                        'Kiboko\\Component\\Bucket\\AcceptanceResultBucket'
+                                                    ),
+                                                    args: [
+                                                        new Node\Arg(
+                                                            new Node\Expr\Variable('line'),
+                                                        ),
+                                                    ],
+                                                )
+                                            )
                                         ),
                                         stmts: [
                                             new Node\Stmt\Expression(
@@ -76,7 +87,18 @@ final class ArrayMapper implements Builder
                                         ],
                                     ),
                                     new Node\Stmt\Expression(
-                                        new Node\Expr\Yield_(new Node\Expr\Variable('line'))
+                                        new Node\Expr\Yield_(
+                                            new Node\Expr\New_(
+                                                class: new Node\Name\FullyQualified(
+                                                    'Kiboko\\Component\\Bucket\\AcceptanceResultBucket',
+                                                ),
+                                                args: [
+                                                    new Node\Arg(
+                                                        new Node\Expr\Variable('line'),
+                                                    ),
+                                                ],
+                                            ),
+                                        )
                                     ),
                                 ],
                                 'returnType' => new Node\Name\FullyQualified(\Generator::class),

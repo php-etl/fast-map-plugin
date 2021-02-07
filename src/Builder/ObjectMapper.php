@@ -54,7 +54,18 @@ final class ObjectMapper implements Builder
                                     new Node\Stmt\Do_(
                                         cond: new Node\Expr\Assign(
                                             var: new Node\Expr\Variable('line'),
-                                            expr: new Node\Expr\Yield_(new Node\Expr\Variable('line'))
+                                            expr: new Node\Expr\Yield_(
+                                                new Node\Expr\New_(
+                                                    class: new Node\Name\FullyQualified(
+                                                        'Kiboko\\Component\\Bucket\\AcceptanceResultBucket'
+                                                    ),
+                                                    args: [
+                                                        new Node\Arg(
+                                                            new Node\Expr\Variable('line'),
+                                                        ),
+                                                    ],
+                                                )
+                                            )
                                         ),
                                         stmts: [
                                             new Node\Stmt\Expression(
@@ -76,25 +87,21 @@ final class ObjectMapper implements Builder
                                         ],
                                     ),
                                     new Node\Stmt\Expression(
-                                        new Node\Expr\Yield_(new Node\Expr\Variable('line'))
+                                        new Node\Expr\Yield_(
+                                            new Node\Expr\New_(
+                                                class: new Node\Name\FullyQualified(
+                                                    'Kiboko\\Component\\Bucket\\AcceptanceResultBucket',
+                                                ),
+                                                args: [
+                                                    new Node\Arg(
+                                                        new Node\Expr\Variable('line'),
+                                                    ),
+                                                ],
+                                            ),
+                                        )
                                     ),
                                 ],
                                 'returnType' => new Node\Name\FullyQualified(\Generator::class),
-                                'params' => [
-                                    new Node\Param(
-                                        new Node\Expr\Variable(
-                                            name: 'input'
-                                        ),
-                                    ),
-                                    new Node\Param(
-                                        var: new Node\Expr\Variable(
-                                            name: 'output',
-                                        ),
-                                        default: new Node\Expr\ConstFetch(
-                                            name: new Node\Name(name: 'null'),
-                                        ),
-                                    ),
-                                ],
                             ],
                         ),
                     ],
@@ -106,13 +113,15 @@ final class ObjectMapper implements Builder
                         new Node\Stmt\Class_(
                             name: null,
                             subNodes: [
+                                'implements' => [
+                                    new Node\Name\FullyQualified('Kiboko\\Contract\\Mapping\\CompiledMapperInterface'),
+                                ],
                                 'stmts' => [
                                     new Node\Stmt\ClassMethod(
-                                        name: new Node\Identifier('transform'),
+                                        name: new Node\Identifier('__invoke'),
                                         subNodes: [
                                             'flags' => Node\Stmt\Class_::MODIFIER_PUBLIC,
                                             'stmts' => $this->mapper->getMapper()->compile(new Node\Expr\Variable('output')),
-                                            'returnType' => new Node\Name\FullyQualified(\Generator::class),
                                             'params' => [
                                                 new Node\Param(
                                                     new Node\Expr\Variable(
