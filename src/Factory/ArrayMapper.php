@@ -16,7 +16,7 @@ final class ArrayMapper implements Configurator\FactoryInterface
     private Processor $processor;
     private ConfigurationInterface $configuration;
 
-    public function __construct()
+    public function __construct(private ?ExpressionLanguage $interpreter)
     {
         $this->processor = new Processor();
         $this->configuration = new FastMap\Configuration\MapMapper();
@@ -53,17 +53,9 @@ final class ArrayMapper implements Configurator\FactoryInterface
 
     public function compile(array $config): RepositoryInterface
     {
-        if (array_key_exists('expression_language', $config)
-            && is_array($config['expression_language'])
-            && count($config['expression_language'])
-        ) {
-            $interpreter = new ExpressionLanguage();
-            foreach ($config['expression_language'] as $provider) {
-                $interpreter->registerProvider(new $provider);
-            }
-        }
-
-        $mapper = new ArrayBuilder(interpreter: $interpreter ?? null);
+        $mapper = new ArrayBuilder(
+            interpreter: $this->interpreter,
+        );
 
         $builder = new FastMap\Builder\ArrayMapper($mapper);
 

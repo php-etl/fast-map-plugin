@@ -16,7 +16,7 @@ final class ObjectMapper implements Configurator\FactoryInterface
     private Processor $processor;
     private ConfigurationInterface $configuration;
 
-    public function __construct()
+    public function __construct(private ?ExpressionLanguage $interpreter)
     {
         $this->processor = new Processor();
         $this->configuration = new FastMap\Configuration\ObjectMapper();
@@ -53,19 +53,9 @@ final class ObjectMapper implements Configurator\FactoryInterface
 
     public function compile(array $config): RepositoryInterface
     {
-        if (array_key_exists('expression_language', $config)
-            && is_array($config['expression_language'])
-            && count($config['expression_language'])
-        ) {
-            $interpreter = new ExpressionLanguage();
-            foreach ($config['expression_language'] as $provider) {
-                $interpreter->registerProvider(new $provider);
-            }
-        }
-
         $mapper = new ObjectBuilder(
             className: $config['class'],
-            interpreter: $interpreter ?? null
+            interpreter: $this->interpreter,
         );
 
         $builder = new FastMap\Builder\ObjectMapper($mapper);

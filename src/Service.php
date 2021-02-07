@@ -10,6 +10,7 @@ use Kiboko\Contract\Configurator\FactoryInterface;
 use Symfony\Component\Config\Definition\ConfigurationInterface;
 use Symfony\Component\Config\Definition\Exception as Symfony;
 use Symfony\Component\Config\Definition\Processor;
+use Symfony\Component\ExpressionLanguage\ExpressionLanguage;
 
 final class Service implements FactoryInterface
 {
@@ -55,9 +56,19 @@ final class Service implements FactoryInterface
      */
     public function compile(array $config): RepositoryInterface
     {
+        if (array_key_exists('expression_language', $config)
+            && is_array($config['expression_language'])
+            && count($config['expression_language'])
+        ) {
+            $interpreter = new ExpressionLanguage();
+            foreach ($config['expression_language'] as $provider) {
+                $interpreter->registerProvider(new $provider);
+            }
+        }
+
         try {
             if (array_key_exists('map', $config)) {
-                $arrayFactory = new Factory\ArrayMapper();
+                $arrayFactory = new Factory\ArrayMapper($interpreter ?? null);
 
                 $mapper = $arrayFactory->compile($config['map']);
 
@@ -66,7 +77,7 @@ final class Service implements FactoryInterface
 
                 return $mapper;
             } elseif (array_key_exists('object', $config)) {
-                $objectFactory = new Factory\ObjectMapper();
+                $objectFactory = new Factory\ObjectMapper($interpreter ?? null);
 
                 $mapper = $objectFactory->compile($config['object']);
 
