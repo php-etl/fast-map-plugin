@@ -14,7 +14,8 @@ final class ConfigurationTest extends TestCase
         $processor = new Processor();
         $configuration = new FastMap\Configuration();
 
-        $this->assertEmpty(
+        $this->assertEquals(
+            [],
             $processor->processConfiguration($configuration, [
                 []
             ])
@@ -26,7 +27,8 @@ final class ConfigurationTest extends TestCase
         $processor = new Processor();
         $configuration = new FastMap\Configuration();
 
-        $this->assertEmpty(
+        $this->assertEquals(
+            [],
             $processor->processConfiguration($configuration, [
                 [
                     'map' => [],
