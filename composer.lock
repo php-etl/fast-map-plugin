@@ -375,12 +375,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/php-etl/fast-map.git",
-                "reference": "c1b3793686fc91bb5ed5c582c49a0db9df820bae"
+                "reference": "a2a7ef4218bf9635d2c7aec1c48781cd068b7a5b"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/php-etl/fast-map/zipball/c1b3793686fc91bb5ed5c582c49a0db9df820bae",
-                "reference": "c1b3793686fc91bb5ed5c582c49a0db9df820bae",
+                "url": "https://api.github.com/repos/php-etl/fast-map/zipball/a2a7ef4218bf9635d2c7aec1c48781cd068b7a5b",
+                "reference": "a2a7ef4218bf9635d2c7aec1c48781cd068b7a5b",
                 "shasum": ""
             },
             "require": {
@@ -435,7 +435,7 @@
                 "issues": "https://github.com/php-etl/fast-map/issues",
                 "source": "https://github.com/php-etl/fast-map/tree/master"
             },
-            "time": "2021-02-03T11:23:21+00:00"
+            "time": "2021-02-07T07:59:35+00:00"
         },
         {
             "name": "php-etl/fast-map-config",
@@ -443,12 +443,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/php-etl/fast-map-config.git",
-                "reference": "5e84e815eb27c5adbdccdb6ae03651caeb13b458"
+                "reference": "bbf2fb84e3a15f13ed22434fc5049c82fd542fe8"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/php-etl/fast-map-config/zipball/5e84e815eb27c5adbdccdb6ae03651caeb13b458",
-                "reference": "5e84e815eb27c5adbdccdb6ae03651caeb13b458",
+                "url": "https://api.github.com/repos/php-etl/fast-map-config/zipball/bbf2fb84e3a15f13ed22434fc5049c82fd542fe8",
+                "reference": "bbf2fb84e3a15f13ed22434fc5049c82fd542fe8",
                 "shasum": ""
             },
             "require": {
@@ -499,7 +499,7 @@
                 "issues": "https://github.com/php-etl/fast-map-config/issues",
                 "source": "https://github.com/php-etl/fast-map-config/tree/master"
             },
-            "time": "2021-02-06T16:51:20+00:00"
+            "time": "2021-02-08T16:11:26+00:00"
         },
         {
             "name": "php-etl/mapping-contracts",
@@ -507,12 +507,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/php-etl/mapping-contracts.git",
-                "reference": "e7fdddf8373f658caf939c9e1766d09c9c5835dd"
+                "reference": "3782b391ea1968a189f622f5c6f0606345488116"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/php-etl/mapping-contracts/zipball/e7fdddf8373f658caf939c9e1766d09c9c5835dd",
-                "reference": "e7fdddf8373f658caf939c9e1766d09c9c5835dd",
+                "url": "https://api.github.com/repos/php-etl/mapping-contracts/zipball/3782b391ea1968a189f622f5c6f0606345488116",
+                "reference": "3782b391ea1968a189f622f5c6f0606345488116",
                 "shasum": ""
             },
             "require": {
@@ -552,7 +552,7 @@
                 "issues": "https://github.com/php-etl/mapping-contracts/issues",
                 "source": "https://github.com/php-etl/mapping-contracts/tree/master"
             },
-            "time": "2021-02-02T14:12:14+00:00"
+            "time": "2021-02-08T16:00:01+00:00"
         },
         {
             "name": "php-etl/metadata",
@@ -560,12 +560,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/php-etl/metadata.git",
-                "reference": "d8654ba5bac70454f9a19f49f740b958ea733f56"
+                "reference": "16bd2980a576bc3e65715ef1ba595f39cf830920"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/php-etl/metadata/zipball/d8654ba5bac70454f9a19f49f740b958ea733f56",
-                "reference": "d8654ba5bac70454f9a19f49f740b958ea733f56",
+                "url": "https://api.github.com/repos/php-etl/metadata/zipball/16bd2980a576bc3e65715ef1ba595f39cf830920",
+                "reference": "16bd2980a576bc3e65715ef1ba595f39cf830920",
                 "shasum": ""
             },
             "require": {
@@ -614,7 +614,7 @@
                 "issues": "https://github.com/php-etl/metadata/issues",
                 "source": "https://github.com/php-etl/metadata/tree/master"
             },
-            "time": "2021-02-05T13:58:00+00:00"
+            "time": "2021-02-08T09:54:43+00:00"
         },
         {
             "name": "php-etl/metadata-contracts",
@@ -773,12 +773,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/phpactor/docblock.git",
-                "reference": "a82cde09f49e388bb7a505465135aeff68c51647"
+                "reference": "73db4e18b4faea9fdd2c6211dacff04f432992a9"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/phpactor/docblock/zipball/a82cde09f49e388bb7a505465135aeff68c51647",
-                "reference": "a82cde09f49e388bb7a505465135aeff68c51647",
+                "url": "https://api.github.com/repos/phpactor/docblock/zipball/73db4e18b4faea9fdd2c6211dacff04f432992a9",
+                "reference": "73db4e18b4faea9fdd2c6211dacff04f432992a9",
                 "shasum": ""
             },
             "require": {
@@ -816,9 +816,9 @@
             "description": "Simple Docblock Parser",
             "support": {
                 "issues": "https://github.com/phpactor/docblock/issues",
-                "source": "https://github.com/phpactor/docblock/tree/0.3.4"
+                "source": "https://github.com/phpactor/docblock/tree/master"
             },
-            "time": "2021-02-06T14:38:53+00:00"
+            "time": "2021-02-06T18:36:00+00:00"
         },
         {
             "name": "psr/cache",
@@ -980,12 +980,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony/cache.git",
-                "reference": "c5a6aaae3d96e7a757836f285d3b84a3f47d73fa"
+                "reference": "7004ad588e2e75ad10d2c894d2ae913cdcb2ce44"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/symfony/cache/zipball/c5a6aaae3d96e7a757836f285d3b84a3f47d73fa",
-                "reference": "c5a6aaae3d96e7a757836f285d3b84a3f47d73fa",
+                "url": "https://api.github.com/repos/symfony/cache/zipball/7004ad588e2e75ad10d2c894d2ae913cdcb2ce44",
+                "reference": "7004ad588e2e75ad10d2c894d2ae913cdcb2ce44",
                 "shasum": ""
             },
             "require": {
@@ -1006,7 +1006,7 @@
             "provide": {
                 "psr/cache-implementation": "1.0|2.0",
                 "psr/simple-cache-implementation": "1.0",
-                "symfony/cache-implementation": "1.0"
+                "symfony/cache-implementation": "1.0|2.0"
             },
             "require-dev": {
                 "cache/integration-tests": "dev-master",
@@ -1068,7 +1068,7 @@
                     "type": "tidelift"
                 }
             ],
-            "time": "2021-02-04T17:52:48+00:00"
+            "time": "2021-02-08T10:24:30+00:00"
         },
         {
             "name": "symfony/cache-contracts",
@@ -3102,12 +3102,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/sebastianbergmann/php-code-coverage.git",
-                "reference": "0bf76e406e6b1d08d8be732db3ec8e6cbe2f8cc2"
+                "reference": "ad069801f3d0cdb7102e58afd5f9f32834ec7160"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/sebastianbergmann/php-code-coverage/zipball/0bf76e406e6b1d08d8be732db3ec8e6cbe2f8cc2",
-                "reference": "0bf76e406e6b1d08d8be732db3ec8e6cbe2f8cc2",
+                "url": "https://api.github.com/repos/sebastianbergmann/php-code-coverage/zipball/ad069801f3d0cdb7102e58afd5f9f32834ec7160",
+                "reference": "ad069801f3d0cdb7102e58afd5f9f32834ec7160",
                 "shasum": ""
             },
             "require": {
@@ -3171,7 +3171,7 @@
                     "type": "github"
                 }
             ],
-            "time": "2021-01-21T05:59:53+00:00"
+            "time": "2021-02-08T09:55:27+00:00"
         },
         {
             "name": "phpunit/php-file-iterator",
@@ -3527,16 +3527,19 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/php-fig/event-dispatcher.git",
-                "reference": "3ef040d7c05652f55bd05115baf059a445cfc79c"
+                "reference": "aa4f89e91c423b516ff226c50dc83f824011c253"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/php-fig/event-dispatcher/zipball/3ef040d7c05652f55bd05115baf059a445cfc79c",
-                "reference": "3ef040d7c05652f55bd05115baf059a445cfc79c",
+                "url": "https://api.github.com/repos/php-fig/event-dispatcher/zipball/aa4f89e91c423b516ff226c50dc83f824011c253",
+                "reference": "aa4f89e91c423b516ff226c50dc83f824011c253",
                 "shasum": ""
             },
             "require": {
                 "php": ">=7.2.0"
+            },
+            "suggest": {
+                "fig/event-dispatcher-util": "Provides some useful PSR-14 utilities"
             },
             "default-branch": true,
             "type": "library",
@@ -3569,7 +3572,7 @@
             "support": {
                 "source": "https://github.com/php-fig/event-dispatcher/tree/master"
             },
-            "time": "2020-09-18T06:44:18+00:00"
+            "time": "2021-02-08T21:15:39+00:00"
         },
         {
             "name": "sebastian/cli-parser",

@@ -2,7 +2,7 @@
 
 namespace Kiboko\Plugin\FastMap\Configuration;
 
-use Kiboko\Contract\Mapping\CompositeBuilderInterface;
+use Kiboko\Component\FastMapConfig\CompositeBuilderInterface;
 use Kiboko\Contract\Configurator\InvalidConfigurationException;
 
 final class ConfigurationApplier
