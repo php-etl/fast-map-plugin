@@ -3,14 +3,42 @@
 namespace Kiboko\Plugin\FastMap\Builder;
 
 use Kiboko\Component\FastMapConfig\ArrayBuilder;
+use Kiboko\Contract\Configurator\StepBuilderInterface;
 use Kiboko\Contract\Mapping\CompiledMapperInterface;
-use PhpParser\Builder;
 use PhpParser\Node;
 
-final class ArrayMapper implements Builder
+final class ArrayMapper implements StepBuilderInterface
 {
+    private ?Node\Expr $logger;
+    private ?Node\Expr $rejection;
+    private ?Node\Expr $state;
+
     public function __construct(private ArrayBuilder $mapper)
     {
+        $this->logger = null;
+        $this->rejection = null;
+        $this->state = null;
+    }
+
+    public function withLogger(Node\Expr $logger): self
+    {
+        $this->logger = $logger;
+
+        return $this;
+    }
+
+    public function withRejection(Node\Expr $rejection): self
+    {
+        $this->rejection = $rejection;
+
+        return $this;
+    }
+
+    public function withState(Node\Expr $state): self
+    {
+        $this->state = $state;
+
+        return $this;
     }
 
     public function getNode(): Node

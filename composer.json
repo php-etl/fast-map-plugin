@@ -3,6 +3,32 @@
     "description": "Adapters for the Fast Map mapping library",
     "type": "library",
     "license": "MIT",
+    "authors": [
+        {
+            "name": "Grégory Planchat",
+            "email": "gregory@kiboko.fr"
+        }
+    ],
+    "minimum-stability": "dev",
+    "require": {
+        "php": "^8.0",
+        "ext-json": "*",
+        "php-etl/configurator-contracts": "^0.2.0",
+        "nikic/php-parser": "^4.10",
+        "symfony/config": "^5.2",
+        "php-etl/fast-map-config": "^0.2.0",
+        "php-etl/fast-map": "^0.2.0"
+    },
+    "require-dev": {
+        "php-etl/pipeline-contracts": "^0.1.0",
+        "phpunit/phpunit": "^9.0",
+        "phpunit/php-invoker": "*",
+        "johnkary/phpunit-speedtrap": "*",
+        "mybuilder/phpunit-accelerator": "*",
+        "phpspec/phpspec": "^7.0",
+        "friends-of-phpspec/phpspec-code-coverage": "*",
+        "adlawson/vfs": "dev-develop"
+    },
     "autoload": {
         "psr-4": {
             "Kiboko\\Plugin\\FastMap\\": "src/"
@@ -13,38 +39,12 @@
             "functional\\Kiboko\\Plugin\\FastMap\\": "tests/functional/"
         }
     },
-    "config": {
-        "bin-dir": "bin"
-    },
-    "require": {
-        "php": "^8.0",
-        "ext-json": "*",
-        "php-etl/configurator-contracts": "^0.1@dev",
-        "nikic/php-parser": "^4.9@dev",
-        "symfony/config": "^4.0 || ^5.0",
-        "php-etl/fast-map-config": "^0.2@dev"
-    },
-    "require-dev": {
-        "php-etl/pipeline-contracts": "^0.1.0@dev",
-        "phpunit/phpunit": "^9.0",
-        "phpunit/php-invoker": "*",
-        "johnkary/phpunit-speedtrap": "*",
-        "mybuilder/phpunit-accelerator": "*",
-        "phpspec/phpspec": "^7.0",
-        "friends-of-phpspec/phpspec-code-coverage": "^6.0",
-        "adlawson/vfs": "dev-develop",
-        "php-etl/bucket": "0.1.x-dev"
-    },
-    "authors": [
-        {
-            "name": "Grégory Planchat",
-            "email": "gregory@kiboko.fr"
-        }
-    ],
-    "minimum-stability": "dev",
     "extra": {
         "branch-alias": {
-            "dev-master": "0.1.x-dev"
+            "dev-master": "0.2.x-dev"
         }
+    },
+    "config": {
+        "bin-dir": "bin"
     }
 }

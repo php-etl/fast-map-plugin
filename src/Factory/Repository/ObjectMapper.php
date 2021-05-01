@@ -5,7 +5,7 @@ namespace Kiboko\Plugin\FastMap\Factory\Repository;
 use Kiboko\Contract\Configurator;
 use Kiboko\Plugin\FastMap;
 
-final class ObjectMapper implements Configurator\RepositoryInterface
+final class ObjectMapper implements Configurator\StepRepositoryInterface
 {
     use RepositoryTrait;
 
