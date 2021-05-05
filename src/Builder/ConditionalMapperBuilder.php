@@ -107,7 +107,7 @@ final class ConditionalMapperBuilder implements Builder
                                 'stmts' => [
                                     new Node\Stmt\If_(
                                         cond: $parser->parse('<?php ' . $this->interpreter->compile($condition, ['input', 'output']) . ';')[0]->expr,
-                                        subNodes: array_filter([
+                                        subNodes: [
                                             'stmts' => [
                                                 new Node\Stmt\Return_(
                                                     new Node\Expr\FuncCall(
@@ -160,8 +160,15 @@ final class ConditionalMapperBuilder implements Builder
                                                 },
                                                 $alternatives,
                                                 array_keys($alternatives),
-                                            )],
-                                        ),
+                                            ),
+                                            'else' => new Node\Stmt\Else_(
+                                                stmts: [
+                                                    new Node\Stmt\Return_(
+                                                        new Node\Expr\Variable('output'),
+                                                    )
+                                                ]
+                                            )
+                                        ],
                                     ),
                                 ],
                             ],
