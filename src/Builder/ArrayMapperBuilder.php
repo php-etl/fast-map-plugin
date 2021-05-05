@@ -25,7 +25,10 @@ final class ArrayMapperBuilder implements Builder
                             name: new Node\Identifier('__invoke'),
                             subNodes: [
                                 'flags' => Node\Stmt\Class_::MODIFIER_PUBLIC,
-                                'stmts' => $this->mapper->getMapper()->compile(new Node\Expr\Variable('output')),
+                                'stmts' => [
+                                    ...$this->mapper->getMapper()->compile(new Node\Expr\Variable('output')),
+                                   new Node\Stmt\Return_(new Node\Expr\Variable('output')),
+                                ],
                                 'params' => [
                                     new Node\Param(
                                         new Node\Expr\Variable(
