@@ -70,21 +70,15 @@ final class Service implements FactoryInterface
             if (array_key_exists('conditional', $config)) {
                 $conditionalFactory = new Factory\ConditionalMapper($interpreter);
 
-                $mapper = $conditionalFactory->compile($config['conditional']);
-
-                return $mapper;
+                return $conditionalFactory->compile($config['conditional']);
             } elseif (array_key_exists('map', $config)) {
                 $arrayFactory = new Factory\ArrayMapper($interpreter);
 
-                $mapper = $arrayFactory->compile($config['map']);
-
-                return $mapper;
+                return $arrayFactory->compile($config['map']);
             } elseif (array_key_exists('object', $config)) {
                 $objectFactory = new Factory\ObjectMapper($interpreter);
 
-                $mapper = $objectFactory->compile($config['object']);
-
-                return $mapper;
+                return $objectFactory->compile($config['object']);
             } else {
                 throw new InvalidConfigurationException(
                     'Could not determine if the factory should build an array or an object transformer.'

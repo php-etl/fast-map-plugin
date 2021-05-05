@@ -4,6 +4,7 @@ namespace functional\Kiboko\Plugin\FastMap\Builder;
 
 use Kiboko\Component\FastMapConfig\ArrayBuilder;
 use Kiboko\Plugin\FastMap\Builder\ArrayMapperBuilder;
+use Kiboko\Plugin\FastMap\Builder\TransformerBuilder;
 use Kiboko\Plugin\FastMap\Configuration\ConfigurationApplier;
 
 final class ArrayMapperTest extends BuilderTestCase
@@ -12,7 +13,9 @@ final class ArrayMapperTest extends BuilderTestCase
     {
         $mapper = new ArrayBuilder();
 
-        $builder = new ArrayMapperBuilder($mapper);
+        $builder = new TransformerBuilder(
+            new ArrayMapperBuilder($mapper)
+        );
 
         (new ConfigurationApplier())(
             $mapper->children(),
