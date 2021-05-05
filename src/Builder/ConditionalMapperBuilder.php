@@ -41,7 +41,7 @@ final class ConditionalMapperBuilder implements Builder
                 name: null,
                 subNodes: [
                     'implements' => [
-                        new Node\Name\FullyQualified('std'),
+                        new Node\Name\FullyQualified('Kiboko\\Contract\\Mapping\\CompiledMapperInterface'),
                     ],
                     'stmts' => [
                         new Node\Stmt\Property(
@@ -56,6 +56,7 @@ final class ConditionalMapperBuilder implements Builder
                         new Node\Stmt\ClassMethod(
                             name: '__construct',
                             subNodes: [
+                                'flags' => Node\Stmt\Class_::MODIFIER_PUBLIC,
                                 'stmts' => [
                                     new Node\Stmt\Expression(
                                         new Node\Expr\Assign(
@@ -89,8 +90,20 @@ final class ConditionalMapperBuilder implements Builder
                             ],
                         ),
                         new Node\Stmt\ClassMethod(
-                            name: 'transform',
+                            name: '__invoke',
                             subNodes: [
+                                'flags' => Node\Stmt\Class_::MODIFIER_PUBLIC,
+                                'params' => [
+                                    new Node\Param(
+                                        var: new Node\Expr\Variable('input'),
+                                    ),
+                                    new Node\Param(
+                                        var: new Node\Expr\Variable('output'),
+                                        default: new Node\Expr\ConstFetch(
+                                            new Node\Name('null')
+                                        ),
+                                    ),
+                                ],
                                 'stmts' => [
                                     new Node\Stmt\If_(
                                         cond: $parser->parse('<?php ' . $this->interpreter->compile($condition, ['input', 'output']) . ';')[0]->expr,
