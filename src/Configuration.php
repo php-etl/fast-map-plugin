@@ -13,13 +13,16 @@ final class Configuration implements ConfigurationInterface
         $builder = new TreeBuilder('fastmap');
 
         $builder->getRootNode()
-//            ->ignoreExtraKeys()
+//            ->validate()
+//                ->always($this->mutuallyExclusiveFields('condition', 'map', 'list', 'object', 'collection'))
+//            ->end()
             ->children()
                 ->scalarNode('class')->end()
                 ->scalarNode('expression')->end()
                 ->arrayNode('expression_language')
                     ->scalarPrototype()->end()
                 ->end()
+                ->append($this->getConditionalTreeBuilder()->getRootNode())
                 ->append($this->getMapTreeBuilder()->getRootNode())
                 ->append($this->getListTreeBuilder()->getRootNode())
                 ->append($this->getObjectTreeBuilder()->getRootNode())
@@ -32,52 +35,39 @@ final class Configuration implements ConfigurationInterface
                 ->thenInvalid('Your configuration should be an array.')
             ->end()
             ->validate()
-                ->always(function (array $value) {
-                    if (array_key_exists('object', $value) && count($value['object']) <= 0) {
-                        unset($value['object']);
-                    }
-                    if (array_key_exists('map', $value) && count($value['map']) <= 0) {
-                        unset($value['map']);
-                    }
-                    if (array_key_exists('list', $value) && count($value['list']) <= 0) {
-                        unset($value['list']);
-                    }
-                    if (array_key_exists('collection', $value) && count($value['collection']) <= 0) {
-                        unset($value['collection']);
-                    }
-                    return $value;
-                })
+                ->ifEmpty()
+                ->thenUnset()
             ->end()
-            ->validate()
-                ->always($this->mutuallyExclusiveFields('copy', 'expression', 'constant', 'class', 'map', 'object', 'list', 'collection'))
-            ->end()
-            ->validate()
-                ->always($this->mutuallyExclusiveFields('expression', 'copy', 'constant', 'map'))
-            ->end()
-            ->validate()
-                ->always($this->mutuallyExclusiveFields('constant', 'copy', 'expression', 'class', 'map', 'object', 'list', 'collection'))
-            ->end()
-            ->validate()
-                ->always($this->mutuallyExclusiveFields('map', 'copy', 'expression', 'constant', 'class', 'object', 'list', 'collection'))
-            ->end()
-            ->validate()
-                ->always($this->mutuallyExclusiveFields('object', 'copy', 'constant', 'map', 'list', 'collection'))
-            ->end()
-            ->validate()
-                ->always($this->mutuallyExclusiveFields('list', 'copy', 'constant', 'class', 'map', 'object', 'collection'))
-            ->end()
-            ->validate()
-                ->always($this->mutuallyExclusiveFields('collection', 'copy', 'constant', 'map', 'object', 'list'))
-            ->end()
-            ->validate()
-                ->always($this->mutuallyDependentFields('object', 'class', 'expression'))
-            ->end()
-            ->validate()
-                ->always($this->mutuallyDependentFields('collection', 'class', 'expression'))
-            ->end()
-            ->validate()
-                ->always($this->mutuallyDependentFields('list', 'expression'))
-            ->end()
+//            ->validate()
+//                ->always($this->mutuallyExclusiveFields('copy', 'expression', 'constant', 'class', 'map', 'object', 'list', 'collection'))
+//            ->end()
+//            ->validate()
+//                ->always($this->mutuallyExclusiveFields('expression', 'copy', 'constant', 'map'))
+//            ->end()
+//            ->validate()
+//                ->always($this->mutuallyExclusiveFields('constant', 'copy', 'expression', 'class', 'map', 'object', 'list', 'collection'))
+//            ->end()
+//            ->validate()
+//                ->always($this->mutuallyExclusiveFields('map', 'copy', 'expression', 'constant', 'class', 'object', 'list', 'collection'))
+//            ->end()
+//            ->validate()
+//                ->always($this->mutuallyExclusiveFields('object', 'copy', 'constant', 'map', 'list', 'collection'))
+//            ->end()
+//            ->validate()
+//                ->always($this->mutuallyExclusiveFields('list', 'copy', 'constant', 'class', 'map', 'object', 'collection'))
+//            ->end()
+//            ->validate()
+//                ->always($this->mutuallyExclusiveFields('collection', 'copy', 'constant', 'map', 'object', 'list'))
+//            ->end()
+//            ->validate()
+//                ->always($this->mutuallyDependentFields('object', 'class', 'expression'))
+//            ->end()
+//            ->validate()
+//                ->always($this->mutuallyDependentFields('collection', 'class', 'expression'))
+//            ->end()
+//            ->validate()
+//                ->always($this->mutuallyDependentFields('list', 'expression'))
+//            ->end()
         ;
 
         return $builder;
@@ -189,45 +179,64 @@ final class Configuration implements ConfigurationInterface
         };
     }
 
+    private function cleanupFields(array $data, string ...$fieldNames): array
+    {
+        foreach ($fieldNames as $fieldName) {
+            if (!array_key_exists($fieldName, $data)) {
+                return $data;
+            }
+
+            if (!is_array($data[$fieldName]) || count($data[$fieldName]) <= 0) {
+                unset($data[$fieldName]);
+            }
+        }
+
+        return $data;
+    }
+
     private function getChildTreeBuilder(string $name): TreeBuilder
     {
         $builder = new TreeBuilder($name);
 
         $builder->getRootNode()
+            ->beforeNormalization()
+                ->ifEmpty()
+                ->thenUnset()
+            ->end()
             ->arrayPrototype()
-                ->validate()
-                    ->always($this->mutuallyExclusiveFields('copy', 'expression', 'constant', 'class', 'map', 'object', 'list', 'collection'))
-                ->end()
-                ->validate()
-                    ->always($this->mutuallyExclusiveFields('expression', 'copy', 'constant'))
-                ->end()
-                ->validate()
-                    ->always($this->mutuallyExclusiveFields('constant', 'copy', 'expression', 'class', 'map', 'object', 'list', 'collection'))
-                ->end()
-                ->validate()
-                    ->always($this->mutuallyExclusiveFields('map', 'copy', 'constant', 'class', 'object', 'list', 'collection'))
-                ->end()
-                ->validate()
-                    ->always($this->mutuallyExclusiveFields('object', 'copy', 'constant', 'map', 'list', 'collection'))
-                ->end()
-                ->validate()
-                    ->always($this->mutuallyExclusiveFields('list', 'copy', 'constant', 'class', 'map', 'object', 'collection'))
-                ->end()
-                ->validate()
-                    ->always($this->mutuallyExclusiveFields('collection', 'copy', 'constant', 'map', 'object', 'list'))
-                ->end()
-                ->validate()
-                    ->always($this->mutuallyDependentFields('object', 'class', 'expression'))
-                ->end()
-                ->validate()
-                    ->always($this->mutuallyDependentFields('collection', 'class', 'expression'))
-                ->end()
-                ->validate()
-                    ->always($this->mutuallyDependentFields('map', 'expression'))
-                ->end()
-                ->validate()
-                    ->always($this->mutuallyDependentFields('list', 'expression'))
-                ->end()
+//                ->validate()
+//                    ->always($this->mutuallyExclusiveFields('copy', 'expression', 'constant', 'class', 'map', 'object', 'list', 'collection'))
+//                ->end()
+//                ->validate()
+//                    ->always($this->mutuallyExclusiveFields('expression', 'copy', 'constant'))
+//                ->end()
+//                ->validate()
+//                    ->always($this->mutuallyExclusiveFields('constant', 'copy', 'expression', 'class', 'map', 'object', 'list', 'collection'))
+//                ->end()
+//                ->validate()
+//                    ->always($this->mutuallyExclusiveFields('map', 'copy', 'constant', 'class', 'object', 'list', 'collection'))
+//                ->end()
+//                ->validate()
+//                    ->always($this->mutuallyExclusiveFields('object', 'copy', 'constant', 'map', 'list', 'collection'))
+//                ->end()
+//                ->validate()
+//                    ->always($this->mutuallyExclusiveFields('list', 'copy', 'constant', 'class', 'map', 'object', 'collection'))
+//                ->end()
+//                ->validate()
+//                    ->always($this->mutuallyExclusiveFields('collection', 'copy', 'constant', 'map', 'object', 'list'))
+//                ->end()
+//                ->validate()
+//                    ->always($this->mutuallyDependentFields('object', 'class', 'expression'))
+//                ->end()
+//                ->validate()
+//                    ->always($this->mutuallyDependentFields('collection', 'class', 'expression'))
+//                ->end()
+//                ->validate()
+//                    ->always($this->mutuallyDependentFields('map', 'expression'))
+//                ->end()
+//                ->validate()
+//                    ->always($this->mutuallyDependentFields('list', 'expression'))
+//                ->end()
                 ->validate()
                     ->ifTrue(function (array $value) {
                         return array_key_exists('expression', $value)
@@ -302,6 +311,27 @@ final class Configuration implements ConfigurationInterface
                 ->end()
             ->end()
         ;
+
+        return $builder;
+    }
+
+    public function getConditionalTreeBuilder(): TreeBuilder
+    {
+        $builder = new TreeBuilder('conditional');
+
+        $builder->getRootNode()
+            ->arrayPrototype()
+//                ->validate()
+//                    ->always($this->mutuallyExclusiveFields('map', 'list', 'object', 'collection'))
+//                ->end()
+                ->children()
+                    ->scalarNode('condition')->end()
+                    ->append($this->getMapTreeBuilder()->getRootNode())
+//                    ->append($this->getListTreeBuilder()->getRootNode())
+//                    ->append($this->getObjectTreeBuilder()->getRootNode())
+//                    ->append($this->getCollectionTreeBuilder()->getRootNode())
+                ->end()
+            ->end();
 
         return $builder;
     }

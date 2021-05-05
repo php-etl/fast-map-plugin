@@ -56,33 +56,33 @@ final class Service implements FactoryInterface
      */
     public function compile(array $config): RepositoryInterface
     {
+        $interpreter = new ExpressionLanguage();
         if (array_key_exists('expression_language', $config)
             && is_array($config['expression_language'])
             && count($config['expression_language'])
         ) {
-            $interpreter = new ExpressionLanguage();
             foreach ($config['expression_language'] as $provider) {
                 $interpreter->registerProvider(new $provider);
             }
         }
 
         try {
-            if (array_key_exists('map', $config)) {
-                $arrayFactory = new Factory\ArrayMapper($interpreter ?? null);
+            if (array_key_exists('conditional', $config)) {
+                $conditionalFactory = new Factory\ConditionalMapper($interpreter);
+
+                $mapper = $conditionalFactory->compile($config['conditional']);
+
+                return $mapper;
+            } elseif (array_key_exists('map', $config)) {
+                $arrayFactory = new Factory\ArrayMapper($interpreter);
 
                 $mapper = $arrayFactory->compile($config['map']);
 
-//                $logger = $loggerFactory->compile($config['logger'] ?? []);
-//                $mapper->withLogger($logger->getNode());
-
                 return $mapper;
             } elseif (array_key_exists('object', $config)) {
-                $objectFactory = new Factory\ObjectMapper($interpreter ?? null);
+                $objectFactory = new Factory\ObjectMapper($interpreter);
 
                 $mapper = $objectFactory->compile($config['object']);
-
-//                $logger = $loggerFactory->compile($config['logger'] ?? []);
-//                $mapper->withLogger($logger->getNode());
 
                 return $mapper;
             } else {

@@ -57,12 +57,14 @@ final class ArrayMapper implements Configurator\FactoryInterface
             interpreter: $this->interpreter,
         );
 
-        $builder = new FastMap\Builder\ArrayMapper($mapper);
+        $builder = new FastMap\Builder\TransformerBuilder(
+            new FastMap\Builder\ArrayMapperBuilder($mapper)
+        );
 
         (new FastMap\Configuration\ConfigurationApplier())($mapper->children(), $config);
 
         try {
-            return new Repository\ArrayMapper($builder);
+            return new Repository\TransformerMapper($builder);
         } catch (Symfony\InvalidTypeException|Symfony\InvalidConfigurationException $exception) {
             throw new Configurator\InvalidConfigurationException(
                 message: $exception->getMessage(),

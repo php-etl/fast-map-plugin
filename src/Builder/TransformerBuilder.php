@@ -2,18 +2,18 @@
 
 namespace Kiboko\Plugin\FastMap\Builder;
 
-use Kiboko\Component\FastMapConfig\ArrayBuilder;
 use Kiboko\Contract\Configurator\StepBuilderInterface;
 use Kiboko\Contract\Mapping\CompiledMapperInterface;
+use PhpParser\Builder;
 use PhpParser\Node;
 
-final class ArrayMapper implements StepBuilderInterface
+final class TransformerBuilder implements StepBuilderInterface
 {
     private ?Node\Expr $logger;
     private ?Node\Expr $rejection;
     private ?Node\Expr $state;
 
-    public function __construct(private ArrayBuilder $mapper)
+    public function __construct(private Builder|Node $mapper)
     {
         $this->logger = null;
         $this->rejection = null;
@@ -137,40 +137,7 @@ final class ArrayMapper implements StepBuilderInterface
             ),
             args: [
                 new Node\Arg(
-                    new Node\Expr\New_(
-                        new Node\Stmt\Class_(
-                            name: null,
-                            subNodes: [
-                                'implements' => [
-                                    new Node\Name\FullyQualified('Kiboko\\Contract\\Mapping\\CompiledMapperInterface'),
-                                ],
-                                'stmts' => [
-                                    new Node\Stmt\ClassMethod(
-                                        name: new Node\Identifier('__invoke'),
-                                        subNodes: [
-                                            'flags' => Node\Stmt\Class_::MODIFIER_PUBLIC,
-                                            'stmts' => $this->mapper->getMapper()->compile(new Node\Expr\Variable('output')),
-                                            'params' => [
-                                                new Node\Param(
-                                                    new Node\Expr\Variable(
-                                                        name: 'input'
-                                                    ),
-                                                ),
-                                                new Node\Param(
-                                                    var: new Node\Expr\Variable(
-                                                        name: 'output',
-                                                    ),
-                                                    default: new Node\Expr\ConstFetch(
-                                                        name: new Node\Name(name: 'null'),
-                                                    ),
-                                                ),
-                                            ],
-                                        ],
-                                    ),
-                                ],
-                            ],
-                        ),
-                    ),
+                    $this->mapper instanceof Builder ? $this->mapper->getNode() : $this->mapper,
                 ),
             ],
         );

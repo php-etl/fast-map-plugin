@@ -5,17 +5,17 @@ namespace Kiboko\Plugin\FastMap\Factory\Repository;
 use Kiboko\Contract\Configurator;
 use Kiboko\Plugin\FastMap;
 
-final class ObjectMapper implements Configurator\StepRepositoryInterface
+final class ObjectMapper implements Configurator\RepositoryInterface
 {
     use RepositoryTrait;
 
-    public function __construct(private FastMap\Builder\ObjectMapper $builder)
+    public function __construct(private FastMap\Builder\ObjectMapperBuilder $builder)
     {
         $this->files = [];
         $this->packages = [];
     }
 
-    public function getBuilder(): FastMap\Builder\ObjectMapper
+    public function getBuilder(): FastMap\Builder\ObjectMapperBuilder
     {
         return $this->builder;
     }
