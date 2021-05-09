@@ -1,7 +1,7 @@
 {
     "name": "php-etl/fast-map-plugin",
     "description": "Adapters for the Fast Map mapping library",
-    "type": "library",
+    "type": "satellite-plugin",
     "license": "MIT",
     "authors": [
         {
