@@ -71,15 +71,15 @@ final class Service implements FactoryInterface
 
         try {
             if (array_key_exists('conditional', $config)) {
-                $conditionalFactory = new Factory\ConditionalMapper($this->interpreter);
+                $conditionalFactory = new Factory\ConditionalMapper($this->interpreter, $this->additionalExpressionVariables);
 
                 return $conditionalFactory->compile($config['conditional']);
             } elseif (array_key_exists('map', $config)) {
-                $arrayFactory = new Factory\ArrayMapper($this->interpreter);
+                $arrayFactory = new Factory\ArrayMapper($this->interpreter, $this->additionalExpressionVariables);
 
                 return $arrayFactory->compile($config['map']);
             } elseif (array_key_exists('object', $config)) {
-                $objectFactory = new Factory\ObjectMapper($this->interpreter);
+                $objectFactory = new Factory\ObjectMapper($this->interpreter, $this->additionalExpressionVariables);
 
                 return $objectFactory->compile($config['object']);
             } else {
