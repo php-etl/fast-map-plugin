@@ -16,7 +16,7 @@ final class ObjectMapper implements Configurator\FactoryInterface
     private Processor $processor;
     private ConfigurationInterface $configuration;
 
-    public function __construct(private ?ExpressionLanguage $interpreter)
+    public function __construct(private ?ExpressionLanguage $interpreter, private array $additionalExpressionVariables = [])
     {
         $this->processor = new Processor();
         $this->configuration = new FastMap\Configuration\ObjectMapper();
@@ -62,7 +62,7 @@ final class ObjectMapper implements Configurator\FactoryInterface
             new FastMap\Builder\ObjectMapper($mapper)
         );
 
-        (new FastMap\Configuration\ConfigurationApplier())($mapper->children(), $config);
+        (new FastMap\Configuration\ConfigurationApplier($this->additionalExpressionVariables))($mapper->children(), $config);
 
         try {
             return new Repository\TransformerMapper($builder);

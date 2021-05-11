@@ -18,8 +18,10 @@ final class Service implements FactoryInterface
     private ConfigurationInterface $configuration;
     private ExpressionLanguage $interpreter;
 
-    public function __construct(?ExpressionLanguage $interpreter = null)
-    {
+    public function __construct(
+        ?ExpressionLanguage $interpreter = null,
+        private array $additionalExpressionVariables = []
+    ) {
         $this->processor = new Processor();
         $this->configuration = new Configuration();
         $this->interpreter = clone $interpreter ?? new ExpressionLanguage();

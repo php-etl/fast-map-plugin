@@ -17,7 +17,7 @@ final class ConditionalMapper implements Configurator\FactoryInterface
     private Processor $processor;
     private ConfigurationInterface $configuration;
 
-    public function __construct(private ?ExpressionLanguage $interpreter)
+    public function __construct(private ?ExpressionLanguage $interpreter, private array $additionalExpressionVariables = [])
     {
         $this->processor = new Processor();
         $this->configuration = new FastMap\Configuration\ConditionalMapper();
@@ -67,7 +67,7 @@ final class ConditionalMapper implements Configurator\FactoryInterface
 
                     $mapperBuilder = new FastMap\Builder\ArrayMapper($mapper);
 
-                    (new FastMap\Configuration\ConfigurationApplier())($mapper->children(), $alternative['map']);
+                    (new FastMap\Configuration\ConfigurationApplier($this->additionalExpressionVariables))($mapper->children(), $alternative['map']);
 
                     try {
                         $builder->withAlternative(
