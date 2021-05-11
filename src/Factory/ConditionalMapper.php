@@ -72,7 +72,7 @@ final class ConditionalMapper implements Configurator\FactoryInterface
                     try {
                         $builder->withAlternative(
                             $alternative['condition'],
-                            new Repository\ArrayMapper($mapperBuilder)
+                            $mapperBuilder
                         );
                     } catch (Symfony\InvalidTypeException|Symfony\InvalidConfigurationException $exception) {
                         throw new Configurator\InvalidConfigurationException(
@@ -92,7 +92,7 @@ final class ConditionalMapper implements Configurator\FactoryInterface
                     try {
                         $builder->withAlternative(
                             $alternative['condition'],
-                            new Repository\ArrayMapper($mapperBuilder)
+                            $mapperBuilder
                         );
                     } catch (Symfony\InvalidTypeException|Symfony\InvalidConfigurationException $exception) {
                         throw new Configurator\InvalidConfigurationException(

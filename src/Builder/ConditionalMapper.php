@@ -17,9 +17,9 @@ final class ConditionalMapper implements Builder
         $this->alternatives = [];
     }
 
-    public function withAlternative(string $condition, RepositoryInterface $repository): self
+    public function withAlternative(string $condition, Builder $builder): self
     {
-        $this->alternatives[] = [$condition, $repository];
+        $this->alternatives[] = [$condition, $builder];
 
         return $this;
     }
@@ -33,8 +33,8 @@ final class ConditionalMapper implements Builder
     {
         $parser = (new ParserFactory())->create(ParserFactory::PREFER_PHP7, null);
 
-        /** @var RepositoryInterface $repository */
-        [$condition, $repository] = array_shift($alternatives);
+        /** @var Builder $builder */
+        [$condition, $builder] = array_shift($alternatives);
 
         return new Node\Expr\New_(
             new Node\Stmt\Class_(
@@ -67,14 +67,14 @@ final class ConditionalMapper implements Builder
                                             new Node\Expr\Array_(
                                                 items: [
                                                     new Node\Expr\ArrayItem(
-                                                        $repository->getBuilder()->getNode()
+                                                        $builder->getNode()
                                                     ),
                                                     ...array_map(
                                                         function ($alternative) use ($parser) {
                                                             [$condition, $repository] = $alternative;
 
                                                             return new Node\Expr\ArrayItem(
-                                                                $repository->getBuilder()->getNode()
+                                                                $builder->getNode()
                                                             );
                                                         },
                                                         $alternatives
