@@ -16,11 +16,13 @@ final class Service implements FactoryInterface
 {
     private Processor $processor;
     private ConfigurationInterface $configuration;
+    private ExpressionLanguage $interpreter;
 
-    public function __construct()
+    public function __construct(?ExpressionLanguage $interpreter = null)
     {
         $this->processor = new Processor();
         $this->configuration = new Configuration();
+        $this->interpreter = clone $interpreter ?? new ExpressionLanguage();
     }
 
     public function configuration(): ConfigurationInterface
@@ -56,27 +58,26 @@ final class Service implements FactoryInterface
      */
     public function compile(array $config): RepositoryInterface
     {
-        $interpreter = new ExpressionLanguage();
         if (array_key_exists('expression_language', $config)
             && is_array($config['expression_language'])
             && count($config['expression_language'])
         ) {
             foreach ($config['expression_language'] as $provider) {
-                $interpreter->registerProvider(new $provider);
+                $this->interpreter->registerProvider(new $provider);
             }
         }
 
         try {
             if (array_key_exists('conditional', $config)) {
-                $conditionalFactory = new Factory\ConditionalMapper($interpreter);
+                $conditionalFactory = new Factory\ConditionalMapper($this->interpreter);
 
                 return $conditionalFactory->compile($config['conditional']);
             } elseif (array_key_exists('map', $config)) {
-                $arrayFactory = new Factory\ArrayMapper($interpreter);
+                $arrayFactory = new Factory\ArrayMapper($this->interpreter);
 
                 return $arrayFactory->compile($config['map']);
             } elseif (array_key_exists('object', $config)) {
-                $objectFactory = new Factory\ObjectMapper($interpreter);
+                $objectFactory = new Factory\ObjectMapper($this->interpreter);
 
                 return $objectFactory->compile($config['object']);
             } else {
