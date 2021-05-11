@@ -9,13 +9,13 @@ final class ArrayMapper implements Configurator\RepositoryInterface
 {
     use RepositoryTrait;
 
-    public function __construct(private FastMap\Builder\ArrayMapperBuilder $builder)
+    public function __construct(private FastMap\Builder\ArrayMapper $builder)
     {
         $this->files = [];
         $this->packages = [];
     }
 
-    public function getBuilder(): FastMap\Builder\ArrayMapperBuilder
+    public function getBuilder(): FastMap\Builder\ArrayMapper
     {
         return $this->builder;
     }

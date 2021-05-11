@@ -9,13 +9,13 @@ final class ObjectMapper implements Configurator\RepositoryInterface
 {
     use RepositoryTrait;
 
-    public function __construct(private FastMap\Builder\ObjectMapperBuilder $builder)
+    public function __construct(private FastMap\Builder\ObjectMapper $builder)
     {
         $this->files = [];
         $this->packages = [];
     }
 
-    public function getBuilder(): FastMap\Builder\ObjectMapperBuilder
+    public function getBuilder(): FastMap\Builder\ObjectMapper
     {
         return $this->builder;
     }

@@ -54,7 +54,7 @@ final class ConditionalMapper implements Configurator\FactoryInterface
 
     public function compile(array $config): RepositoryInterface
     {
-        $builder = new FastMap\Builder\ConditionalMapperBuilder(
+        $builder = new FastMap\Builder\ConditionalMapper(
             interpreter: $this->interpreter,
         );
 
@@ -65,7 +65,7 @@ final class ConditionalMapper implements Configurator\FactoryInterface
                         interpreter: $this->interpreter,
                     );
 
-                    $mapperBuilder = new FastMap\Builder\ArrayMapperBuilder($mapper);
+                    $mapperBuilder = new FastMap\Builder\ArrayMapper($mapper);
 
                     (new FastMap\Configuration\ConfigurationApplier())($mapper->children(), $alternative['map']);
 
@@ -85,7 +85,7 @@ final class ConditionalMapper implements Configurator\FactoryInterface
                         interpreter: $this->interpreter,
                     );
 
-                    $mapperBuilder = new FastMap\Builder\ArrayMapperBuilder($mapper);
+                    $mapperBuilder = new FastMap\Builder\ArrayMapper($mapper);
 
                     (new FastMap\Configuration\ConfigurationApplier())($mapper->children(), $alternative['object']);
 
@@ -112,7 +112,7 @@ final class ConditionalMapper implements Configurator\FactoryInterface
 
         try {
             return new Repository\TransformerMapper(
-                new FastMap\Builder\TransformerBuilder($builder),
+                new FastMap\Builder\Transformer($builder),
             );
         } catch (Symfony\InvalidTypeException|Symfony\InvalidConfigurationException $exception) {
             throw new Configurator\InvalidConfigurationException(

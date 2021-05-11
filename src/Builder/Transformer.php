@@ -7,7 +7,7 @@ use Kiboko\Contract\Mapping\CompiledMapperInterface;
 use PhpParser\Builder;
 use PhpParser\Node;
 
-final class TransformerBuilder implements StepBuilderInterface
+final class Transformer implements StepBuilderInterface
 {
     private ?Node\Expr $logger;
     private ?Node\Expr $rejection;

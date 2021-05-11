@@ -9,13 +9,13 @@ final class ConditionalMapper implements Configurator\RepositoryInterface
 {
     use RepositoryTrait;
 
-    public function __construct(private FastMap\Builder\ConditionalMapperBuilder $builder)
+    public function __construct(private FastMap\Builder\ConditionalMapper $builder)
     {
         $this->files = [];
         $this->packages = [];
     }
 
-    public function getBuilder(): FastMap\Builder\ConditionalMapperBuilder
+    public function getBuilder(): FastMap\Builder\ConditionalMapper
     {
         return $this->builder;
     }

@@ -8,7 +8,7 @@ use PhpParser\Node;
 use PhpParser\ParserFactory;
 use Symfony\Component\ExpressionLanguage\ExpressionLanguage;
 
-final class ConditionalMapperBuilder implements Builder
+final class ConditionalMapper implements Builder
 {
     private iterable $alternatives;
 

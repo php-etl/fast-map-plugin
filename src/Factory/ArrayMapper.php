@@ -57,8 +57,8 @@ final class ArrayMapper implements Configurator\FactoryInterface
             interpreter: $this->interpreter,
         );
 
-        $builder = new FastMap\Builder\TransformerBuilder(
-            new FastMap\Builder\ArrayMapperBuilder($mapper)
+        $builder = new FastMap\Builder\Transformer(
+            new FastMap\Builder\ArrayMapper($mapper)
         );
 
         (new FastMap\Configuration\ConfigurationApplier())($mapper->children(), $config);

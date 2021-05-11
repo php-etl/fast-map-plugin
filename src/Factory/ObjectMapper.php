@@ -58,8 +58,8 @@ final class ObjectMapper implements Configurator\FactoryInterface
             interpreter: $this->interpreter,
         );
 
-        $builder = new FastMap\Builder\TransformerBuilder(
-            new FastMap\Builder\ObjectMapperBuilder($mapper)
+        $builder = new FastMap\Builder\Transformer(
+            new FastMap\Builder\ObjectMapper($mapper)
         );
 
         (new FastMap\Configuration\ConfigurationApplier())($mapper->children(), $config);

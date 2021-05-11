@@ -9,13 +9,13 @@ final class TransformerMapper implements Configurator\StepRepositoryInterface
 {
     use RepositoryTrait;
 
-    public function __construct(private FastMap\Builder\TransformerBuilder $builder)
+    public function __construct(private FastMap\Builder\Transformer $builder)
     {
         $this->files = [];
         $this->packages = [];
     }
 
-    public function getBuilder(): FastMap\Builder\TransformerBuilder
+    public function getBuilder(): FastMap\Builder\Transformer
     {
         return $this->builder;
     }

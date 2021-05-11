@@ -8,9 +8,13 @@ use Symfony\Component\Config\Definition\NodeInterface;
 
 final class Configuration implements ConfigurationInterface
 {
+    public function __construct(private string $name = 'fastmap')
+    {
+    }
+
     public function getConfigTreeBuilder()
     {
-        $builder = new TreeBuilder('fastmap');
+        $builder = new TreeBuilder($this->name);
 
         $builder->getRootNode()
             ->validate()
