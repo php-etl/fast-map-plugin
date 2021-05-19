@@ -24,7 +24,7 @@ final class Service implements FactoryInterface
     ) {
         $this->processor = new Processor();
         $this->configuration = new Configuration();
-        $this->interpreter = clone $interpreter ?? new ExpressionLanguage();
+        $this->interpreter = $interpreter ?? new ExpressionLanguage();
     }
 
     public function configuration(): ConfigurationInterface
