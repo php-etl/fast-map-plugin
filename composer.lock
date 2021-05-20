@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "ac96fa1024b6e78c5977653df3e3a424",
+    "content-hash": "289e628b0cfc3978574e6e884f9d8457",
     "packages": [
         {
             "name": "doctrine/inflector",
@@ -211,12 +211,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/php-etl/fast-map.git",
-                "reference": "6b0e0bac1f08cba451f77c21e3e1ea2a97358763"
+                "reference": "4229bb6c0a13aef662c9deeb21b6d0f913617acd"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/php-etl/fast-map/zipball/6b0e0bac1f08cba451f77c21e3e1ea2a97358763",
-                "reference": "6b0e0bac1f08cba451f77c21e3e1ea2a97358763",
+                "url": "https://api.github.com/repos/php-etl/fast-map/zipball/4229bb6c0a13aef662c9deeb21b6d0f913617acd",
+                "reference": "4229bb6c0a13aef662c9deeb21b6d0f913617acd",
                 "shasum": ""
             },
             "require": {
@@ -271,7 +271,7 @@
                 "issues": "https://github.com/php-etl/fast-map/issues",
                 "source": "https://github.com/php-etl/fast-map/tree/master"
             },
-            "time": "2021-05-11T18:45:19+00:00"
+            "time": "2021-05-19T21:46:49+00:00"
         },
         {
             "name": "php-etl/fast-map-config",
@@ -279,12 +279,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/php-etl/fast-map-config.git",
-                "reference": "fed46c77cdc2020399bee0890b224ec4bd5710c5"
+                "reference": "6e963a1d41f18905a6c4d31c223a0e6d68995ff1"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/php-etl/fast-map-config/zipball/fed46c77cdc2020399bee0890b224ec4bd5710c5",
-                "reference": "fed46c77cdc2020399bee0890b224ec4bd5710c5",
+                "url": "https://api.github.com/repos/php-etl/fast-map-config/zipball/6e963a1d41f18905a6c4d31c223a0e6d68995ff1",
+                "reference": "6e963a1d41f18905a6c4d31c223a0e6d68995ff1",
                 "shasum": ""
             },
             "require": {
@@ -335,7 +335,7 @@
                 "issues": "https://github.com/php-etl/fast-map-config/issues",
                 "source": "https://github.com/php-etl/fast-map-config/tree/master"
             },
-            "time": "2021-05-11T20:04:46+00:00"
+            "time": "2021-05-20T08:03:25+00:00"
         },
         {
             "name": "php-etl/mapping-contracts",
