@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "90150cbb6ddc7ee09771fe6108b52e5a",
+    "content-hash": "fc7cf816c3aa06647d314ad3bb762fb5",
     "packages": [
         {
             "name": "doctrine/inflector",
@@ -552,6 +552,67 @@
                 "source": "https://github.com/php-etl/packaging-contracts/tree/master"
             },
             "time": "2021-05-07T11:10:40+00:00"
+        },
+        {
+            "name": "php-etl/satellite-toolbox",
+            "version": "dev-master",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/php-etl/satellite-toolbox.git",
+                "reference": "9d8f1ca6a0b24937eca7596e6527a5867d440f76"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/php-etl/satellite-toolbox/zipball/9d8f1ca6a0b24937eca7596e6527a5867d440f76",
+                "reference": "9d8f1ca6a0b24937eca7596e6527a5867d440f76",
+                "shasum": ""
+            },
+            "require": {
+                "nikic/php-parser": "^4.10",
+                "php": "^8.0",
+                "symfony/expression-language": "^5.2"
+            },
+            "require-dev": {
+                "johnkary/phpunit-speedtrap": "*",
+                "mybuilder/phpunit-accelerator": "*",
+                "phpunit/php-invoker": "*",
+                "phpunit/phpunit": "^9.0"
+            },
+            "default-branch": true,
+            "type": "library",
+            "extra": {
+                "branch-alias": {
+                    "dev-master": "0.1.x-dev"
+                }
+            },
+            "autoload": {
+                "psr-4": {
+                    "Kiboko\\Component\\SatelliteToolbox\\": "src/"
+                },
+                "files": [
+                    "src/configuration.php"
+                ]
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Kiboko SAS",
+                    "homepage": "http://kiboko.fr"
+                },
+                {
+                    "name": "Grégory Planchat",
+                    "email": "gregory@kiboko.fr"
+                }
+            ],
+            "description": "This library aims at building and running lambda PHP functions",
+            "support": {
+                "issues": "https://github.com/php-etl/satellite-toolbox/issues",
+                "source": "https://github.com/php-etl/satellite-toolbox/tree/master"
+            },
+            "time": "2021-05-21T07:11:00+00:00"
         },
         {
             "name": "phpactor/docblock",

@@ -9,7 +9,8 @@ use PhpParser\Node;
 final class ObjectMapper implements Builder
 {
     public function __construct(private ObjectBuilder $mapper)
-    {}
+    {
+    }
 
     public function getNode(): Node
     {
