@@ -3,7 +3,7 @@ fastmap:
     - field: '[sku]'
       copy: 'input[sku]'
     - field: '[title]'
-      expression: '@=(input["sku"] ~" | "~ input["name"])'
+      expression: 'input["sku"] ~" | "~ input["name"]'
     - field: '[name]'
       copy: '[name]'
     - field: '[staticValue]'

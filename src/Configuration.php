@@ -5,8 +5,7 @@ namespace Kiboko\Plugin\FastMap;
 use Symfony\Component\Config\Definition\Builder\TreeBuilder;
 use Symfony\Component\Config\Definition\ConfigurationInterface;
 use Symfony\Component\Config\Definition\NodeInterface;
-use function Kiboko\Component\SatelliteToolbox\Configuration\asExpression;
-use function Kiboko\Component\SatelliteToolbox\Configuration\isExpression;
+use Symfony\Component\ExpressionLanguage\Expression;
 
 final class Configuration implements ConfigurationInterface
 {
@@ -260,8 +259,7 @@ final class Configuration implements ConfigurationInterface
                     ->scalarNode('copy')->end()
                     ->scalarNode('expression')
                         ->validate()
-                            ->ifTrue(isExpression())
-                            ->then(asExpression())
+                            ->always(fn ($data) => new Expression($data))
                         ->end()
                     ->end()
                     ->scalarNode('constant')->end()
