@@ -9,7 +9,8 @@ use PhpParser\Node;
 final class ArrayMapper implements Builder
 {
     public function __construct(private ArrayBuilder $mapper)
-    {}
+    {
+    }
 
     public function getNode(): Node
     {

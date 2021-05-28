@@ -5,6 +5,7 @@ namespace Kiboko\Plugin\FastMap;
 use Symfony\Component\Config\Definition\Builder\TreeBuilder;
 use Symfony\Component\Config\Definition\ConfigurationInterface;
 use Symfony\Component\Config\Definition\NodeInterface;
+use Symfony\Component\ExpressionLanguage\Expression;
 
 final class Configuration implements ConfigurationInterface
 {
@@ -256,7 +257,11 @@ final class Configuration implements ConfigurationInterface
                 ->children()
                     ->scalarNode('field')->isRequired()->end()
                     ->scalarNode('copy')->end()
-                    ->scalarNode('expression')->end()
+                    ->scalarNode('expression')
+                        ->validate()
+                            ->always(fn ($data) => new Expression($data))
+                        ->end()
+                    ->end()
                     ->scalarNode('constant')->end()
                     ->variableNode('map')
                         ->validate()

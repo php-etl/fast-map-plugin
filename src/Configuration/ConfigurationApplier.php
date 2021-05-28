@@ -8,7 +8,8 @@ use Kiboko\Contract\Configurator\InvalidConfigurationException;
 final class ConfigurationApplier
 {
     public function __construct(private array $additionalExpressionVariables = [])
-    {}
+    {
+    }
 
     public function __invoke(CompositeBuilderInterface $mapper, iterable $fields): void
     {
@@ -18,30 +19,30 @@ final class ConfigurationApplier
                     $mapper->object($field['field'], $field['class'], $field['expression'])->children(),
                     $field['object'],
                 );
-            } else if (array_key_exists('collection', $field)) {
+            } elseif (array_key_exists('collection', $field)) {
                 $this(
                     $mapper->collection($field['field'], $field['class'], $field['expression'])->children(),
                     $field['collection'],
                 );
-            } else if (array_key_exists('map', $field)) {
+            } elseif (array_key_exists('map', $field)) {
                 $this(
                     $mapper->map($field['field'], $field['expression'])->children(),
                     $field['map'],
                 );
-            } else if (array_key_exists('list', $field)) {
+            } elseif (array_key_exists('list', $field)) {
                 $this(
                     $mapper->list($field['field'], $field['expression'])->children(),
                     $field['list'],
                 );
-            } else if (array_key_exists('copy', $field)) {
+            } elseif (array_key_exists('copy', $field)) {
                 $mapper->copy($field['field'], $field['copy']);
-            } else if (array_key_exists('expression', $field)) { // Should be at the end in order to let the complex fields use the "expression" property
+            } elseif (array_key_exists('expression', $field)) { // Should be at the end in order to let the complex fields use the "expression" property
                 $mapper->expression(
                     $field['field'],
                     $field['expression'],
                     array_merge([], $field['variables'] ?? [], $this->additionalExpressionVariables),
                 );
-            } else if (array_key_exists('constant', $field)) {
+            } elseif (array_key_exists('constant', $field)) {
                 $mapper->constant($field['field'], $field['constant']);
             } else {
                 throw new InvalidConfigurationException(sprintf(
