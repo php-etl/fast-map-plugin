@@ -10,6 +10,7 @@
         }
     ],
     "minimum-stability": "dev",
+    "prefer-stable": true,
     "require": {
         "php": "^8.0",
         "ext-json": "*",
@@ -18,11 +19,10 @@
         "php-etl/fast-map-config": "^0.3.0",
         "php-etl/configurator-contracts": "^0.3.0",
         "php-etl/packaging-contracts": "^0.1.0",
-        "php-etl/fast-map": "^0.2.0",
-        "php-etl/satellite-toolbox": "^0.1.0"
+        "php-etl/satellite-toolbox": "^0.1.0",
+        "php-etl/pipeline-contracts": "^0.1.0"
     },
     "require-dev": {
-        "php-etl/pipeline-contracts": "^0.1.0",
         "phpunit/phpunit": "^9.0",
         "phpunit/php-invoker": "*",
         "johnkary/phpunit-speedtrap": "*",
