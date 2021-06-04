@@ -341,6 +341,7 @@ final class Configuration implements ConfigurationInterface
                 ->end()
                 ->children()
                     ->scalarNode('condition')->end()
+                    ->booleanNode('append')->end()
                     ->append($this->getMapTreeBuilder()->getRootNode())
                     ->append($this->getListTreeBuilder()->getRootNode())
                     ->append($this->getObjectTreeBuilder()->getRootNode())

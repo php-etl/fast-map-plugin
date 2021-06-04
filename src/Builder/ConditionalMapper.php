@@ -71,7 +71,7 @@ final class ConditionalMapper implements Builder
                                                     ),
                                                     ...array_map(
                                                         function ($alternative) use ($parser) {
-                                                            [$condition, $repository] = $alternative;
+                                                            [$condition, $builder] = $alternative;
 
                                                             return new Node\Expr\ArrayItem(
                                                                 $builder->getNode()
@@ -164,7 +164,7 @@ final class ConditionalMapper implements Builder
                                             'else' => new Node\Stmt\Else_(
                                                 stmts: [
                                                     new Node\Stmt\Return_(
-                                                        new Node\Expr\Variable('output'),
+                                                        new Node\Expr\Variable('input'),
                                                     )
                                                 ]
                                             )
