@@ -10,6 +10,7 @@
         }
     ],
     "minimum-stability": "dev",
+    "prefer-stable": true,
     "require": {
         "php": "^8.0",
         "ext-json": "*",
@@ -18,18 +19,18 @@
         "php-etl/fast-map-config": "^0.3.0",
         "php-etl/configurator-contracts": "^0.3.0",
         "php-etl/packaging-contracts": "^0.1.0",
-        "php-etl/fast-map": "^0.2.0",
         "php-etl/satellite-toolbox": "^0.1.0"
     },
     "require-dev": {
-        "php-etl/pipeline-contracts": "^0.1.0",
         "phpunit/phpunit": "^9.0",
         "phpunit/php-invoker": "*",
         "johnkary/phpunit-speedtrap": "*",
         "mybuilder/phpunit-accelerator": "*",
         "phpspec/phpspec": "^7.0",
         "friends-of-phpspec/phpspec-code-coverage": "*",
-        "adlawson/vfs": "dev-develop"
+        "adlawson/vfs": "dev-develop",
+        "php-etl/bucket": "0.2.x-dev",
+        "php-etl/phpunit-extension": "^0.2.0"
     },
     "autoload": {
         "psr-4": {
