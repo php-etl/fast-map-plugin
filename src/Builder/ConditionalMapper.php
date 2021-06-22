@@ -71,7 +71,7 @@ final class ConditionalMapper implements Builder
                                                     ),
                                                     ...array_map(
                                                         function ($alternative) use ($parser) {
-                                                            [$condition, $repository] = $alternative;
+                                                            [$condition, $builder] = $alternative;
 
                                                             return new Node\Expr\ArrayItem(
                                                                 $builder->getNode()
