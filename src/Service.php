@@ -13,7 +13,7 @@ use Symfony\Component\Config\Definition\Processor;
 use Symfony\Component\ExpressionLanguage\ExpressionLanguage;
 
 #[Configurator\Pipeline(
-    name: "csv",
+    name: "fastmap",
     dependencies: [
         'php-etl/pipeline-contracts:~0.2.0@dev',
         'php-etl/bucket-contracts:~0.1.0@dev',
