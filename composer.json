@@ -16,10 +16,10 @@
         "ext-json": "*",
         "nikic/php-parser": "^4.10",
         "symfony/config": "^5.2",
-        "php-etl/fast-map-config": "^0.3.0",
-        "php-etl/configurator-contracts": "^0.3.0",
-        "php-etl/packaging-contracts": "^0.1.0",
-        "php-etl/satellite-toolbox": "^0.1.0"
+        "php-etl/fast-map-config": "^0.3.0@dev",
+        "php-etl/configurator-contracts": "^0.4.0@dev",
+        "php-etl/packaging-contracts": "^0.1.0@dev",
+        "php-etl/satellite-toolbox": "^0.2.0@dev"
     },
     "require-dev": {
         "phpunit/phpunit": "^9.0",
@@ -44,7 +44,7 @@
     },
     "extra": {
         "branch-alias": {
-            "dev-master": "0.4.x-dev"
+            "dev-master": "0.5.x-dev"
         },
         "satellite": {
             "class": "Kiboko\\Plugin\\FastMap\\Service"
