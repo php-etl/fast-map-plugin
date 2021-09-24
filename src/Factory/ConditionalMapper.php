@@ -4,7 +4,6 @@ namespace Kiboko\Plugin\FastMap\Factory;
 
 use Kiboko\Component\FastMapConfig\ArrayBuilder;
 use Kiboko\Contract\Configurator\InvalidConfigurationException;
-use Kiboko\Contract\Configurator\RepositoryInterface;
 use Kiboko\Plugin\FastMap;
 use Kiboko\Contract\Configurator;
 use Symfony\Component\Config\Definition\ConfigurationInterface;
@@ -52,7 +51,7 @@ final class ConditionalMapper implements Configurator\FactoryInterface
         return false;
     }
 
-    public function compile(array $config): RepositoryInterface
+    public function compile(array $config): Repository\TransformerMapper
     {
         $builder = new FastMap\Builder\ConditionalMapper(
             interpreter: $this->interpreter,

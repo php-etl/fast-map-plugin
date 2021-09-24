@@ -3,7 +3,6 @@
 namespace Kiboko\Plugin\FastMap\Factory;
 
 use Kiboko\Component\FastMapConfig\ArrayBuilder;
-use Kiboko\Contract\Configurator\RepositoryInterface;
 use Kiboko\Plugin\FastMap;
 use Kiboko\Contract\Configurator;
 use Symfony\Component\Config\Definition\ConfigurationInterface;
@@ -51,7 +50,7 @@ final class ArrayMapper implements Configurator\FactoryInterface
         return false;
     }
 
-    public function compile(array $config): RepositoryInterface
+    public function compile(array $config): Repository\TransformerMapper
     {
         $mapper = new ArrayBuilder(
             interpreter: $this->interpreter,
