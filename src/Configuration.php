@@ -2,16 +2,16 @@
 
 namespace Kiboko\Plugin\FastMap;
 
+use Kiboko\Contract\Configurator\PluginConfigurationInterface;
 use Symfony\Component\Config\Definition\Builder\TreeBuilder;
-use Symfony\Component\Config\Definition\ConfigurationInterface;
 use Symfony\Component\Config\Definition\NodeInterface;
 use Symfony\Component\ExpressionLanguage\Expression;
 
-final class Configuration implements ConfigurationInterface
+final class Configuration implements PluginConfigurationInterface
 {
-    public function __construct(private string $name = 'fastmap')
-    {
-    }
+    public function __construct(
+        private string $name = 'fastmap'
+    ) {}
 
     public function getConfigTreeBuilder()
     {
