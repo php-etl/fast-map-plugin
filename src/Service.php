@@ -20,7 +20,10 @@ use Symfony\Component\ExpressionLanguage\ExpressionLanguage;
         'php-etl/bucket:~0.2.0@dev',
     ],
     steps: [
-        "transformer" => null,
+        "map" => "transformer",
+        "list" => "transformer",
+        "object" => "transformer",
+        "collection" => "transformer",
     ],
 )]
 final class Service implements FactoryInterface
