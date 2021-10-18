@@ -4,7 +4,7 @@ namespace functional\Kiboko\Plugin\FastMap\Builder;
 
 use functional\Kiboko\Plugin\FastMap\DTO\Customer;
 use Kiboko\Component\FastMapConfig\ArrayBuilder;
-use Kiboko\Component\PHPUnitExtension\BuilderAssertTrait;
+use Kiboko\Component\PHPUnitExtension\Assert\TransformerBuilderAssertTrait;
 use Kiboko\Plugin\FastMap\Builder\ArrayMapper;
 use Kiboko\Plugin\FastMap\Builder\Transformer;
 use Kiboko\Plugin\FastMap\Configuration\ConfigurationApplier;
@@ -13,7 +13,7 @@ use Vfs\FileSystem;
 
 final class ArrayMapperTest extends TestCase
 {
-    use BuilderAssertTrait;
+    use TransformerBuilderAssertTrait;
 
     private ?FileSystem $fs = null;
 
@@ -54,16 +54,16 @@ final class ArrayMapperTest extends TestCase
             ]
         );
 
-        $this->assertBuilderProducesPipelineTransformingLike(
-            [
-                (new Customer())->setEmail('myemail@gmail.com')
-            ],
+        $this->assertBuildsTransformerTransformsLike(
             [
                 [
                     'customer' => [
                         'email' => 'myemail@gmail.com'
                     ]
                 ]
+            ],
+        [
+                (new Customer())->setEmail('myemail@gmail.com')
             ],
             $builder
         );
