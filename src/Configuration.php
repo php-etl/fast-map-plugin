@@ -6,6 +6,8 @@ use Kiboko\Contract\Configurator\PluginConfigurationInterface;
 use Symfony\Component\Config\Definition\Builder\TreeBuilder;
 use Symfony\Component\Config\Definition\NodeInterface;
 use Symfony\Component\ExpressionLanguage\Expression;
+use function Kiboko\Component\SatelliteToolbox\Configuration\mutuallyExclusiveFields;
+use function Kiboko\Component\SatelliteToolbox\Configuration\mutuallyDependentFields;
 
 final class Configuration implements PluginConfigurationInterface
 {
@@ -22,7 +24,7 @@ final class Configuration implements PluginConfigurationInterface
                 ->always($this->cleanupFields('conditional', 'expression_language', 'map', 'list', 'object', 'collection'))
             ->end()
             ->validate()
-                ->always($this->mutuallyExclusiveFields('conditional', 'map', 'list', 'object', 'collection'))
+                ->always(mutuallyExclusiveFields('conditional', 'map', 'list', 'object', 'collection'))
             ->end()
             ->children()
                 ->scalarNode('class')->end()
@@ -43,34 +45,34 @@ final class Configuration implements PluginConfigurationInterface
                 ->thenInvalid('Your configuration should be an array.')
             ->end()
             ->validate()
-                ->always($this->mutuallyExclusiveFields('copy', 'expression', 'constant', 'class', 'map', 'object', 'list', 'collection'))
+                ->always(mutuallyExclusiveFields('copy', 'expression', 'constant', 'class', 'map', 'object', 'list', 'collection'))
             ->end()
             ->validate()
-                ->always($this->mutuallyExclusiveFields('expression', 'copy', 'constant', 'map'))
+                ->always(mutuallyExclusiveFields('expression', 'copy', 'constant', 'map'))
             ->end()
             ->validate()
-                ->always($this->mutuallyExclusiveFields('constant', 'copy', 'expression', 'class', 'map', 'object', 'list', 'collection'))
+                ->always(mutuallyExclusiveFields('constant', 'copy', 'expression', 'class', 'map', 'object', 'list', 'collection'))
             ->end()
             ->validate()
-                ->always($this->mutuallyExclusiveFields('map', 'copy', 'expression', 'constant', 'class', 'object', 'list', 'collection'))
+                ->always(mutuallyExclusiveFields('map', 'copy', 'expression', 'constant', 'class', 'object', 'list', 'collection'))
             ->end()
             ->validate()
-                ->always($this->mutuallyExclusiveFields('object', 'copy', 'constant', 'map', 'list', 'collection'))
+                ->always(mutuallyExclusiveFields('object', 'copy', 'constant', 'map', 'list', 'collection'))
             ->end()
             ->validate()
-                ->always($this->mutuallyExclusiveFields('list', 'copy', 'constant', 'class', 'map', 'object', 'collection'))
+                ->always(mutuallyExclusiveFields('list', 'copy', 'constant', 'class', 'map', 'object', 'collection'))
             ->end()
             ->validate()
-                ->always($this->mutuallyExclusiveFields('collection', 'copy', 'constant', 'map', 'object', 'list'))
+                ->always(mutuallyExclusiveFields('collection', 'copy', 'constant', 'map', 'object', 'list'))
             ->end()
             ->validate()
-                ->always($this->mutuallyDependentFields('object', 'class', 'expression'))
+                ->always(mutuallyDependentFields('object', 'class', 'expression'))
             ->end()
             ->validate()
-                ->always($this->mutuallyDependentFields('collection', 'class', 'expression'))
+                ->always(mutuallyDependentFields('collection', 'class', 'expression'))
             ->end()
             ->validate()
-                ->always($this->mutuallyDependentFields('list', 'expression'))
+                ->always(mutuallyDependentFields('list', 'expression'))
             ->end()
         ;
 
@@ -141,48 +143,6 @@ final class Configuration implements PluginConfigurationInterface
         return $definition->getNode(true);
     }
 
-    private function mutuallyExclusiveFields(string $field, string ...$exclusions): \Closure
-    {
-        return function (array $value) use ($field, $exclusions) {
-            if (!array_key_exists($field, $value)) {
-                return $value;
-            }
-
-            foreach ($exclusions as $exclusion) {
-                if (array_key_exists($exclusion, $value)) {
-                    throw new \InvalidArgumentException(sprintf(
-                        'Your configuration should either contain the "%s" or the "%s" field, not both.',
-                        $field,
-                        $exclusion,
-                    ));
-                }
-            }
-
-            return $value;
-        };
-    }
-
-    private function mutuallyDependentFields(string $field, string ...$dependencies): \Closure
-    {
-        return function (array $value) use ($field, $dependencies) {
-            if (!array_key_exists($field, $value)) {
-                return $value;
-            }
-
-            foreach ($dependencies as $dependency) {
-                if (!array_key_exists($dependency, $value)) {
-                    throw new \InvalidArgumentException(sprintf(
-                        'Your configuration should contain the "%s" field if the "%s" field is present.',
-                        $dependency,
-                        $field,
-                    ));
-                }
-            }
-
-            return $value;
-        };
-    }
-
     private function cleanupFields(string ...$fieldNames): \Closure
     {
         return function (array $value) use ($fieldNames) {
@@ -210,40 +170,40 @@ final class Configuration implements PluginConfigurationInterface
                     ->always($this->cleanupFields('map', 'list', 'object', 'collection'))
                 ->end()
                 ->validate()
-                    ->always($this->mutuallyExclusiveFields('map', 'list', 'object', 'collection'))
+                    ->always(mutuallyExclusiveFields('map', 'list', 'object', 'collection'))
                 ->end()
                 ->validate()
-                    ->always($this->mutuallyExclusiveFields('copy', 'expression', 'constant', 'class', 'map', 'object', 'list', 'collection'))
+                    ->always(mutuallyExclusiveFields('copy', 'expression', 'constant', 'class', 'map', 'object', 'list', 'collection'))
                 ->end()
                 ->validate()
-                    ->always($this->mutuallyExclusiveFields('expression', 'copy', 'constant'))
+                    ->always(mutuallyExclusiveFields('expression', 'copy', 'constant'))
                 ->end()
                 ->validate()
-                    ->always($this->mutuallyExclusiveFields('constant', 'copy', 'expression', 'class', 'map', 'object', 'list', 'collection'))
+                    ->always(mutuallyExclusiveFields('constant', 'copy', 'expression', 'class', 'map', 'object', 'list', 'collection'))
                 ->end()
                 ->validate()
-                    ->always($this->mutuallyExclusiveFields('map', 'copy', 'constant', 'class', 'object', 'list', 'collection'))
+                    ->always(mutuallyExclusiveFields('map', 'copy', 'constant', 'class', 'object', 'list', 'collection'))
                 ->end()
                 ->validate()
-                    ->always($this->mutuallyExclusiveFields('object', 'copy', 'constant', 'map', 'list', 'collection'))
+                    ->always(mutuallyExclusiveFields('object', 'copy', 'constant', 'map', 'list', 'collection'))
                 ->end()
                 ->validate()
-                    ->always($this->mutuallyExclusiveFields('list', 'copy', 'constant', 'class', 'map', 'object', 'collection'))
+                    ->always(mutuallyExclusiveFields('list', 'copy', 'constant', 'class', 'map', 'object', 'collection'))
                 ->end()
                 ->validate()
-                    ->always($this->mutuallyExclusiveFields('collection', 'copy', 'constant', 'map', 'object', 'list'))
+                    ->always(mutuallyExclusiveFields('collection', 'copy', 'constant', 'map', 'object', 'list'))
                 ->end()
                 ->validate()
-                    ->always($this->mutuallyDependentFields('object', 'class', 'expression'))
+                    ->always(mutuallyDependentFields('object', 'class', 'expression'))
                 ->end()
                 ->validate()
-                    ->always($this->mutuallyDependentFields('collection', 'class', 'expression'))
+                    ->always(mutuallyDependentFields('collection', 'class', 'expression'))
                 ->end()
                 ->validate()
-                    ->always($this->mutuallyDependentFields('map', 'expression'))
+                    ->always(mutuallyDependentFields('map', 'expression'))
                 ->end()
                 ->validate()
-                    ->always($this->mutuallyDependentFields('list', 'expression'))
+                    ->always(mutuallyDependentFields('list', 'expression'))
                 ->end()
                 ->validate()
                     ->ifTrue(function (array $value) {
@@ -337,7 +297,7 @@ final class Configuration implements PluginConfigurationInterface
                     ->always($this->cleanupFields('map', 'list', 'object', 'collection'))
                 ->end()
                 ->validate()
-                    ->always($this->mutuallyExclusiveFields('map', 'list', 'object', 'collection'))
+                    ->always(mutuallyExclusiveFields('map', 'list', 'object', 'collection'))
                 ->end()
                 ->children()
                     ->scalarNode('condition')->end()
