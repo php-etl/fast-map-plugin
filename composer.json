@@ -1,7 +1,7 @@
 {
     "name": "php-etl/fast-map-plugin",
     "description": "Adapters for the Fast Map mapping library",
-    "type": "satellite-plugin",
+    "type": "gyroscops-plugin",
     "license": "MIT",
     "authors": [
         {
@@ -46,8 +46,8 @@
         "branch-alias": {
             "dev-master": "0.6.x-dev"
         },
-        "satellite": {
-            "class": "Kiboko\\Plugin\\FastMap\\Service"
+        "gyroscops": {
+            "plugins": ["Kiboko\\Plugin\\FastMap\\Service"]
         }
     },
     "config": {
