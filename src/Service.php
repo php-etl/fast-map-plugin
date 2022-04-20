@@ -74,26 +74,28 @@ final class Service implements Configurator\PipelinePluginInterface
      */
     public function compile(array $config): Factory\Repository\TransformerMapper
     {
+        $interpreter = clone $this->interpreter;
+
         if (array_key_exists('expression_language', $config)
             && is_array($config['expression_language'])
             && count($config['expression_language'])
         ) {
             foreach ($config['expression_language'] as $provider) {
-                $this->interpreter->registerProvider(new $provider);
+                $interpreter->registerProvider(new $provider);
             }
         }
 
         try {
             if (array_key_exists('conditional', $config)) {
-                $conditionalFactory = new Factory\ConditionalMapper($this->interpreter, $this->additionalExpressionVariables);
+                $conditionalFactory = new Factory\ConditionalMapper($interpreter, $this->additionalExpressionVariables);
 
                 return $conditionalFactory->compile($config['conditional']);
             } elseif (array_key_exists('map', $config)) {
-                $arrayFactory = new Factory\ArrayMapper($this->interpreter, $this->additionalExpressionVariables);
+                $arrayFactory = new Factory\ArrayMapper($interpreter, $this->additionalExpressionVariables);
 
                 return $arrayFactory->compile($config['map']);
             } elseif (array_key_exists('object', $config)) {
-                $objectFactory = new Factory\ObjectMapper($this->interpreter, $this->additionalExpressionVariables);
+                $objectFactory = new Factory\ObjectMapper($interpreter, $this->additionalExpressionVariables);
 
                 return $objectFactory->compile($config['object']);
             } else {
