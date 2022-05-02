@@ -18,7 +18,7 @@ use Symfony\Component\ExpressionLanguage\ExpressionLanguage;
         'php-etl/bucket:~0.2.0@dev',
     ],
     steps: [
-        null => "transformer",
+        new Configurator\Pipeline\StepTransformer(null),
     ],
 )]
 final class Service implements Configurator\PipelinePluginInterface
