@@ -2,7 +2,11 @@
 
 namespace Kiboko\Plugin\FastMap\Factory;
 
+use Kiboko\Component\FastMap\Mapping\Composite\ArrayAppendMapper;
+use Kiboko\Component\FastMapConfig\ArrayAppendBuilder;
 use Kiboko\Component\FastMapConfig\ArrayBuilder;
+use Kiboko\Component\FastMapConfig\ObjectAppendBuilder;
+use Kiboko\Component\FastMapConfig\ObjectBuilder;
 use Kiboko\Contract\Configurator\InvalidConfigurationException;
 use Kiboko\Plugin\FastMap;
 use Kiboko\Contract\Configurator;
@@ -60,9 +64,17 @@ final class ConditionalMapper implements Configurator\FactoryInterface
         foreach ($config as $alternative) {
             try {
                 if (array_key_exists('map', $alternative)) {
-                    $mapper = new ArrayBuilder(
-                        interpreter: $this->interpreter,
-                    );
+                    if (array_key_exists('append', $alternative)
+                        && $alternative['append'] === true
+                    ) {
+                        $mapper = new ArrayAppendBuilder(
+                            interpreter: $this->interpreter,
+                        );
+                    } else {
+                        $mapper = new ArrayBuilder(
+                            interpreter: $this->interpreter,
+                        );
+                    }
 
                     $mapperBuilder = new FastMap\Builder\ArrayMapper($mapper);
 
@@ -80,11 +92,19 @@ final class ConditionalMapper implements Configurator\FactoryInterface
                         );
                     }
                 } elseif (array_key_exists('object', $alternative)) {
-                    $mapper = new ArrayBuilder(
-                        interpreter: $this->interpreter,
-                    );
+                    if (array_key_exists('append', $alternative)
+                        && $alternative['append'] === true
+                    ) {
+                        $mapper = new ObjectAppendBuilder(
+                            interpreter: $this->interpreter,
+                        );
+                    } else {
+                        $mapper = new ObjectBuilder(
+                            interpreter: $this->interpreter,
+                        );
+                    }
 
-                    $mapperBuilder = new FastMap\Builder\ArrayMapper($mapper);
+                    $mapperBuilder = new FastMap\Builder\ObjectMapper($mapper);
 
                     (new FastMap\Configuration\ConfigurationApplier())($mapper->children(), $alternative['object']);
 

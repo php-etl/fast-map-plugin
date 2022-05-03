@@ -301,6 +301,7 @@ final class Configuration implements PluginConfigurationInterface
                 ->end()
                 ->children()
                     ->scalarNode('condition')->end()
+                    ->booleanNode('append')->end()
                     ->append($this->getMapTreeBuilder()->getRootNode())
                     ->append($this->getListTreeBuilder()->getRootNode())
                     ->append($this->getObjectTreeBuilder()->getRootNode())

@@ -2,13 +2,13 @@
 
 namespace Kiboko\Plugin\FastMap\Builder;
 
-use Kiboko\Component\FastMapConfig\ArrayBuilder;
+use Kiboko\Component\FastMapConfig\ArrayBuilderInterface;
 use PhpParser\Builder;
 use PhpParser\Node;
 
 final class ArrayMapper implements Builder
 {
-    public function __construct(private ArrayBuilder $mapper)
+    public function __construct(private ArrayBuilderInterface $mapper)
     {
     }
 

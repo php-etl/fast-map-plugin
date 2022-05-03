@@ -2,13 +2,13 @@
 
 namespace Kiboko\Plugin\FastMap\Builder;
 
-use Kiboko\Component\FastMapConfig\ObjectBuilder;
+use Kiboko\Component\FastMapConfig\ObjectBuilderInterface;
 use PhpParser\Builder;
 use PhpParser\Node;
 
 final class ObjectMapper implements Builder
 {
-    public function __construct(private ObjectBuilder $mapper)
+    public function __construct(private ObjectBuilderInterface $mapper)
     {
     }
 

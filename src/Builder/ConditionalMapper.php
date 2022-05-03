@@ -164,7 +164,7 @@ final class ConditionalMapper implements Builder
                                             'else' => new Node\Stmt\Else_(
                                                 stmts: [
                                                     new Node\Stmt\Return_(
-                                                        new Node\Expr\Variable('output'),
+                                                        new Node\Expr\Variable('input'),
                                                     )
                                                 ]
                                             )
