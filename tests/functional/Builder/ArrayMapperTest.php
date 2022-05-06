@@ -11,7 +11,7 @@ use Kiboko\Plugin\FastMap\Configuration\ConfigurationApplier;
 use PHPUnit\Framework\TestCase;
 use Vfs\FileSystem;
 
-final class ArrayMapperTest extends TestCase
+abstract class ArrayMapperTest extends TestCase
 {
     use TransformerBuilderAssertTrait;
 

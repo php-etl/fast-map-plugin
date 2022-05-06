@@ -45,22 +45,22 @@ final class Configuration implements PluginConfigurationInterface
                 ->thenInvalid('Your configuration should be an array.')
             ->end()
             ->validate()
-                ->always(mutuallyExclusiveFields('copy', 'expression', 'constant', 'class', 'map', 'object', 'list', 'collection'))
+                ->always(mutuallyExclusiveFields('copy', 'constant', 'map', 'object', 'list', 'collection'))
             ->end()
             ->validate()
                 ->always(mutuallyExclusiveFields('expression', 'copy', 'constant', 'map'))
             ->end()
             ->validate()
-                ->always(mutuallyExclusiveFields('constant', 'copy', 'expression', 'class', 'map', 'object', 'list', 'collection'))
+                ->always(mutuallyExclusiveFields('constant', 'copy', 'map', 'object', 'list', 'collection'))
             ->end()
             ->validate()
-                ->always(mutuallyExclusiveFields('map', 'copy', 'expression', 'constant', 'class', 'object', 'list', 'collection'))
+                ->always(mutuallyExclusiveFields('map', 'copy', 'constant', 'object', 'list', 'collection'))
             ->end()
             ->validate()
                 ->always(mutuallyExclusiveFields('object', 'copy', 'constant', 'map', 'list', 'collection'))
             ->end()
             ->validate()
-                ->always(mutuallyExclusiveFields('list', 'copy', 'constant', 'class', 'map', 'object', 'collection'))
+                ->always(mutuallyExclusiveFields('list', 'copy', 'constant', 'map', 'object', 'collection'))
             ->end()
             ->validate()
                 ->always(mutuallyExclusiveFields('collection', 'copy', 'constant', 'map', 'object', 'list'))
@@ -82,65 +82,42 @@ final class Configuration implements PluginConfigurationInterface
     private function evaluateMap($children)
     {
         $node = $this->getMapNode();
-        $children = $node->finalize($children);
-
-        return $children;
+        return $node->finalize($children);
     }
 
     private function evaluateList($children)
     {
-        $node = $this->getListNode();
-        $children = $node->finalize($children);
-
-        return $children;
+        return $this->getListNode()->finalize($children);
     }
 
     private function evaluateObject($children)
     {
-        $node = $this->getObjectNode();
-        $children = $node->finalize($children);
-
-        return $children;
+        return $this->getObjectNode()->finalize($children);
     }
 
     private function evaluateCollection($children)
     {
-        $node = $this->getCollectionNode();
-        $children = $node->finalize($children);
-
-        return $children;
+        return $this->getCollectionNode()->finalize($children);
     }
 
     private function getMapNode(): NodeInterface
     {
-        $definition = $this->getMapTreeBuilder()
-            ->getRootNode();
-
-        return $definition->getNode(true);
+        return $this->getMapTreeBuilder()->getRootNode()->getNode(true);
     }
 
     private function getListNode(): NodeInterface
     {
-        $definition = $this->getListTreeBuilder()
-            ->getRootNode();
-
-        return $definition->getNode(true);
+        return $this->getListTreeBuilder()->getRootNode()->getNode(true);
     }
 
     private function getObjectNode(): NodeInterface
     {
-        $definition = $this->getObjectTreeBuilder()
-            ->getRootNode();
-
-        return $definition->getNode(true);
+        return $this->getObjectTreeBuilder()->getRootNode()->getNode(true);
     }
 
     private function getCollectionNode(): NodeInterface
     {
-        $definition = $this->getCollectionTreeBuilder()
-            ->getRootNode();
-
-        return $definition->getNode(true);
+        return $this->getCollectionTreeBuilder()->getRootNode()->getNode(true);
     }
 
     private function cleanupFields(string ...$fieldNames): \Closure
@@ -173,22 +150,22 @@ final class Configuration implements PluginConfigurationInterface
                     ->always(mutuallyExclusiveFields('map', 'list', 'object', 'collection'))
                 ->end()
                 ->validate()
-                    ->always(mutuallyExclusiveFields('copy', 'expression', 'constant', 'class', 'map', 'object', 'list', 'collection'))
+                    ->always(mutuallyExclusiveFields('copy', 'constant', 'map', 'object', 'list', 'collection'))
                 ->end()
                 ->validate()
                     ->always(mutuallyExclusiveFields('expression', 'copy', 'constant'))
                 ->end()
                 ->validate()
-                    ->always(mutuallyExclusiveFields('constant', 'copy', 'expression', 'class', 'map', 'object', 'list', 'collection'))
+                    ->always(mutuallyExclusiveFields('constant', 'copy', 'map', 'object', 'list', 'collection'))
                 ->end()
                 ->validate()
-                    ->always(mutuallyExclusiveFields('map', 'copy', 'constant', 'class', 'object', 'list', 'collection'))
+                    ->always(mutuallyExclusiveFields('map', 'copy', 'constant', 'object', 'list', 'collection'))
                 ->end()
                 ->validate()
                     ->always(mutuallyExclusiveFields('object', 'copy', 'constant', 'map', 'list', 'collection'))
                 ->end()
                 ->validate()
-                    ->always(mutuallyExclusiveFields('list', 'copy', 'constant', 'class', 'map', 'object', 'collection'))
+                    ->always(mutuallyExclusiveFields('list', 'copy', 'constant', 'map', 'object', 'collection'))
                 ->end()
                 ->validate()
                     ->always(mutuallyExclusiveFields('collection', 'copy', 'constant', 'map', 'object', 'list'))
