@@ -28,7 +28,7 @@ jobs:
                         ${{ runner.os }}-composer-
             -   uses: php-actions/composer@v5
                 with:
-                    args: --prefer-dist
+                    args: --prefer-dist --ignore-platform-reqs
                     php_version: 8.0
 
             -   name: Run tests & generate Coverage
@@ -54,7 +54,7 @@ jobs:
                         ${{ runner.os }}-composer-
             -   uses: php-actions/composer@v5
                 with:
-                    args: --prefer-dist
+                    args: --prefer-dist --ignore-platform-reqs
                     php_version: 8.0
 
             -   name: PHPStan
@@ -80,7 +80,7 @@ jobs:
                         ${{ runner.os }}-composer-
             -   uses: php-actions/composer@v5
                 with:
-                    args: --prefer-dist
+                    args: --prefer-dist --ignore-platform-reqs
                     php_version: 8.0
 
             -   name: Infection
