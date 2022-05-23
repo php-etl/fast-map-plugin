@@ -1,13 +1,15 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 namespace Kiboko\Plugin\FastMap;
 
+use function Kiboko\Component\SatelliteToolbox\Configuration\mutuallyDependentFields;
+use function Kiboko\Component\SatelliteToolbox\Configuration\mutuallyExclusiveFields;
 use Kiboko\Contract\Configurator\PluginConfigurationInterface;
 use Symfony\Component\Config\Definition\Builder\TreeBuilder;
 use Symfony\Component\Config\Definition\NodeInterface;
 use Symfony\Component\ExpressionLanguage\Expression;
-use function Kiboko\Component\SatelliteToolbox\Configuration\mutuallyExclusiveFields;
-use function Kiboko\Component\SatelliteToolbox\Configuration\mutuallyDependentFields;
 
 final class Configuration implements PluginConfigurationInterface
 {
@@ -15,10 +17,11 @@ final class Configuration implements PluginConfigurationInterface
         private string $name = 'fastmap'
     ) {}
 
-    public function getConfigTreeBuilder()
+    public function getConfigTreeBuilder(): TreeBuilder
     {
         $builder = new TreeBuilder($this->name);
 
+        /* @phpstan-ignore-next-line */
         $builder->getRootNode()
             ->validate()
                 ->always($this->cleanupFields('conditional', 'expression_language', 'map', 'list', 'object', 'collection'))
@@ -39,9 +42,7 @@ final class Configuration implements PluginConfigurationInterface
                 ->append($this->getCollectionTreeBuilder()->getRootNode())
             ->end()
             ->validate()
-                ->ifTrue(function ($value) {
-                    return !is_array($value);
-                })
+                ->ifTrue(fn ($value) => !\is_array($value))
                 ->thenInvalid('Your configuration should be an array.')
             ->end()
             ->validate()
@@ -81,8 +82,7 @@ final class Configuration implements PluginConfigurationInterface
 
     private function evaluateMap($children)
     {
-        $node = $this->getMapNode();
-        return $node->finalize($children);
+        return $this->getMapNode()->finalize($children);
     }
 
     private function evaluateList($children)
@@ -124,11 +124,11 @@ final class Configuration implements PluginConfigurationInterface
     {
         return function (array $value) use ($fieldNames) {
             foreach ($fieldNames as $fieldName) {
-                if (!array_key_exists($fieldName, $value)) {
+                if (!\array_key_exists($fieldName, $value)) {
                     continue;
                 }
 
-                if (!is_array($value[$fieldName]) || count($value[$fieldName]) <= 0) {
+                if (!\is_array($value[$fieldName]) || \count($value[$fieldName]) <= 0) {
                     unset($value[$fieldName]);
                 }
             }
@@ -141,6 +141,7 @@ final class Configuration implements PluginConfigurationInterface
     {
         $builder = new TreeBuilder($name);
 
+        /* @phpstan-ignore-next-line */
         $builder->getRootNode()
             ->arrayPrototype()
                 ->validate()
@@ -202,59 +203,43 @@ final class Configuration implements PluginConfigurationInterface
                     ->scalarNode('constant')->end()
                     ->variableNode('map')
                         ->validate()
-                            ->ifTrue(function ($element) {
-                                return !is_array($element);
-                            })
+                            ->ifTrue(fn ($element) => !\is_array($element))
                             ->thenInvalid('The children element must be an array.')
                         ->end()
                         ->validate()
                             ->ifArray()
-                            ->then(function (array $children) {
-                                return $this->evaluateMap($children);
-                            })
+                            ->then(fn (array $children) => $this->evaluateMap($children))
                         ->end()
                     ->end()
                     ->variableNode('list')
                         ->validate()
-                            ->ifTrue(function ($element) {
-                                return !is_array($element);
-                            })
+                            ->ifTrue(fn ($element) => !\is_array($element))
                             ->thenInvalid('The children element must be an array.')
                         ->end()
                         ->validate()
                             ->ifArray()
-                            ->then(function (array $children) {
-                                return $this->evaluateList($children);
-                            })
+                            ->then(fn (array $children) => $this->evaluateList($children))
                         ->end()
                     ->end()
                     ->scalarNode('class')->end()
                     ->variableNode('object')
                         ->validate()
-                            ->ifTrue(function ($element) {
-                                return !is_array($element);
-                            })
+                            ->ifTrue(fn ($element) => !\is_array($element))
                             ->thenInvalid('The children element must be an array.')
                         ->end()
                         ->validate()
                             ->ifArray()
-                            ->then(function (array $children) {
-                                return $this->evaluateObject($children);
-                            })
+                            ->then(fn (array $children) => $this->evaluateObject($children))
                         ->end()
                     ->end()
                     ->variableNode('collection')
                         ->validate()
-                            ->ifTrue(function ($element) {
-                                return !is_array($element);
-                            })
+                            ->ifTrue(fn ($element) => !\is_array($element))
                             ->thenInvalid('The children element must be an array.')
                         ->end()
                         ->validate()
                             ->ifArray()
-                            ->then(function (array $children) {
-                                return $this->evaluateCollection($children);
-                            })
+                            ->then(fn (array $children) => $this->evaluateCollection($children))
                         ->end()
                     ->end()
                 ->end()
@@ -268,6 +253,7 @@ final class Configuration implements PluginConfigurationInterface
     {
         $builder = new TreeBuilder('conditional');
 
+        /* @phpstan-ignore-next-line */
         $builder->getRootNode()
             ->arrayPrototype()
                 ->validate()
@@ -284,7 +270,8 @@ final class Configuration implements PluginConfigurationInterface
                     ->append($this->getObjectTreeBuilder()->getRootNode())
                     ->append($this->getCollectionTreeBuilder()->getRootNode())
                 ->end()
-            ->end();
+            ->end()
+        ;
 
         return $builder;
     }

@@ -1,15 +1,16 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 namespace Kiboko\Plugin\FastMap\Factory;
 
-use Kiboko\Component\FastMap\Mapping\Composite\ArrayAppendMapper;
 use Kiboko\Component\FastMapConfig\ArrayAppendBuilder;
 use Kiboko\Component\FastMapConfig\ArrayBuilder;
 use Kiboko\Component\FastMapConfig\ObjectAppendBuilder;
 use Kiboko\Component\FastMapConfig\ObjectBuilder;
+use Kiboko\Contract\Configurator;
 use Kiboko\Contract\Configurator\InvalidConfigurationException;
 use Kiboko\Plugin\FastMap;
-use Kiboko\Contract\Configurator;
 use Symfony\Component\Config\Definition\ConfigurationInterface;
 use Symfony\Component\Config\Definition\Exception as Symfony;
 use Symfony\Component\Config\Definition\Processor;
@@ -63,9 +64,9 @@ final class ConditionalMapper implements Configurator\FactoryInterface
 
         foreach ($config as $alternative) {
             try {
-                if (array_key_exists('map', $alternative)) {
-                    if (array_key_exists('append', $alternative)
-                        && $alternative['append'] === true
+                if (\array_key_exists('map', $alternative)) {
+                    if (\array_key_exists('append', $alternative)
+                        && true === $alternative['append']
                     ) {
                         $mapper = new ArrayAppendBuilder(
                             interpreter: $this->interpreter,
@@ -86,21 +87,20 @@ final class ConditionalMapper implements Configurator\FactoryInterface
                             $mapperBuilder
                         );
                     } catch (Symfony\InvalidTypeException|Symfony\InvalidConfigurationException $exception) {
-                        throw new Configurator\InvalidConfigurationException(
-                            message: $exception->getMessage(),
-                            previous: $exception
-                        );
+                        throw new Configurator\InvalidConfigurationException(message: $exception->getMessage(), previous: $exception);
                     }
-                } elseif (array_key_exists('object', $alternative)) {
-                    if (array_key_exists('append', $alternative)
-                        && $alternative['append'] === true
+                } elseif (\array_key_exists('object', $alternative)) {
+                    if (\array_key_exists('append', $alternative)
+                        && true === $alternative['append']
                     ) {
                         $mapper = new ObjectAppendBuilder(
-                            interpreter: $this->interpreter,
+                            className: $alternative['object']['class'],
+                            interpreter: $this->interpreter
                         );
                     } else {
                         $mapper = new ObjectBuilder(
-                            interpreter: $this->interpreter,
+                            className: $alternative['object']['class'],
+                            interpreter: $this->interpreter
                         );
                     }
 
@@ -114,15 +114,10 @@ final class ConditionalMapper implements Configurator\FactoryInterface
                             $mapperBuilder
                         );
                     } catch (Symfony\InvalidTypeException|Symfony\InvalidConfigurationException $exception) {
-                        throw new Configurator\InvalidConfigurationException(
-                            message: $exception->getMessage(),
-                            previous: $exception
-                        );
+                        throw new Configurator\InvalidConfigurationException(message: $exception->getMessage(), previous: $exception);
                     }
                 } else {
-                    throw new InvalidConfigurationException(
-                        'Could not determine if the factory should build an array or an object transformer.'
-                    );
+                    throw new InvalidConfigurationException('Could not determine if the factory should build an array or an object transformer.');
                 }
             } catch (Symfony\InvalidTypeException|Symfony\InvalidConfigurationException $exception) {
                 throw new InvalidConfigurationException($exception->getMessage(), 0, $exception);
@@ -134,10 +129,7 @@ final class ConditionalMapper implements Configurator\FactoryInterface
                 new FastMap\Builder\Transformer($builder),
             );
         } catch (Symfony\InvalidTypeException|Symfony\InvalidConfigurationException $exception) {
-            throw new Configurator\InvalidConfigurationException(
-                message: $exception->getMessage(),
-                previous: $exception
-            );
+            throw new Configurator\InvalidConfigurationException(message: $exception->getMessage(), previous: $exception);
         }
     }
 }

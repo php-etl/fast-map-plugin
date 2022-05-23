@@ -1,7 +1,10 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 namespace Kiboko\Plugin\FastMap\Builder;
 
+use Kiboko\Component\FastMap\Mapping\Composite\ObjectAppendMapper;
 use Kiboko\Component\FastMapConfig\ObjectBuilderInterface;
 use PhpParser\Builder;
 use PhpParser\Node;

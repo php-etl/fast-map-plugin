@@ -1,6 +1,9 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 namespace Kiboko\Plugin\FastMap\Builder;
+
 
 use Kiboko\Component\FastMapConfig\ArrayBuilderInterface;
 use PhpParser\Builder;
