@@ -12,7 +12,8 @@ use PhpParser\Node;
 final class Transformer implements StepBuilderInterface
 {
     public function __construct(private Builder|Node $mapper)
-    {}
+    {
+    }
 
     public function withLogger(Node\Expr $logger): self
     {
