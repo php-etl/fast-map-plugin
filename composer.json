@@ -30,7 +30,8 @@
         "friends-of-phpspec/phpspec-code-coverage": "*",
         "adlawson/vfs": "dev-develop",
         "php-etl/bucket": "0.2.x-dev",
-        "php-etl/phpunit-extension": "^0.2.0"
+        "php-etl/phpunit-extension": "^0.2.0",
+        "friendsofphp/php-cs-fixer": "^3.0"
     },
     "autoload": {
         "psr-4": {

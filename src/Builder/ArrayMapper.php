@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 namespace Kiboko\Plugin\FastMap\Builder;
 
@@ -28,7 +30,7 @@ final class ArrayMapper implements Builder
                                 'flags' => Node\Stmt\Class_::MODIFIER_PUBLIC,
                                 'stmts' => [
                                     ...$this->mapper->getMapper()->compile(new Node\Expr\Variable('output')),
-                                   new Node\Stmt\Return_(new Node\Expr\Variable('output')),
+                                    new Node\Stmt\Return_(new Node\Expr\Variable('output')),
                                 ],
                                 'params' => [
                                     new Node\Param(

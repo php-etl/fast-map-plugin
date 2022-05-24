@@ -1,10 +1,12 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 namespace Kiboko\Plugin\FastMap\Factory;
 
 use Kiboko\Component\FastMapConfig\ArrayBuilder;
-use Kiboko\Plugin\FastMap;
 use Kiboko\Contract\Configurator;
+use Kiboko\Plugin\FastMap;
 use Symfony\Component\Config\Definition\ConfigurationInterface;
 use Symfony\Component\Config\Definition\Exception as Symfony;
 use Symfony\Component\Config\Definition\Processor;
@@ -65,10 +67,7 @@ final class ArrayMapper implements Configurator\FactoryInterface
         try {
             return new Repository\TransformerMapper($builder);
         } catch (Symfony\InvalidTypeException|Symfony\InvalidConfigurationException $exception) {
-            throw new Configurator\InvalidConfigurationException(
-                message: $exception->getMessage(),
-                previous: $exception
-            );
+            throw new Configurator\InvalidConfigurationException(message: $exception->getMessage(), previous: $exception);
         }
     }
 }

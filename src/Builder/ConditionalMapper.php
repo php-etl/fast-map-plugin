@@ -1,8 +1,9 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 namespace Kiboko\Plugin\FastMap\Builder;
 
-use Kiboko\Contract\Configurator\RepositoryInterface;
 use PhpParser\Builder;
 use PhpParser\Node;
 use PhpParser\ParserFactory;
@@ -70,7 +71,7 @@ final class ConditionalMapper implements Builder
                                                         $builder->getNode()
                                                     ),
                                                     ...array_map(
-                                                        function ($alternative) use ($parser) {
+                                                        function ($alternative) {
                                                             [$condition, $builder] = $alternative;
 
                                                             return new Node\Expr\ArrayItem(
@@ -78,7 +79,7 @@ final class ConditionalMapper implements Builder
                                                             );
                                                         },
                                                         $alternatives
-                                                    )
+                                                    ),
                                                 ],
                                                 attributes: [
                                                     'kind' => Node\Expr\Array_::KIND_SHORT,
@@ -106,7 +107,7 @@ final class ConditionalMapper implements Builder
                                 ],
                                 'stmts' => [
                                     new Node\Stmt\If_(
-                                        cond: $parser->parse('<?php ' . $this->interpreter->compile($condition, ['input', 'output']) . ';')[0]->expr,
+                                        cond: $parser->parse('<?php '.$this->interpreter->compile($condition, ['input', 'output']).';')[0]->expr,
                                         subNodes: [
                                             'stmts' => [
                                                 new Node\Stmt\Return_(
@@ -134,7 +135,7 @@ final class ConditionalMapper implements Builder
                                                     [$condition, $repository] = $alternative;
 
                                                     return new Node\Stmt\ElseIf_(
-                                                        cond: $parser->parse('<?php ' . $this->interpreter->compile($condition, ['input', 'output']) . ';')[0]->expr,
+                                                        cond: $parser->parse('<?php '.$this->interpreter->compile($condition, ['input', 'output']).';')[0]->expr,
                                                         stmts: [
                                                             new Node\Stmt\Return_(
                                                                 new Node\Expr\FuncCall(
@@ -165,9 +166,9 @@ final class ConditionalMapper implements Builder
                                                 stmts: [
                                                     new Node\Stmt\Return_(
                                                         new Node\Expr\Variable('input'),
-                                                    )
+                                                    ),
                                                 ]
-                                            )
+                                            ),
                                         ],
                                     ),
                                 ],
