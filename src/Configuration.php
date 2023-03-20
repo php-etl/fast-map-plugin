@@ -4,14 +4,15 @@ declare(strict_types=1);
 
 namespace Kiboko\Plugin\FastMap;
 
-use function Kiboko\Component\SatelliteToolbox\Configuration\mutuallyDependentFields;
-use function Kiboko\Component\SatelliteToolbox\Configuration\mutuallyExclusiveFields;
 use Kiboko\Contract\Configurator\PluginConfigurationInterface;
 use Symfony\Component\Config\Definition\Builder\TreeBuilder;
 use Symfony\Component\Config\Definition\NodeInterface;
 use Symfony\Component\ExpressionLanguage\Expression;
 
-final class Configuration implements PluginConfigurationInterface
+use function Kiboko\Component\SatelliteToolbox\Configuration\mutuallyDependentFields;
+use function Kiboko\Component\SatelliteToolbox\Configuration\mutuallyExclusiveFields;
+
+final readonly class Configuration implements PluginConfigurationInterface
 {
     public function __construct(
         private string $name = 'fastmap'

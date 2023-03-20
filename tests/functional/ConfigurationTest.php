@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 namespace functional\Kiboko\Plugin\FastMap;
 
@@ -7,9 +9,19 @@ use PHPUnit\Framework\TestCase;
 use Symfony\Component\Config\Definition\Exception\InvalidConfigurationException;
 use Symfony\Component\Config\Definition\Processor;
 
+/**
+ * @internal
+ */
+#[\PHPUnit\Framework\Attributes\CoversNothing]
+/**
+ * @internal
+ *
+ * @coversNothing
+ */
 final class ConfigurationTest extends TestCase
 {
-    public function testEmpty()
+    #[\PHPUnit\Framework\Attributes\Test]
+    public function empty(): void
     {
         $processor = new Processor();
         $configuration = new FastMap\Configuration();
@@ -17,12 +29,13 @@ final class ConfigurationTest extends TestCase
         $this->assertEquals(
             [],
             $processor->processConfiguration($configuration, [
-                []
+                [],
             ])
         );
     }
 
-    public function testWithNoFields()
+    #[\PHPUnit\Framework\Attributes\Test]
+    public function withNoFields(): void
     {
         $processor = new Processor();
         $configuration = new FastMap\Configuration();
@@ -32,12 +45,13 @@ final class ConfigurationTest extends TestCase
             $processor->processConfiguration($configuration, [
                 [
                     'map' => [],
-                ]
+                ],
             ])
         );
     }
 
-    public function testWithCompetingFields()
+    #[\PHPUnit\Framework\Attributes\Test]
+    public function withCompetingFields(): void
     {
         $processor = new Processor();
         $configuration = new FastMap\Configuration();
@@ -51,7 +65,7 @@ final class ConfigurationTest extends TestCase
                     [
                         'field' => '[foo]',
                         'copy' => '[foo]',
-                    ]
+                    ],
                 ],
             ],
             [
@@ -59,13 +73,14 @@ final class ConfigurationTest extends TestCase
                     [
                         'field' => '[foo]',
                         'copy' => '[foo]',
-                    ]
+                    ],
                 ],
-            ]
+            ],
         ]);
     }
 
-    public function testMapWithCopyField()
+    #[\PHPUnit\Framework\Attributes\Test]
+    public function mapWithCopyField(): void
     {
         $processor = new Processor();
         $configuration = new FastMap\Configuration();
@@ -92,7 +107,8 @@ final class ConfigurationTest extends TestCase
         );
     }
 
-    public function testMapWithExpressionField()
+    #[\PHPUnit\Framework\Attributes\Test]
+    public function mapWithExpressionField(): void
     {
         $processor = new Processor();
         $configuration = new FastMap\Configuration();
@@ -119,7 +135,8 @@ final class ConfigurationTest extends TestCase
         );
     }
 
-    public function testMapWithConstantField()
+    #[\PHPUnit\Framework\Attributes\Test]
+    public function mapWithConstantField(): void
     {
         $processor = new Processor();
         $configuration = new FastMap\Configuration();
@@ -146,7 +163,8 @@ final class ConfigurationTest extends TestCase
         );
     }
 
-    public function testMapWithMapField()
+    #[\PHPUnit\Framework\Attributes\Test]
+    public function mapWithMapField(): void
     {
         $processor = new Processor();
         $configuration = new FastMap\Configuration();
@@ -161,8 +179,8 @@ final class ConfigurationTest extends TestCase
                             [
                                 'field' => '[bar]',
                                 'constant' => 'Lorem ipsum dolor sit amet, consectetur adipiscing elit.',
-                            ]
-                        ]
+                            ],
+                        ],
                     ],
                 ],
             ],
@@ -185,7 +203,8 @@ final class ConfigurationTest extends TestCase
         );
     }
 
-    public function testMapWithListField()
+    #[\PHPUnit\Framework\Attributes\Test]
+    public function mapWithListField(): void
     {
         $processor = new Processor();
         $configuration = new FastMap\Configuration();
@@ -224,7 +243,8 @@ final class ConfigurationTest extends TestCase
         );
     }
 
-    public function testMapWithListFieldWithoutExpression()
+    #[\PHPUnit\Framework\Attributes\Test]
+    public function mapWithListFieldWithoutExpression(): void
     {
         $processor = new Processor();
         $configuration = new FastMap\Configuration();
@@ -249,7 +269,8 @@ final class ConfigurationTest extends TestCase
         ]);
     }
 
-    public function testMapWithObjectField()
+    #[\PHPUnit\Framework\Attributes\Test]
+    public function mapWithObjectField(): void
     {
         $processor = new Processor();
         $configuration = new FastMap\Configuration();
@@ -290,7 +311,8 @@ final class ConfigurationTest extends TestCase
         );
     }
 
-    public function testMapWithObjectFieldWithoutClass()
+    #[\PHPUnit\Framework\Attributes\Test]
+    public function mapWithObjectFieldWithoutClass(): void
     {
         $processor = new Processor();
         $configuration = new FastMap\Configuration();
@@ -316,7 +338,8 @@ final class ConfigurationTest extends TestCase
         ]);
     }
 
-    public function testMapWithObjectFieldWithoutExpression()
+    #[\PHPUnit\Framework\Attributes\Test]
+    public function mapWithObjectFieldWithoutExpression(): void
     {
         $processor = new Processor();
         $configuration = new FastMap\Configuration();
@@ -342,7 +365,8 @@ final class ConfigurationTest extends TestCase
         ]);
     }
 
-    public function testMapWithCollectionField()
+    #[\PHPUnit\Framework\Attributes\Test]
+    public function mapWithCollectionField(): void
     {
         $processor = new Processor();
         $configuration = new FastMap\Configuration();
@@ -383,7 +407,8 @@ final class ConfigurationTest extends TestCase
         );
     }
 
-    public function testMapWithCollectionFieldWithoutClass()
+    #[\PHPUnit\Framework\Attributes\Test]
+    public function mapWithCollectionFieldWithoutClass(): void
     {
         $processor = new Processor();
         $configuration = new FastMap\Configuration();
@@ -409,7 +434,8 @@ final class ConfigurationTest extends TestCase
         ]);
     }
 
-    public function testMapWithCollectionFieldWithoutExpression()
+    #[\PHPUnit\Framework\Attributes\Test]
+    public function mapWithCollectionFieldWithoutExpression(): void
     {
         $processor = new Processor();
         $configuration = new FastMap\Configuration();
@@ -435,7 +461,8 @@ final class ConfigurationTest extends TestCase
         ]);
     }
 
-    public function testListWithCopyField()
+    #[\PHPUnit\Framework\Attributes\Test]
+    public function listWithCopyField(): void
     {
         $processor = new Processor();
         $configuration = new FastMap\Configuration();
@@ -464,7 +491,8 @@ final class ConfigurationTest extends TestCase
         );
     }
 
-    public function testListWithExpressionField()
+    #[\PHPUnit\Framework\Attributes\Test]
+    public function listWithExpressionField(): void
     {
         $processor = new Processor();
         $configuration = new FastMap\Configuration();
@@ -493,7 +521,8 @@ final class ConfigurationTest extends TestCase
         );
     }
 
-    public function testListWithConstantField()
+    #[\PHPUnit\Framework\Attributes\Test]
+    public function listWithConstantField(): void
     {
         $processor = new Processor();
         $configuration = new FastMap\Configuration();
@@ -522,7 +551,8 @@ final class ConfigurationTest extends TestCase
         );
     }
 
-    public function testListWithMapField()
+    #[\PHPUnit\Framework\Attributes\Test]
+    public function listWithMapField(): void
     {
         $processor = new Processor();
         $configuration = new FastMap\Configuration();
@@ -538,8 +568,8 @@ final class ConfigurationTest extends TestCase
                             [
                                 'field' => '[bar]',
                                 'constant' => 'Lorem ipsum dolor sit amet, consectetur adipiscing elit.',
-                            ]
-                        ]
+                            ],
+                        ],
                     ],
                 ],
             ],
@@ -563,7 +593,8 @@ final class ConfigurationTest extends TestCase
         );
     }
 
-    public function testListWithListField()
+    #[\PHPUnit\Framework\Attributes\Test]
+    public function listWithListField(): void
     {
         $processor = new Processor();
         $configuration = new FastMap\Configuration();
@@ -604,7 +635,8 @@ final class ConfigurationTest extends TestCase
         );
     }
 
-    public function testListWithListFieldWithoutExpression()
+    #[\PHPUnit\Framework\Attributes\Test]
+    public function listWithListFieldWithoutExpression(): void
     {
         $processor = new Processor();
         $configuration = new FastMap\Configuration();
@@ -630,7 +662,8 @@ final class ConfigurationTest extends TestCase
         ]);
     }
 
-    public function testListWithObjectField()
+    #[\PHPUnit\Framework\Attributes\Test]
+    public function listWithObjectField(): void
     {
         $processor = new Processor();
         $configuration = new FastMap\Configuration();
@@ -673,7 +706,8 @@ final class ConfigurationTest extends TestCase
         );
     }
 
-    public function testListWithObjectFieldWithoutClass()
+    #[\PHPUnit\Framework\Attributes\Test]
+    public function listWithObjectFieldWithoutClass(): void
     {
         $processor = new Processor();
         $configuration = new FastMap\Configuration();
@@ -700,7 +734,8 @@ final class ConfigurationTest extends TestCase
         ]);
     }
 
-    public function testListWithObjectFieldWithoutExpression()
+    #[\PHPUnit\Framework\Attributes\Test]
+    public function listWithObjectFieldWithoutExpression(): void
     {
         $processor = new Processor();
         $configuration = new FastMap\Configuration();
@@ -727,7 +762,8 @@ final class ConfigurationTest extends TestCase
         ]);
     }
 
-    public function testListWithCollectionField()
+    #[\PHPUnit\Framework\Attributes\Test]
+    public function listWithCollectionField(): void
     {
         $processor = new Processor();
         $configuration = new FastMap\Configuration();
@@ -770,7 +806,8 @@ final class ConfigurationTest extends TestCase
         );
     }
 
-    public function testListWithCollectionFieldWithoutClass()
+    #[\PHPUnit\Framework\Attributes\Test]
+    public function listWithCollectionFieldWithoutClass(): void
     {
         $processor = new Processor();
         $configuration = new FastMap\Configuration();
@@ -797,7 +834,8 @@ final class ConfigurationTest extends TestCase
         ]);
     }
 
-    public function testListWithCollectionFieldWithoutExpression()
+    #[\PHPUnit\Framework\Attributes\Test]
+    public function listWithCollectionFieldWithoutExpression(): void
     {
         $processor = new Processor();
         $configuration = new FastMap\Configuration();
@@ -824,7 +862,8 @@ final class ConfigurationTest extends TestCase
         ]);
     }
 
-    public function testObjectWithoutClass()
+    #[\PHPUnit\Framework\Attributes\Test]
+    public function objectWithoutClass(): void
     {
         $processor = new Processor();
         $configuration = new FastMap\Configuration();
@@ -845,7 +884,8 @@ final class ConfigurationTest extends TestCase
         ]);
     }
 
-    public function testObjectWithoutExpression()
+    #[\PHPUnit\Framework\Attributes\Test]
+    public function objectWithoutExpression(): void
     {
         $processor = new Processor();
         $configuration = new FastMap\Configuration();
@@ -866,7 +906,8 @@ final class ConfigurationTest extends TestCase
         ]);
     }
 
-    public function testObjectWithCopyField()
+    #[\PHPUnit\Framework\Attributes\Test]
+    public function objectWithCopyField(): void
     {
         $processor = new Processor();
         $configuration = new FastMap\Configuration();
@@ -897,7 +938,8 @@ final class ConfigurationTest extends TestCase
         );
     }
 
-    public function testObjectWithExpressionField()
+    #[\PHPUnit\Framework\Attributes\Test]
+    public function objectWithExpressionField(): void
     {
         $processor = new Processor();
         $configuration = new FastMap\Configuration();
@@ -928,7 +970,8 @@ final class ConfigurationTest extends TestCase
         );
     }
 
-    public function testObjectWithConstantField()
+    #[\PHPUnit\Framework\Attributes\Test]
+    public function objectWithConstantField(): void
     {
         $processor = new Processor();
         $configuration = new FastMap\Configuration();
@@ -959,7 +1002,8 @@ final class ConfigurationTest extends TestCase
         );
     }
 
-    public function testObjectWithMapField()
+    #[\PHPUnit\Framework\Attributes\Test]
+    public function objectWithMapField(): void
     {
         $processor = new Processor();
         $configuration = new FastMap\Configuration();
@@ -976,8 +1020,8 @@ final class ConfigurationTest extends TestCase
                             [
                                 'field' => '[bar]',
                                 'constant' => 'Lorem ipsum dolor sit amet, consectetur adipiscing elit.',
-                            ]
-                        ]
+                            ],
+                        ],
                     ],
                 ],
             ],
@@ -1002,7 +1046,8 @@ final class ConfigurationTest extends TestCase
         );
     }
 
-    public function testObjectWithListField()
+    #[\PHPUnit\Framework\Attributes\Test]
+    public function objectWithListField(): void
     {
         $processor = new Processor();
         $configuration = new FastMap\Configuration();
@@ -1045,7 +1090,8 @@ final class ConfigurationTest extends TestCase
         );
     }
 
-    public function testObjectWithListFieldWithoutExpression()
+    #[\PHPUnit\Framework\Attributes\Test]
+    public function objectWithListFieldWithoutExpression(): void
     {
         $processor = new Processor();
         $configuration = new FastMap\Configuration();
@@ -1072,7 +1118,8 @@ final class ConfigurationTest extends TestCase
         ]);
     }
 
-    public function testObjectWithObjectField()
+    #[\PHPUnit\Framework\Attributes\Test]
+    public function objectWithObjectField(): void
     {
         $processor = new Processor();
         $configuration = new FastMap\Configuration();
@@ -1117,7 +1164,8 @@ final class ConfigurationTest extends TestCase
         );
     }
 
-    public function testObjectWithObjectFieldWithoutClass()
+    #[\PHPUnit\Framework\Attributes\Test]
+    public function objectWithObjectFieldWithoutClass(): void
     {
         $processor = new Processor();
         $configuration = new FastMap\Configuration();
@@ -1145,7 +1193,8 @@ final class ConfigurationTest extends TestCase
         ]);
     }
 
-    public function testObjectWithObjectFieldWithoutExpression()
+    #[\PHPUnit\Framework\Attributes\Test]
+    public function objectWithObjectFieldWithoutExpression(): void
     {
         $processor = new Processor();
         $configuration = new FastMap\Configuration();
@@ -1173,7 +1222,8 @@ final class ConfigurationTest extends TestCase
         ]);
     }
 
-    public function testObjectWithCollectionField()
+    #[\PHPUnit\Framework\Attributes\Test]
+    public function objectWithCollectionField(): void
     {
         $processor = new Processor();
         $configuration = new FastMap\Configuration();
@@ -1218,7 +1268,8 @@ final class ConfigurationTest extends TestCase
         );
     }
 
-    public function testObjectWithCollectionFieldWithoutClass()
+    #[\PHPUnit\Framework\Attributes\Test]
+    public function objectWithCollectionFieldWithoutClass(): void
     {
         $processor = new Processor();
         $configuration = new FastMap\Configuration();
@@ -1246,7 +1297,8 @@ final class ConfigurationTest extends TestCase
         ]);
     }
 
-    public function testObjectWithCollectionFieldWithoutExpression()
+    #[\PHPUnit\Framework\Attributes\Test]
+    public function objectWithCollectionFieldWithoutExpression(): void
     {
         $processor = new Processor();
         $configuration = new FastMap\Configuration();
@@ -1274,7 +1326,8 @@ final class ConfigurationTest extends TestCase
         ]);
     }
 
-    public function testCollectionWithoutClass()
+    #[\PHPUnit\Framework\Attributes\Test]
+    public function collectionWithoutClass(): void
     {
         $processor = new Processor();
         $configuration = new FastMap\Configuration();
@@ -1295,7 +1348,8 @@ final class ConfigurationTest extends TestCase
         ]);
     }
 
-    public function testCollectionWithoutExpression()
+    #[\PHPUnit\Framework\Attributes\Test]
+    public function collectionWithoutExpression(): void
     {
         $processor = new Processor();
         $configuration = new FastMap\Configuration();
@@ -1316,7 +1370,8 @@ final class ConfigurationTest extends TestCase
         ]);
     }
 
-    public function testCollectionWithCopyField()
+    #[\PHPUnit\Framework\Attributes\Test]
+    public function collectionWithCopyField(): void
     {
         $processor = new Processor();
         $configuration = new FastMap\Configuration();
@@ -1347,7 +1402,8 @@ final class ConfigurationTest extends TestCase
         );
     }
 
-    public function testCollectionWithExpressionField()
+    #[\PHPUnit\Framework\Attributes\Test]
+    public function collectionWithExpressionField(): void
     {
         $processor = new Processor();
         $configuration = new FastMap\Configuration();
@@ -1378,7 +1434,8 @@ final class ConfigurationTest extends TestCase
         );
     }
 
-    public function testCollectionWithConstantField()
+    #[\PHPUnit\Framework\Attributes\Test]
+    public function collectionWithConstantField(): void
     {
         $processor = new Processor();
         $configuration = new FastMap\Configuration();
@@ -1409,7 +1466,8 @@ final class ConfigurationTest extends TestCase
         );
     }
 
-    public function testCollectionWithMapField()
+    #[\PHPUnit\Framework\Attributes\Test]
+    public function collectionWithMapField(): void
     {
         $processor = new Processor();
         $configuration = new FastMap\Configuration();
@@ -1426,8 +1484,8 @@ final class ConfigurationTest extends TestCase
                             [
                                 'field' => '[bar]',
                                 'constant' => 'Lorem ipsum dolor sit amet, consectetur adipiscing elit.',
-                            ]
-                        ]
+                            ],
+                        ],
                     ],
                 ],
             ],
@@ -1452,7 +1510,8 @@ final class ConfigurationTest extends TestCase
         );
     }
 
-    public function testCollectionWithListField()
+    #[\PHPUnit\Framework\Attributes\Test]
+    public function collectionWithListField(): void
     {
         $processor = new Processor();
         $configuration = new FastMap\Configuration();
@@ -1495,7 +1554,8 @@ final class ConfigurationTest extends TestCase
         );
     }
 
-    public function testCollectionWithListFieldWithoutExpression()
+    #[\PHPUnit\Framework\Attributes\Test]
+    public function collectionWithListFieldWithoutExpression(): void
     {
         $processor = new Processor();
         $configuration = new FastMap\Configuration();
@@ -1522,7 +1582,8 @@ final class ConfigurationTest extends TestCase
         ]);
     }
 
-    public function testCollectionWithObjectField()
+    #[\PHPUnit\Framework\Attributes\Test]
+    public function collectionWithObjectField(): void
     {
         $processor = new Processor();
         $configuration = new FastMap\Configuration();
@@ -1567,7 +1628,8 @@ final class ConfigurationTest extends TestCase
         );
     }
 
-    public function testCollectionWithObjectFieldWithoutClass()
+    #[\PHPUnit\Framework\Attributes\Test]
+    public function collectionWithObjectFieldWithoutClass(): void
     {
         $processor = new Processor();
         $configuration = new FastMap\Configuration();
@@ -1595,7 +1657,8 @@ final class ConfigurationTest extends TestCase
         ]);
     }
 
-    public function testCollectionWithObjectFieldWithoutExpression()
+    #[\PHPUnit\Framework\Attributes\Test]
+    public function collectionWithObjectFieldWithoutExpression(): void
     {
         $processor = new Processor();
         $configuration = new FastMap\Configuration();
@@ -1623,7 +1686,8 @@ final class ConfigurationTest extends TestCase
         ]);
     }
 
-    public function testCollectionWithCollectionField()
+    #[\PHPUnit\Framework\Attributes\Test]
+    public function collectionWithCollectionField(): void
     {
         $processor = new Processor();
         $configuration = new FastMap\Configuration();
@@ -1668,7 +1732,8 @@ final class ConfigurationTest extends TestCase
         );
     }
 
-    public function testCollectionWithCollectionFieldWithoutClass()
+    #[\PHPUnit\Framework\Attributes\Test]
+    public function collectionWithCollectionFieldWithoutClass(): void
     {
         $processor = new Processor();
         $configuration = new FastMap\Configuration();
@@ -1696,7 +1761,8 @@ final class ConfigurationTest extends TestCase
         ]);
     }
 
-    public function testCollectionWithCollectionFieldWithoutExpression()
+    #[\PHPUnit\Framework\Attributes\Test]
+    public function collectionWithCollectionFieldWithoutExpression(): void
     {
         $processor = new Processor();
         $configuration = new FastMap\Configuration();

@@ -9,7 +9,7 @@ use Kiboko\Contract\Mapping\CompiledMapperInterface;
 use PhpParser\Builder;
 use PhpParser\Node;
 
-final class Transformer implements StepBuilderInterface
+final readonly class Transformer implements StepBuilderInterface
 {
     public function __construct(private Builder|Node $mapper)
     {
@@ -37,7 +37,7 @@ final class Transformer implements StepBuilderInterface
                 name: null,
                 subNodes: [
                     'implements' => [
-                        new Node\Name\FullyQualified('Kiboko\\Contract\\Pipeline\\TransformerInterface'),
+                        new Node\Name\FullyQualified(\Kiboko\Contract\Pipeline\TransformerInterface::class),
                     ],
                     'stmts' => [
                         new Node\Stmt\ClassMethod(
@@ -74,7 +74,7 @@ final class Transformer implements StepBuilderInterface
                                             expr: new Node\Expr\Yield_(
                                                 new Node\Expr\New_(
                                                     class: new Node\Name\FullyQualified(
-                                                        'Kiboko\\Component\\Bucket\\AcceptanceResultBucket'
+                                                        \Kiboko\Component\Bucket\AcceptanceResultBucket::class
                                                     ),
                                                     args: [
                                                         new Node\Arg(
@@ -107,7 +107,7 @@ final class Transformer implements StepBuilderInterface
                                         new Node\Expr\Yield_(
                                             new Node\Expr\New_(
                                                 class: new Node\Name\FullyQualified(
-                                                    'Kiboko\\Component\\Bucket\\AcceptanceResultBucket',
+                                                    \Kiboko\Component\Bucket\AcceptanceResultBucket::class,
                                                 ),
                                                 args: [
                                                     new Node\Arg(
