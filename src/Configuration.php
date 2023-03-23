@@ -186,12 +186,10 @@ final readonly class Configuration implements PluginConfigurationInterface
                     ->always(mutuallyDependentFields('list', 'expression'))
                 ->end()
                 ->validate()
-                    ->ifTrue(function (array $value) {
-                        return \array_key_exists('expression', $value)
-                            && \array_key_exists('class', $value)
-                            && !\array_key_exists('object', $value)
-                            && !\array_key_exists('collection', $value);
-                    })
+                    ->ifTrue(fn(array $value) => \array_key_exists('expression', $value)
+                        && \array_key_exists('class', $value)
+                        && !\array_key_exists('object', $value)
+                        && !\array_key_exists('collection', $value))
                     ->thenInvalid('Your configuration should not contain both the "expression" and the "class" alone, maybe you forgot a "collection", "list" or an "object" field.')
                 ->end()
                 ->children()
