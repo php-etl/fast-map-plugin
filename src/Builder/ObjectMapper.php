@@ -8,7 +8,7 @@ use Kiboko\Component\FastMapConfig\ObjectBuilderInterface;
 use PhpParser\Builder;
 use PhpParser\Node;
 
-final class ObjectMapper implements Builder
+final readonly class ObjectMapper implements Builder
 {
     public function __construct(private ObjectBuilderInterface $mapper)
     {
@@ -21,7 +21,7 @@ final class ObjectMapper implements Builder
                 name: null,
                 subNodes: [
                     'implements' => [
-                        new Node\Name\FullyQualified('Kiboko\\Contract\\Mapping\\CompiledMapperInterface'),
+                        new Node\Name\FullyQualified(\Kiboko\Contract\Mapping\CompiledMapperInterface::class),
                     ],
                     'stmts' => [
                         new Node\Stmt\ClassMethod(

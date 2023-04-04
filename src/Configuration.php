@@ -4,14 +4,15 @@ declare(strict_types=1);
 
 namespace Kiboko\Plugin\FastMap;
 
-use function Kiboko\Component\SatelliteToolbox\Configuration\mutuallyDependentFields;
-use function Kiboko\Component\SatelliteToolbox\Configuration\mutuallyExclusiveFields;
 use Kiboko\Contract\Configurator\PluginConfigurationInterface;
 use Symfony\Component\Config\Definition\Builder\TreeBuilder;
 use Symfony\Component\Config\Definition\NodeInterface;
 use Symfony\Component\ExpressionLanguage\Expression;
 
-final class Configuration implements PluginConfigurationInterface
+use function Kiboko\Component\SatelliteToolbox\Configuration\mutuallyDependentFields;
+use function Kiboko\Component\SatelliteToolbox\Configuration\mutuallyExclusiveFields;
+
+final readonly class Configuration implements PluginConfigurationInterface
 {
     public function __construct(
         private string $name = 'fastmap'
@@ -185,12 +186,10 @@ final class Configuration implements PluginConfigurationInterface
                     ->always(mutuallyDependentFields('list', 'expression'))
                 ->end()
                 ->validate()
-                    ->ifTrue(function (array $value) {
-                        return \array_key_exists('expression', $value)
-                            && \array_key_exists('class', $value)
-                            && !\array_key_exists('object', $value)
-                            && !\array_key_exists('collection', $value);
-                    })
+                    ->ifTrue(fn (array $value) => \array_key_exists('expression', $value)
+                        && \array_key_exists('class', $value)
+                        && !\array_key_exists('object', $value)
+                        && !\array_key_exists('collection', $value))
                     ->thenInvalid('Your configuration should not contain both the "expression" and the "class" alone, maybe you forgot a "collection", "list" or an "object" field.')
                 ->end()
                 ->children()

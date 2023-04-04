@@ -11,11 +11,10 @@ use Symfony\Component\ExpressionLanguage\ExpressionLanguage;
 
 final class ConditionalMapper implements Builder
 {
-    private iterable $alternatives;
+    private iterable $alternatives = [];
 
-    public function __construct(private ExpressionLanguage $interpreter)
+    public function __construct(private readonly ExpressionLanguage $interpreter)
     {
-        $this->alternatives = [];
     }
 
     public function withAlternative(string $condition, Builder $builder): self
@@ -42,7 +41,7 @@ final class ConditionalMapper implements Builder
                 name: null,
                 subNodes: [
                     'implements' => [
-                        new Node\Name\FullyQualified('Kiboko\\Contract\\Mapping\\CompiledMapperInterface'),
+                        new Node\Name\FullyQualified(\Kiboko\Contract\Mapping\CompiledMapperInterface::class),
                     ],
                     'stmts' => [
                         new Node\Stmt\Property(

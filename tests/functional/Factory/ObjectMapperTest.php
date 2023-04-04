@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 namespace functional\Kiboko\Plugin\FastMap\Factory;
 
@@ -7,9 +9,18 @@ use Kiboko\Plugin\FastMap;
 use PHPUnit\Framework\TestCase;
 use Symfony\Component\ExpressionLanguage\ExpressionLanguage;
 
+/**
+ * @internal
+ */
+#[\PHPUnit\Framework\Attributes\CoversNothing]
+/**
+ * @internal
+ *
+ * @coversNothing
+ */
 final class ObjectMapperTest extends TestCase
 {
-    public function configProvider()
+    public static function configProvider()
     {
         yield [
             'expected' => [
@@ -25,21 +36,20 @@ final class ObjectMapperTest extends TestCase
                         'expression' => 'input["foo"]',
                     ],
                 ],
-            ]
+            ],
         ];
     }
 
-    /**
-     * @dataProvider configProvider
-     */
-    public function testWithConfiguration($expected, $actual): void
+    #[\PHPUnit\Framework\Attributes\DataProvider('configProvider')]
+    #[\PHPUnit\Framework\Attributes\Test]
+    public function withConfiguration(mixed $expected, mixed $actual): void
     {
         $factory = new FastMap\Factory\ObjectMapper(new ExpressionLanguage());
 
         $this->assertTrue($factory->validate($actual));
 
         $this->assertEquals(
-            new FastMap\Configuration\ObjectMapper,
+            new FastMap\Configuration\ObjectMapper(),
             $factory->configuration()
         );
 
@@ -49,7 +59,8 @@ final class ObjectMapperTest extends TestCase
         );
     }
 
-    public function testFailToNormalize(): void
+    #[\PHPUnit\Framework\Attributes\Test]
+    public function failToNormalize(): void
     {
         $this->expectException(InvalidConfigurationException::class);
         $this->expectExceptionCode(0);
@@ -57,11 +68,12 @@ final class ObjectMapperTest extends TestCase
 
         $factory = new FastMap\Factory\ObjectMapper(new ExpressionLanguage());
         $factory->normalize([
-            'object' => ''
+            'object' => '',
         ]);
     }
 
-    public function testFailToValidate(): void
+    #[\PHPUnit\Framework\Attributes\Test]
+    public function failToValidate(): void
     {
         $factory = new FastMap\Factory\ObjectMapper(new ExpressionLanguage());
         $this->assertFalse($factory->validate([]));

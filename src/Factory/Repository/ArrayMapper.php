@@ -11,7 +11,7 @@ final class ArrayMapper implements Configurator\RepositoryInterface
 {
     use RepositoryTrait;
 
-    public function __construct(private FastMap\Builder\ArrayMapper $builder)
+    public function __construct(private readonly FastMap\Builder\ArrayMapper $builder)
     {
         $this->files = [];
         $this->packages = [];

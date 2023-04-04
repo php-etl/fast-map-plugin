@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 namespace functional\Kiboko\Plugin\FastMap\Configuration;
 
@@ -7,21 +9,32 @@ use PHPUnit\Framework\TestCase;
 use Symfony\Component\Config\Definition\Exception\InvalidConfigurationException;
 use Symfony\Component\Config\Definition\Processor;
 
+/**
+ * @internal
+ */
+#[\PHPUnit\Framework\Attributes\CoversNothing]
+/**
+ * @internal
+ *
+ * @coversNothing
+ */
 final class ObjectMapperTest extends TestCase
 {
-    public function testEmpty()
+    #[\PHPUnit\Framework\Attributes\Test]
+    public function empty(): void
     {
         $processor = new Processor();
         $configuration = new FastMap\Configuration\ObjectMapper();
 
         $this->assertEmpty(
             $processor->processConfiguration($configuration, [
-                []
+                [],
             ])
         );
     }
 
-    public function testWithCopyField()
+    #[\PHPUnit\Framework\Attributes\Test]
+    public function withCopyField(): void
     {
         $processor = new Processor();
         $configuration = new FastMap\Configuration\ObjectMapper();
@@ -44,7 +57,8 @@ final class ObjectMapperTest extends TestCase
         );
     }
 
-    public function testWithExpressionField()
+    #[\PHPUnit\Framework\Attributes\Test]
+    public function withExpressionField(): void
     {
         $processor = new Processor();
         $configuration = new FastMap\Configuration\ObjectMapper();
@@ -67,7 +81,8 @@ final class ObjectMapperTest extends TestCase
         );
     }
 
-    public function testWithConstantField()
+    #[\PHPUnit\Framework\Attributes\Test]
+    public function withConstantField(): void
     {
         $processor = new Processor();
         $configuration = new FastMap\Configuration\ObjectMapper();
@@ -90,7 +105,8 @@ final class ObjectMapperTest extends TestCase
         );
     }
 
-    public function testWithMapField()
+    #[\PHPUnit\Framework\Attributes\Test]
+    public function withMapField(): void
     {
         $processor = new Processor();
         $configuration = new FastMap\Configuration\ObjectMapper();
@@ -104,8 +120,8 @@ final class ObjectMapperTest extends TestCase
                         [
                             'field' => '[bar]',
                             'constant' => 'Lorem ipsum dolor sit amet, consectetur adipiscing elit.',
-                        ]
-                    ]
+                        ],
+                    ],
                 ],
             ],
             $processor->processConfiguration($configuration, [
@@ -125,7 +141,8 @@ final class ObjectMapperTest extends TestCase
         );
     }
 
-    public function testWithListField()
+    #[\PHPUnit\Framework\Attributes\Test]
+    public function withListField(): void
     {
         $processor = new Processor();
         $configuration = new FastMap\Configuration\ObjectMapper();
@@ -160,7 +177,8 @@ final class ObjectMapperTest extends TestCase
         );
     }
 
-    public function testWithListFieldWithoutExpression()
+    #[\PHPUnit\Framework\Attributes\Test]
+    public function withListFieldWithoutExpression(): void
     {
         $processor = new Processor();
         $configuration = new FastMap\Configuration\ObjectMapper();
@@ -183,7 +201,8 @@ final class ObjectMapperTest extends TestCase
         ]);
     }
 
-    public function testWithObjectField()
+    #[\PHPUnit\Framework\Attributes\Test]
+    public function withObjectField(): void
     {
         $processor = new Processor();
         $configuration = new FastMap\Configuration\ObjectMapper();
@@ -220,7 +239,8 @@ final class ObjectMapperTest extends TestCase
         );
     }
 
-    public function testWithObjectFieldWithoutClass()
+    #[\PHPUnit\Framework\Attributes\Test]
+    public function withObjectFieldWithoutClass(): void
     {
         $processor = new Processor();
         $configuration = new FastMap\Configuration\ObjectMapper();
@@ -244,7 +264,8 @@ final class ObjectMapperTest extends TestCase
         ]);
     }
 
-    public function testWithObjectFieldWithoutExpression()
+    #[\PHPUnit\Framework\Attributes\Test]
+    public function withObjectFieldWithoutExpression(): void
     {
         $processor = new Processor();
         $configuration = new FastMap\Configuration\ObjectMapper();
@@ -268,7 +289,8 @@ final class ObjectMapperTest extends TestCase
         ]);
     }
 
-    public function testWithCollectionField()
+    #[\PHPUnit\Framework\Attributes\Test]
+    public function withCollectionField(): void
     {
         $processor = new Processor();
         $configuration = new FastMap\Configuration\ObjectMapper();
@@ -305,7 +327,8 @@ final class ObjectMapperTest extends TestCase
         );
     }
 
-    public function testWithCollectionFieldWithoutClass()
+    #[\PHPUnit\Framework\Attributes\Test]
+    public function withCollectionFieldWithoutClass(): void
     {
         $processor = new Processor();
         $configuration = new FastMap\Configuration\ObjectMapper();
@@ -329,7 +352,8 @@ final class ObjectMapperTest extends TestCase
         ]);
     }
 
-    public function testWithCollectionFieldWithoutExpression()
+    #[\PHPUnit\Framework\Attributes\Test]
+    public function withCollectionFieldWithoutExpression(): void
     {
         $processor = new Processor();
         $configuration = new FastMap\Configuration\ObjectMapper();

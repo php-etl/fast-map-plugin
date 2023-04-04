@@ -8,7 +8,7 @@ use Kiboko\Component\FastMapConfig\ArrayBuilderInterface;
 use PhpParser\Builder;
 use PhpParser\Node;
 
-final class ArrayMapper implements Builder
+final readonly class ArrayMapper implements Builder
 {
     public function __construct(private ArrayBuilderInterface $mapper)
     {
@@ -21,7 +21,7 @@ final class ArrayMapper implements Builder
                 name: null,
                 subNodes: [
                     'implements' => [
-                        new Node\Name\FullyQualified('Kiboko\\Contract\\Mapping\\CompiledMapperInterface'),
+                        new Node\Name\FullyQualified(\Kiboko\Contract\Mapping\CompiledMapperInterface::class),
                     ],
                     'stmts' => [
                         new Node\Stmt\ClassMethod(
