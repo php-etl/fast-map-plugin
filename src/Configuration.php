@@ -186,7 +186,7 @@ final readonly class Configuration implements PluginConfigurationInterface
                     ->always(mutuallyDependentFields('list', 'expression'))
                 ->end()
                 ->validate()
-                    ->ifTrue(fn(array $value) => \array_key_exists('expression', $value)
+                    ->ifTrue(fn (array $value) => \array_key_exists('expression', $value)
                         && \array_key_exists('class', $value)
                         && !\array_key_exists('object', $value)
                         && !\array_key_exists('collection', $value))

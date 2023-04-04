@@ -15,22 +15,17 @@
         "php": "^8.2",
         "ext-json": "*",
         "nikic/php-parser": "^4.10",
-        "symfony/config": "^5.2 || ^6.0",
-        "php-etl/fast-map-config": "^0.5@dev",
-        "php-etl/configurator-contracts": "^0.6@dev",
-        "php-etl/packaging-contracts": "^0.2@dev",
-        "php-etl/satellite-toolbox": "^0.4@dev"
+        "symfony/config": "^6.0",
+        "php-etl/fast-map-config": "^0.5.0",
+        "php-etl/configurator-contracts": "^0.7.0",
+        "php-etl/packaging-contracts": "^0.3.0",
+        "php-etl/satellite-toolbox": "^0.5.0"
     },
     "require-dev": {
-        "phpunit/phpunit": "^9.5 || ^10.0",
+        "phpunit/phpunit": "^10.0",
         "phpunit/php-invoker": "*",
-        "johnkary/phpunit-speedtrap": "*",
-        "mybuilder/phpunit-accelerator": "*",
-        "phpspec/phpspec": "^7.0",
-        "friends-of-phpspec/phpspec-code-coverage": "*",
-        "adlawson/vfs": "dev-develop",
-        "php-etl/bucket": "^0.3@dev",
-        "php-etl/phpunit-extension": "^0.5@dev",
+        "php-etl/bucket": "^0.3.0",
+        "php-etl/phpunit-extension": "^0.5.0",
         "friendsofphp/php-cs-fixer": "^3.0",
         "phpstan/phpstan": "^1.10",
         "rector/rector": "^0.15"
@@ -47,8 +42,7 @@
     },
     "extra": {
         "branch-alias": {
-            "dev-main": "0.8.x-dev",
-            "dev-feature/qualityflow-improvments": "0.8.x-dev"
+            "dev-main": "0.8.x-dev"
         },
         "gyroscops": {
             "plugins": ["Kiboko\\Plugin\\FastMap\\Service"]
