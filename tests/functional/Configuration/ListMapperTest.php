@@ -9,19 +9,9 @@ use PHPUnit\Framework\TestCase;
 use Symfony\Component\Config\Definition\Exception\InvalidConfigurationException;
 use Symfony\Component\Config\Definition\Processor;
 
-/**
- * @internal
- */
-#[\PHPUnit\Framework\Attributes\CoversNothing]
-/**
- * @internal
- *
- * @coversNothing
- */
 final class ListMapperTest extends TestCase
 {
-    #[\PHPUnit\Framework\Attributes\Test]
-    public function empty(): void
+    public function testEmpty(): void
     {
         $processor = new Processor();
         $configuration = new FastMap\Configuration\ListMapper();
@@ -33,8 +23,7 @@ final class ListMapperTest extends TestCase
         );
     }
 
-    #[\PHPUnit\Framework\Attributes\Test]
-    public function withCopyField(): void
+    public function testWithCopyField(): void
     {
         $processor = new Processor();
         $configuration = new FastMap\Configuration\ListMapper();
@@ -57,8 +46,7 @@ final class ListMapperTest extends TestCase
         );
     }
 
-    #[\PHPUnit\Framework\Attributes\Test]
-    public function withExpressionField(): void
+    public function testWithExpressionField(): void
     {
         $processor = new Processor();
         $configuration = new FastMap\Configuration\ListMapper();
@@ -81,8 +69,7 @@ final class ListMapperTest extends TestCase
         );
     }
 
-    #[\PHPUnit\Framework\Attributes\Test]
-    public function withConstantField(): void
+    public function testWithConstantField(): void
     {
         $processor = new Processor();
         $configuration = new FastMap\Configuration\ListMapper();
@@ -105,8 +92,7 @@ final class ListMapperTest extends TestCase
         );
     }
 
-    #[\PHPUnit\Framework\Attributes\Test]
-    public function withMapField(): void
+    public function testWithMapField(): void
     {
         $processor = new Processor();
         $configuration = new FastMap\Configuration\ListMapper();
@@ -141,8 +127,7 @@ final class ListMapperTest extends TestCase
         );
     }
 
-    #[\PHPUnit\Framework\Attributes\Test]
-    public function withListField(): void
+    public function testWithListField(): void
     {
         $processor = new Processor();
         $configuration = new FastMap\Configuration\ListMapper();
@@ -177,8 +162,7 @@ final class ListMapperTest extends TestCase
         );
     }
 
-    #[\PHPUnit\Framework\Attributes\Test]
-    public function withListFieldWithoutExpression(): void
+    public function testWithListFieldWithoutExpression(): void
     {
         $processor = new Processor();
         $configuration = new FastMap\Configuration\ListMapper();
@@ -201,8 +185,7 @@ final class ListMapperTest extends TestCase
         ]);
     }
 
-    #[\PHPUnit\Framework\Attributes\Test]
-    public function withObjectField(): void
+    public function testWithObjectField(): void
     {
         $processor = new Processor();
         $configuration = new FastMap\Configuration\ListMapper();
@@ -239,8 +222,7 @@ final class ListMapperTest extends TestCase
         );
     }
 
-    #[\PHPUnit\Framework\Attributes\Test]
-    public function withObjectFieldWithoutClass(): void
+    public function testWithObjectFieldWithoutClass(): void
     {
         $processor = new Processor();
         $configuration = new FastMap\Configuration\ListMapper();
@@ -264,8 +246,7 @@ final class ListMapperTest extends TestCase
         ]);
     }
 
-    #[\PHPUnit\Framework\Attributes\Test]
-    public function withObjectFieldWithoutExpression(): void
+    public function testWithObjectFieldWithoutExpression(): void
     {
         $processor = new Processor();
         $configuration = new FastMap\Configuration\ListMapper();
@@ -289,8 +270,7 @@ final class ListMapperTest extends TestCase
         ]);
     }
 
-    #[\PHPUnit\Framework\Attributes\Test]
-    public function withCollectionField(): void
+    public function testWithCollectionField(): void
     {
         $processor = new Processor();
         $configuration = new FastMap\Configuration\ListMapper();
@@ -327,8 +307,7 @@ final class ListMapperTest extends TestCase
         );
     }
 
-    #[\PHPUnit\Framework\Attributes\Test]
-    public function withCollectionFieldWithoutClass(): void
+    public function testWithCollectionFieldWithoutClass(): void
     {
         $processor = new Processor();
         $configuration = new FastMap\Configuration\ListMapper();
@@ -352,8 +331,7 @@ final class ListMapperTest extends TestCase
         ]);
     }
 
-    #[\PHPUnit\Framework\Attributes\Test]
-    public function withCollectionFieldWithoutExpression(): void
+    public function testWithCollectionFieldWithoutExpression(): void
     {
         $processor = new Processor();
         $configuration = new FastMap\Configuration\ListMapper();

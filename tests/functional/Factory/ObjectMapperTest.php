@@ -9,15 +9,6 @@ use Kiboko\Plugin\FastMap;
 use PHPUnit\Framework\TestCase;
 use Symfony\Component\ExpressionLanguage\ExpressionLanguage;
 
-/**
- * @internal
- */
-#[\PHPUnit\Framework\Attributes\CoversNothing]
-/**
- * @internal
- *
- * @coversNothing
- */
 final class ObjectMapperTest extends TestCase
 {
     public static function configProvider()
@@ -41,8 +32,7 @@ final class ObjectMapperTest extends TestCase
     }
 
     #[\PHPUnit\Framework\Attributes\DataProvider('configProvider')]
-    #[\PHPUnit\Framework\Attributes\Test]
-    public function withConfiguration(mixed $expected, mixed $actual): void
+    public function testWithConfiguration(mixed $expected, mixed $actual): void
     {
         $factory = new FastMap\Factory\ObjectMapper(new ExpressionLanguage());
 
@@ -59,8 +49,7 @@ final class ObjectMapperTest extends TestCase
         );
     }
 
-    #[\PHPUnit\Framework\Attributes\Test]
-    public function failToNormalize(): void
+    public function testFailToNormalize(): void
     {
         $this->expectException(InvalidConfigurationException::class);
         $this->expectExceptionCode(0);
@@ -72,8 +61,7 @@ final class ObjectMapperTest extends TestCase
         ]);
     }
 
-    #[\PHPUnit\Framework\Attributes\Test]
-    public function failToValidate(): void
+    public function testFailToValidate(): void
     {
         $factory = new FastMap\Factory\ObjectMapper(new ExpressionLanguage());
         $this->assertFalse($factory->validate([]));
