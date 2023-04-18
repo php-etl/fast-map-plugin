@@ -14,14 +14,15 @@ use Symfony\Component\ExpressionLanguage\ExpressionLanguage;
 #[Configurator\Pipeline(
     name: 'fastmap',
     dependencies: [
-        'php-etl/pipeline-contracts:~0.4.0@dev',
-        'php-etl/bucket-contracts:~0.2.0@dev',
-        'php-etl/bucket:~0.3.0@dev',
+        'php-etl/pipeline-contracts:0.4.*',
+        'php-etl/bucket-contracts:0.2.*',
+        'php-etl/bucket:"*"',
     ],
     steps: [
         new Configurator\Pipeline\StepTransformer(null),
     ],
-)] final readonly class Service implements Configurator\PipelinePluginInterface
+)]
+final readonly class Service implements Configurator\PipelinePluginInterface
 {
     private Processor $processor;
     private Configurator\PluginConfigurationInterface $configuration;
