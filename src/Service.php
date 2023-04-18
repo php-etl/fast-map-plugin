@@ -16,7 +16,7 @@ use Symfony\Component\ExpressionLanguage\ExpressionLanguage;
     dependencies: [
         'php-etl/pipeline-contracts:0.4.*',
         'php-etl/bucket-contracts:0.2.*',
-        'php-etl/bucket:*',
+        'php-etl/bucket:"*"',
     ],
     steps: [
         new Configurator\Pipeline\StepTransformer(null),
