@@ -17,9 +17,9 @@
         "nikic/php-parser": "^4.10",
         "symfony/config": "^6.0",
         "php-etl/fast-map-config": "*",
-        "php-etl/configurator-contracts": "0.7.*",
         "php-etl/packaging-contracts": "0.3.*",
-        "php-etl/satellite-toolbox": "*"
+        "php-etl/satellite-toolbox": "*",
+        "php-etl/configurator-contracts": "0.8.0"
     },
     "require-dev": {
         "phpunit/phpunit": "^10.0",
