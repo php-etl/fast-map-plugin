@@ -31,6 +31,8 @@ final readonly class ConfigurationApplier
                     $mapper->map($field['field'], $field['expression'])->children(),
                     $field['map'],
                 );
+            } elseif (\array_key_exists('replace', $field)) {
+                $mapper->replace($field['field'], $field['replace']);
             } elseif (\array_key_exists('list', $field)) {
                 $this(
                     $mapper->list($field['field'], $field['expression'])->children(),
