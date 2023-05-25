@@ -97,6 +97,9 @@ final readonly class Transformer implements StepBuilderInterface
                                                             new Node\Arg(
                                                                 value: new Node\Expr\Variable('line')
                                                             ),
+                                                            new Node\Arg(
+                                                                value: new Node\Expr\Variable('line')
+                                                            ),
                                                         ]
                                                     ),
                                                 ),

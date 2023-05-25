@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Kiboko\Plugin\FastMap\Factory;
 
+use Kiboko\Component\FastMapConfig\ArrayAppendBuilder;
 use Kiboko\Component\FastMapConfig\ArrayBuilder;
 use Kiboko\Contract\Configurator;
 use Kiboko\Plugin\FastMap;
@@ -17,7 +18,7 @@ final readonly class ArrayMapper implements Configurator\FactoryInterface
     private Processor $processor;
     private ConfigurationInterface $configuration;
 
-    public function __construct(private ?ExpressionLanguage $interpreter, private array $additionalExpressionVariables = [])
+    public function __construct(private ?ExpressionLanguage $interpreter, private array $additionalExpressionVariables = [], private bool $append = false)
     {
         $this->processor = new Processor();
         $this->configuration = new FastMap\Configuration\MapMapper();
@@ -54,9 +55,15 @@ final readonly class ArrayMapper implements Configurator\FactoryInterface
 
     public function compile(array $config): Repository\TransformerMapper
     {
-        $mapper = new ArrayBuilder(
-            interpreter: $this->interpreter,
-        );
+        if ($this->append) {
+            $mapper = new ArrayAppendBuilder(
+                interpreter: $this->interpreter,
+            );
+        } else {
+            $mapper = new ArrayBuilder(
+                interpreter: $this->interpreter,
+            );
+        }
 
         $builder = new FastMap\Builder\Transformer(
             new FastMap\Builder\ArrayMapper($mapper)

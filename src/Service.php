@@ -91,7 +91,7 @@ final readonly class Service implements Configurator\PipelinePluginInterface
                 return $conditionalFactory->compile($config['conditional']);
             }
             if (\array_key_exists('map', $config)) {
-                $arrayFactory = new Factory\ArrayMapper($interpreter, $this->additionalExpressionVariables);
+                $arrayFactory = new Factory\ArrayMapper($interpreter, $this->additionalExpressionVariables, isset($config['append']) && $config['append']);
 
                 return $arrayFactory->compile($config['map']);
             }
