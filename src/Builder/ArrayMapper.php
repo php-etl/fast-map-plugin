@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace Kiboko\Plugin\FastMap\Builder;
 
 use Kiboko\Component\FastMapConfig\ArrayBuilderInterface;
+use Kiboko\Contract\Mapping\CompilableMapperInterface;
 use PhpParser\Builder;
 use PhpParser\Node;
 
@@ -16,6 +17,9 @@ final readonly class ArrayMapper implements Builder
 
     public function getNode(): Node
     {
+        /** @var CompilableMapperInterface $compilableMapper */
+        $compilableMapper = $this->mapper->getMapper();
+
         return new Node\Expr\New_(
             new Node\Stmt\Class_(
                 name: null,
@@ -29,7 +33,7 @@ final readonly class ArrayMapper implements Builder
                             subNodes: [
                                 'flags' => Node\Stmt\Class_::MODIFIER_PUBLIC,
                                 'stmts' => [
-                                    ...$this->mapper->getMapper()->compile(new Node\Expr\Variable('output')),
+                                    ...$compilableMapper->compile(new Node\Expr\Variable('output')),
                                     new Node\Stmt\Return_(new Node\Expr\Variable('output')),
                                 ],
                                 'params' => [
