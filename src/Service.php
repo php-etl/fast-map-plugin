@@ -13,6 +13,9 @@ use Symfony\Component\ExpressionLanguage\ExpressionLanguage;
 
 #[Configurator\Pipeline(
     name: 'fastmap',
+    dependencies: [
+        'php-etl/mapping-contracts:0.4.*'
+    ],
     steps: [
         new Configurator\Pipeline\StepTransformer(null),
     ],
