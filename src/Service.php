@@ -14,8 +14,8 @@ use Symfony\Component\ExpressionLanguage\ExpressionLanguage;
 #[Configurator\Pipeline(
     name: 'fastmap',
     dependencies: [
-        'php-etl/pipeline-contracts:0.5.*',
-        'php-etl/bucket-contracts:0.3.*',
+        'php-etl/pipeline-contracts:>=0.5.1 <0.6',
+        'php-etl/bucket-contracts:>=0.3.0 <0.4',
         'php-etl/bucket:*',
     ],
     steps: [
