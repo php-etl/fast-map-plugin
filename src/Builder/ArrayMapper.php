@@ -25,7 +25,7 @@ final readonly class ArrayMapper implements Builder
                 name: null,
                 subNodes: [
                     'implements' => [
-                        new Node\Name\FullyQualified(\Kiboko\Contract\Mapping\CompiledMapperInterface::class),
+                        new Node\Name\FullyQualified('Kiboko\\Contract\\Mapping\\CompiledMapperInterface'),
                     ],
                     'stmts' => [
                         new Node\Stmt\ClassMethod(

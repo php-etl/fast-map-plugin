@@ -37,7 +37,7 @@ final readonly class Transformer implements StepBuilderInterface
                 name: null,
                 subNodes: [
                     'implements' => [
-                        new Node\Name\FullyQualified(\Kiboko\Contract\Pipeline\TransformerInterface::class),
+                        new Node\Name\FullyQualified('Kiboko\\Contract\\Pipeline\\TransformerInterface'),
                     ],
                     'stmts' => [
                         new Node\Stmt\ClassMethod(
@@ -74,7 +74,7 @@ final readonly class Transformer implements StepBuilderInterface
                                             expr: new Node\Expr\Yield_(
                                                 new Node\Expr\New_(
                                                     class: new Node\Name\FullyQualified(
-                                                        \Kiboko\Component\Bucket\AcceptanceResultBucket::class
+                                                        'Kiboko\\Component\\Bucket\\AcceptanceResultBucket'
                                                     ),
                                                     args: [
                                                         new Node\Arg(
@@ -110,7 +110,7 @@ final readonly class Transformer implements StepBuilderInterface
                                         new Node\Expr\Yield_(
                                             new Node\Expr\New_(
                                                 class: new Node\Name\FullyQualified(
-                                                    \Kiboko\Component\Bucket\AcceptanceResultBucket::class,
+                                                    'Kiboko\\Component\\Bucket\\AcceptanceResultBucket',
                                                 ),
                                                 args: [
                                                     new Node\Arg(
@@ -121,7 +121,7 @@ final readonly class Transformer implements StepBuilderInterface
                                         )
                                     ),
                                 ],
-                                'returnType' => new Node\Name\FullyQualified(\Generator::class),
+                                'returnType' => new Node\Name\FullyQualified('Generator'),
                             ],
                         ),
                     ],
