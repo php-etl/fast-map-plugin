@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "083e7a270c34b5ce40d220559e81ff27",
+    "content-hash": "a994335b75c4bd8e3b01061ce7ab77c4",
     "packages": [
         {
             "name": "doctrine/inflector",
@@ -152,6 +152,116 @@
                 "source": "https://github.com/nikic/PHP-Parser/tree/v4.17.1"
             },
             "time": "2023-08-13T19:53:39+00:00"
+        },
+        {
+            "name": "php-etl/bucket",
+            "version": "v0.4.0",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/php-etl/bucket.git",
+                "reference": "8b3f318398ceaca1fb25154ff8a06adf175b1c31"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/php-etl/bucket/zipball/8b3f318398ceaca1fb25154ff8a06adf175b1c31",
+                "reference": "8b3f318398ceaca1fb25154ff8a06adf175b1c31",
+                "shasum": ""
+            },
+            "require": {
+                "php": "^8.2",
+                "php-etl/bucket-contracts": "0.3.*"
+            },
+            "require-dev": {
+                "friendsofphp/php-cs-fixer": "^3.38",
+                "phpspec/phpspec": "^7.3",
+                "phpstan/phpstan": "^1.10",
+                "rector/rector": "^0.15"
+            },
+            "type": "library",
+            "extra": {
+                "branch-alias": {
+                    "dev-main": "0.4.x-dev"
+                }
+            },
+            "autoload": {
+                "psr-4": {
+                    "Kiboko\\Component\\Bucket\\": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Kiboko SAS",
+                    "homepage": "http://kiboko.fr"
+                },
+                {
+                    "name": "Grégory Planchat",
+                    "email": "gregory@kiboko.fr"
+                }
+            ],
+            "description": "This library implements the Extract-Transform-Load pattern asynchronously in PHP with the help of iterators and generators",
+            "support": {
+                "issues": "https://github.com/php-etl/bucket/issues",
+                "source": "https://github.com/php-etl/bucket/tree/v0.4.0"
+            },
+            "time": "2023-11-16T15:32:18+00:00"
+        },
+        {
+            "name": "php-etl/bucket-contracts",
+            "version": "v0.3.0",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/php-etl/bucket-contracts.git",
+                "reference": "64170754cb1f5e556c8e526177be51d905c3b15f"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/php-etl/bucket-contracts/zipball/64170754cb1f5e556c8e526177be51d905c3b15f",
+                "reference": "64170754cb1f5e556c8e526177be51d905c3b15f",
+                "shasum": ""
+            },
+            "require": {
+                "php": "^8.2"
+            },
+            "require-dev": {
+                "friendsofphp/php-cs-fixer": "^3.0",
+                "phpstan/phpstan": "^1.10",
+                "rector/rector": "^0.15"
+            },
+            "type": "library",
+            "extra": {
+                "branch-alias": {
+                    "dev-main": "0.3.x-dev"
+                }
+            },
+            "autoload": {
+                "psr-4": {
+                    "Kiboko\\Contract\\Bucket\\": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Kiboko SAS",
+                    "homepage": "http://kiboko.fr"
+                },
+                {
+                    "name": "Grégory Planchatn rules",
+                    "email": "gregory@kiboko.fr"
+                }
+            ],
+            "description": "This library describes contracts for the data-interchange buckets.",
+            "support": {
+                "issues": "https://github.com/php-etl/bucket-contracts/issues",
+                "source": "https://github.com/php-etl/bucket-contracts/tree/v0.3.0"
+            },
+            "time": "2023-11-14T14:39:36+00:00"
         },
         {
             "name": "php-etl/configurator-contracts",
@@ -3397,71 +3507,17 @@
             "time": "2022-02-21T01:04:05+00:00"
         },
         {
-            "name": "php-etl/bucket-contracts",
-            "version": "v0.3.0",
-            "source": {
-                "type": "git",
-                "url": "https://github.com/php-etl/bucket-contracts.git",
-                "reference": "64170754cb1f5e556c8e526177be51d905c3b15f"
-            },
-            "dist": {
-                "type": "zip",
-                "url": "https://api.github.com/repos/php-etl/bucket-contracts/zipball/64170754cb1f5e556c8e526177be51d905c3b15f",
-                "reference": "64170754cb1f5e556c8e526177be51d905c3b15f",
-                "shasum": ""
-            },
-            "require": {
-                "php": "^8.2"
-            },
-            "require-dev": {
-                "friendsofphp/php-cs-fixer": "^3.0",
-                "phpstan/phpstan": "^1.10",
-                "rector/rector": "^0.15"
-            },
-            "type": "library",
-            "extra": {
-                "branch-alias": {
-                    "dev-main": "0.3.x-dev"
-                }
-            },
-            "autoload": {
-                "psr-4": {
-                    "Kiboko\\Contract\\Bucket\\": "src/"
-                }
-            },
-            "notification-url": "https://packagist.org/downloads/",
-            "license": [
-                "MIT"
-            ],
-            "authors": [
-                {
-                    "name": "Kiboko SAS",
-                    "homepage": "http://kiboko.fr"
-                },
-                {
-                    "name": "Grégory Planchatn rules",
-                    "email": "gregory@kiboko.fr"
-                }
-            ],
-            "description": "This library describes contracts for the data-interchange buckets.",
-            "support": {
-                "issues": "https://github.com/php-etl/bucket-contracts/issues",
-                "source": "https://github.com/php-etl/bucket-contracts/tree/v0.3.0"
-            },
-            "time": "2023-11-14T14:39:36+00:00"
-        },
-        {
             "name": "php-etl/phpunit-extension",
             "version": "dev-main",
             "source": {
                 "type": "git",
                 "url": "https://github.com/php-etl/phpunit-extension.git",
-                "reference": "fd1758d8fc3d353de2b3f4e9ba0c1e7af92b19f3"
+                "reference": "5a612872d8a7275adc31be2c8f2f625d341b5326"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/php-etl/phpunit-extension/zipball/fd1758d8fc3d353de2b3f4e9ba0c1e7af92b19f3",
-                "reference": "fd1758d8fc3d353de2b3f4e9ba0c1e7af92b19f3",
+                "url": "https://api.github.com/repos/php-etl/phpunit-extension/zipball/5a612872d8a7275adc31be2c8f2f625d341b5326",
+                "reference": "5a612872d8a7275adc31be2c8f2f625d341b5326",
                 "shasum": ""
             },
             "require": {
@@ -3508,7 +3564,7 @@
                 "issues": "https://github.com/php-etl/phpunit-extension/issues",
                 "source": "https://github.com/php-etl/phpunit-extension/tree/main"
             },
-            "time": "2023-11-16T15:32:17+00:00"
+            "time": "2023-11-21T12:56:00+00:00"
         },
         {
             "name": "php-etl/pipeline-contracts",
@@ -6730,5 +6786,5 @@
         "ext-json": "*"
     },
     "platform-dev": [],
-    "plugin-api-version": "2.6.0"
+    "plugin-api-version": "2.3.0"
 }
