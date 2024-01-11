@@ -74,7 +74,7 @@ final readonly class Transformer implements StepBuilderInterface
                                             expr: new Node\Expr\Yield_(
                                                 new Node\Expr\New_(
                                                     class: new Node\Name\FullyQualified(
-                                                        'Kiboko\\Component\\Bucket\\AcceptanceResultBucket'
+                                                        \Kiboko\Component\Bucket\AcceptanceResultBucket::class
                                                     ),
                                                     args: [
                                                         new Node\Arg(
@@ -110,7 +110,7 @@ final readonly class Transformer implements StepBuilderInterface
                                         new Node\Expr\Yield_(
                                             new Node\Expr\New_(
                                                 class: new Node\Name\FullyQualified(
-                                                    'Kiboko\\Component\\Bucket\\AcceptanceResultBucket',
+                                                    \Kiboko\Component\Bucket\AcceptanceResultBucket::class,
                                                 ),
                                                 args: [
                                                     new Node\Arg(
