@@ -25,7 +25,7 @@ final readonly class ObjectMapper implements Builder
                 name: null,
                 subNodes: [
                     'implements' => [
-                        new Node\Name\FullyQualified('Kiboko\\Contract\\Mapping\\CompiledMapperInterface'),
+                        new Node\Name\FullyQualified(\Kiboko\Contract\Mapping\CompiledMapperInterface::class),
                     ],
                     'stmts' => [
                         new Node\Stmt\ClassMethod(
