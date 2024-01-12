@@ -16,7 +16,7 @@ final class ArrayMapperTest extends BuilderTestCase
 {
     use TransformerBuilderAssertTrait;
 
-    public function testWithOneConditionThatMatch()
+    public function testWithASingleCopyField()
     {
         $builder = new \Kiboko\Plugin\FastMap\Builder\ArrayMapper(
             $mapper = new ArrayBuilder()
@@ -42,7 +42,7 @@ final class ArrayMapperTest extends BuilderTestCase
         );
     }
 
-    public function testWithSeveralConditionsThatMatch()
+    public function testWithSameNumberOfOutputFields()
     {
         $builder = new \Kiboko\Plugin\FastMap\Builder\ArrayMapper(
             $mapper = new ArrayBuilder()
