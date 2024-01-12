@@ -35,46 +35,4 @@ abstract class BuilderTestCase extends TestCase
     {
         return new PipelineRunner();
     }
-
-    protected function assertNodeIsInstanceOf(string $expected, DefaultBuilder $builder, string $message = ''): void
-    {
-        $printer = new PrettyPrinter\Standard();
-
-        try {
-            $filename = sha1(random_bytes(128)) .'.php';
-            $file = new vfsStreamFile($filename);
-            $file->setContent($printer->prettyPrintFile([
-                new Node\Stmt\Return_($builder->getNode()),
-            ]));
-            $this->fs->addChild($file);
-
-            $actual = include vfsStream::url('root/'.$filename);
-        } catch (\ParseError $exception) {
-            echo $printer->prettyPrintFile([$builder->getNode()]);
-            $this->fail($exception->getMessage());
-        }
-
-        $this->assertInstanceOf($expected, $actual, $message);
-    }
-
-    protected function assertNodeIsNotInstanceOf(string $expected, DefaultBuilder $builder, string $message = ''): void
-    {
-        $printer = new PrettyPrinter\Standard();
-
-        try {
-            $filename = sha1(random_bytes(128)) .'.php';
-            $file = new vfsStreamFile($filename);
-            $file->setContent($printer->prettyPrintFile([
-                new Node\Stmt\Return_($builder->getNode()),
-            ]));
-            $this->fs->addChild($file);
-
-            $actual = include vfsStream::url('root/'.$filename);
-        } catch (\ParseError $exception) {
-            echo $printer->prettyPrintFile([$builder->getNode()]);
-            $this->fail($exception->getMessage());
-        }
-
-        $this->assertNotInstanceOf($expected, $actual, $message);
-    }
 }
