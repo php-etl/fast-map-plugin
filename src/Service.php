@@ -14,9 +14,7 @@ use Symfony\Component\ExpressionLanguage\ExpressionLanguage;
 #[Configurator\Pipeline(
     name: 'fastmap',
     dependencies: [
-        'php-etl/pipeline-contracts:0.4.*',
-        'php-etl/bucket-contracts:0.2.*',
-        'php-etl/bucket:*',
+        'php-etl/mapping-contracts:0.4.*',
     ],
     steps: [
         new Configurator\Pipeline\StepTransformer(null),
@@ -52,7 +50,7 @@ final readonly class Service implements Configurator\PipelinePluginInterface
     {
         try {
             return $this->processor->processConfiguration($this->configuration, $config);
-        } catch (Symfony\InvalidTypeException|Symfony\InvalidConfigurationException $exception) {
+        } catch (Symfony\InvalidConfigurationException|Symfony\InvalidTypeException $exception) {
             throw new InvalidConfigurationException($exception->getMessage(), 0, $exception);
         }
     }
@@ -63,7 +61,7 @@ final readonly class Service implements Configurator\PipelinePluginInterface
             $this->processor->processConfiguration($this->configuration, $config);
 
             return true;
-        } catch (Symfony\InvalidTypeException|Symfony\InvalidConfigurationException) {
+        } catch (Symfony\InvalidConfigurationException|Symfony\InvalidTypeException) {
             return false;
         }
     }
@@ -101,7 +99,7 @@ final readonly class Service implements Configurator\PipelinePluginInterface
                 return $objectFactory->compile($config['object']);
             }
             throw new InvalidConfigurationException('Could not determine if the factory should build an array or an object transformer.');
-        } catch (Symfony\InvalidTypeException|Symfony\InvalidConfigurationException $exception) {
+        } catch (Symfony\InvalidConfigurationException|Symfony\InvalidTypeException $exception) {
             throw new InvalidConfigurationException($exception->getMessage(), 0, $exception);
         }
     }

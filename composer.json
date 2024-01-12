@@ -14,7 +14,7 @@
     "require": {
         "php": "^8.2",
         "ext-json": "*",
-        "nikic/php-parser": "^4.10",
+        "nikic/php-parser": "^4.15",
         "symfony/config": "^6.0",
         "php-etl/fast-map-config": "*",
         "php-etl/packaging-contracts": "0.3.*",
@@ -24,12 +24,12 @@
     "require-dev": {
         "phpunit/phpunit": "^10.0",
         "phpunit/php-invoker": "*",
-        "php-etl/bucket": "*",
         "php-etl/phpunit-extension": "*",
-        "friendsofphp/php-cs-fixer": "^3.0",
+        "friendsofphp/php-cs-fixer": "^3.38",
         "phpstan/phpstan": "^1.10",
         "rector/rector": "^0.15",
-        "infection/infection": "^0.26.19"
+        "infection/infection": "^0.26",
+        "php-etl/bucket": "*"
     },
     "autoload": {
         "psr-4": {

@@ -15,7 +15,7 @@ trait RepositoryTrait
     /** @var string[] */
     private array $packages;
 
-    public function addFiles(FileInterface|DirectoryInterface ...$files): Configurator\RepositoryInterface
+    public function addFiles(DirectoryInterface|FileInterface ...$files): Configurator\RepositoryInterface
     {
         array_push($this->files, ...$files);
 

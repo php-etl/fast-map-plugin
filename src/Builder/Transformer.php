@@ -197,7 +197,7 @@ final class Transformer implements StepBuilderInterface
                                         )
                                     ),
                                 ],
-                                'returnType' => new Node\Name\FullyQualified(\Generator::class),
+                                'returnType' => new Node\Name\FullyQualified('Generator'),
                             ],
                         ),
                     ],

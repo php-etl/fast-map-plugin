@@ -39,7 +39,7 @@ final readonly class ConditionalMapper implements Configurator\FactoryInterface
     {
         try {
             return $this->processor->processConfiguration($this->configuration, $config);
-        } catch (Symfony\InvalidTypeException|Symfony\InvalidConfigurationException $exception) {
+        } catch (Symfony\InvalidConfigurationException|Symfony\InvalidTypeException $exception) {
             throw new Configurator\InvalidConfigurationException($exception->getMessage(), 0, $exception);
         }
     }
@@ -86,7 +86,7 @@ final readonly class ConditionalMapper implements Configurator\FactoryInterface
                             $alternative['condition'],
                             $mapperBuilder
                         );
-                    } catch (Symfony\InvalidTypeException|Symfony\InvalidConfigurationException $exception) {
+                    } catch (Symfony\InvalidConfigurationException|Symfony\InvalidTypeException $exception) {
                         throw new Configurator\InvalidConfigurationException(message: $exception->getMessage(), previous: $exception);
                     }
                 } elseif (\array_key_exists('object', $alternative)) {
@@ -113,13 +113,13 @@ final readonly class ConditionalMapper implements Configurator\FactoryInterface
                             $alternative['condition'],
                             $mapperBuilder
                         );
-                    } catch (Symfony\InvalidTypeException|Symfony\InvalidConfigurationException $exception) {
+                    } catch (Symfony\InvalidConfigurationException|Symfony\InvalidTypeException $exception) {
                         throw new Configurator\InvalidConfigurationException(message: $exception->getMessage(), previous: $exception);
                     }
                 } else {
                     throw new InvalidConfigurationException('Could not determine if the factory should build an array or an object transformer.');
                 }
-            } catch (Symfony\InvalidTypeException|Symfony\InvalidConfigurationException $exception) {
+            } catch (Symfony\InvalidConfigurationException|Symfony\InvalidTypeException $exception) {
                 throw new InvalidConfigurationException($exception->getMessage(), 0, $exception);
             }
         }
@@ -128,7 +128,7 @@ final readonly class ConditionalMapper implements Configurator\FactoryInterface
             return new Repository\TransformerMapper(
                 new FastMap\Builder\Transformer($builder),
             );
-        } catch (Symfony\InvalidTypeException|Symfony\InvalidConfigurationException $exception) {
+        } catch (Symfony\InvalidConfigurationException|Symfony\InvalidTypeException $exception) {
             throw new Configurator\InvalidConfigurationException(message: $exception->getMessage(), previous: $exception);
         }
     }
