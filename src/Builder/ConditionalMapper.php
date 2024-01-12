@@ -35,8 +35,6 @@ final class ConditionalMapper implements Builder
 
         /** @var Builder $builder */
         [$condition, $builder] = array_shift($alternatives);
-        /** @var Node\Stmt\Expression $expression */
-        $expression = $parser->parse('<?php '.$this->interpreter->compile($condition, ['input', 'output']).';')[0];
 
         return new Node\Expr\New_(
             new Node\Stmt\Class_(
@@ -108,7 +106,7 @@ final class ConditionalMapper implements Builder
                                 ],
                                 'stmts' => [
                                     new Node\Stmt\If_(
-                                        cond: $expression->expr,
+                                        cond: $parser->parse('<?php '.$this->interpreter->compile($condition, ['input', 'output']).';')[0]->expr ?? throw new \UnexpectedValueException('Expected parsing result to be an instance of Node\Expr.'),
                                         subNodes: [
                                             'stmts' => [
                                                 new Node\Stmt\Return_(
@@ -132,11 +130,11 @@ final class ConditionalMapper implements Builder
                                                 ),
                                             ],
                                             'elseifs' => array_map(
-                                                function ($alternative, $index) use ($expression) {
+                                                function ($alternative, $index) use ($parser) {
                                                     [$condition, $repository] = $alternative;
 
                                                     return new Node\Stmt\ElseIf_(
-                                                        cond: $expression->expr,
+                                                        cond: $parser->parse('<?php '.$this->interpreter->compile($condition, ['input', 'output']).';')[0]->expr ?? throw new \UnexpectedValueException('Expected parsing result to be an instance of Node\Expr.'),
                                                         stmts: [
                                                             new Node\Stmt\Return_(
                                                                 new Node\Expr\FuncCall(
