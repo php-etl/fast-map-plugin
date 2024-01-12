@@ -114,7 +114,7 @@ final class Transformer implements StepBuilderInterface
                                                 catches: [
                                                     new Node\Stmt\Catch_(
                                                         types: [
-                                                            new Node\Name\FullyQualified('Kiboko\\Contract\\Pipeline\\RejectedItemException'),
+                                                            new Node\Name\FullyQualified(\Kiboko\Contract\Pipeline\RejectedItemException::class),
                                                         ],
                                                         var: new Node\Expr\Variable('exception'),
                                                         stmts: [
