@@ -151,6 +151,15 @@ final class Transformer implements StepBuilderInterface
                                                                             ),
                                                                             args: [
                                                                                 new Node\Arg(
+                                                                                    new Node\Expr\MethodCall(
+                                                                                        new Node\Expr\Variable('exception'),
+                                                                                        'getMessage'
+                                                                                    ),
+                                                                                ),
+                                                                                new Node\Expr\ConstFetch(
+                                                                                    new Node\Expr\Variable('exception'),
+                                                                                ),
+                                                                                new Node\Arg(
                                                                                     new Node\Expr\Variable('input'),
                                                                                 ),
                                                                             ],
