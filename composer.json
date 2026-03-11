@@ -12,7 +12,7 @@
     "minimum-stability": "dev",
     "prefer-stable": true,
     "require": {
-        "php": "^8.2",
+        "php": "^8.4",
         "ext-json": "*",
         "nikic/php-parser": "^4.15",
         "symfony/config": "^6.0",
@@ -26,8 +26,8 @@
         "phpunit/php-invoker": "*",
         "php-etl/phpunit-extension": "*",
         "friendsofphp/php-cs-fixer": "^3.38",
-        "phpstan/phpstan": "^1.10",
-        "rector/rector": "^0.15",
+        "phpstan/phpstan": "^2.2",
+        "rector/rector": "^2.0",
         "infection/infection": "^0.26",
         "php-etl/bucket": "*"
     },
