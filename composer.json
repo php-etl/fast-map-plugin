@@ -14,7 +14,7 @@
     "require": {
         "php": "^8.4",
         "ext-json": "*",
-        "nikic/php-parser": "^4.15",
+        "nikic/php-parser": "^5.6",
         "symfony/config": "^6.0",
         "php-etl/fast-map-config": "*",
         "php-etl/packaging-contracts": "0.3.*",
